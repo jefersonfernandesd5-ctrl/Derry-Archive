@@ -36,7 +36,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0807'/%3E%3Ctext x='32' y='45' font-family='Georgia' font-size='38' font-weight='700' text-anchor='middle' fill='%23d1342f'%3EK%3C/text%3E%3C/svg%3E">
 <style>:root{
   --bg:#0a0807; --bg2:#110d0b; --surface:#17110f; --surface2:#1f1714; --line:#2e2320; --line2:#3d2e29;
-  --ink-rgb:10,8,7; --card-rgb:31,23,20; --bone:#ece3d3; --text:#d9cfbf; --muted:#9a8d7e; --faint:#6d6157;
+  --ink-rgb:10,8,7; --card-rgb:31,23,20; --bone:#ece3d3; --text:#d9cfbf; --muted:#b3a696; --faint:#6d6157;
   --red:#a61b1b; --red2:#d1342f; --redglow:rgba(209,52,47,.35); --gold:#c9a45c;
   --film:#5d86b3; --series:#8e6bbf; --future:#c9a45c;
   --r:14px; --r-sm:9px;
@@ -59,11 +59,11 @@ a{color:var(--bone)}
 .skip:focus{top:12px}
 
 /* ---------- atmosfera: grão, vinheta, neblina ---------- */
-.grain{position:fixed;inset:-50%;pointer-events:none;z-index:60;opacity:.07;
+.grain{position:fixed;inset:-50%;pointer-events:none;z-index:0;opacity:.07;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .9 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
-.vignette{position:fixed;inset:0;pointer-events:none;z-index:59;background:radial-gradient(ellipse at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)}
 .fog{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:.55}
 .fog i{position:absolute;width:160%;height:60%;left:-30%;border-radius:50%;filter:blur(60px);
   background:radial-gradient(ellipse at center,rgba(140,120,110,.16),transparent 65%);animation:drift 38s ease-in-out infinite alternate}
@@ -179,6 +179,11 @@ h1,h2,h3{font-family:var(--serif);color:var(--bone);line-height:1.05;margin:0;fo
 .stat .tx{display:flex;flex-direction:column;min-width:0}
 .stat b{display:block;font-family:var(--serif);font-size:clamp(2rem,3.6vw,2.9rem);color:var(--bone);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .stat span.lb{margin-top:6px;font-size:.72rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+a.stat{color:inherit;text-decoration:none;cursor:pointer;transition:transform .35s var(--ease),border-color .3s,box-shadow .35s}
+.stat .go{margin-left:auto;align-self:flex-start;font-style:normal;font-size:1.1rem;line-height:1;color:var(--red2);opacity:.45;transform:translateX(-4px);transition:opacity .3s,transform .3s}
+a.stat:hover .go,a.stat:focus-visible .go{opacity:1;transform:none}
+a.stat:focus-visible{outline:2px solid var(--red2);outline-offset:3px}
+#v-biografia .stats{margin:0 0 clamp(28px,4vw,52px)}
 @media (max-width:900px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:420px){.stat{padding:16px 14px;gap:12px}.stat .ic{width:38px;height:38px;border-radius:12px}.stat .ic svg{width:18px;height:18px}}
 
@@ -422,6 +427,61 @@ html.reduce .constellation .edge,html.reduce .constellation .star,html.reduce .c
 .spine .sp-y{position:absolute;bottom:4px;left:0;right:0;font-size:.5rem;letter-spacing:.04em;color:rgba(236,227,211,.7)}
 .spine.ghost{opacity:.3;filter:grayscale(.85) brightness(.8)}
 .spine.ghost:hover{opacity:.8;filter:none}
+/* ---------- estante 3D: a lombada sai da prateleira, vira e mostra a capa ---------- */
+.shelf-row.s3d{perspective:1500px;min-height:280px;margin-bottom:76px}
+.b3{--w:38px;--h:220px;--cw:150px;--ch:225px;position:relative;flex:none;width:var(--w);height:var(--h);transform-origin:50% 100%;transform-style:preserve-3d;z-index:1;
+  transition:width .6s var(--ease),height .6s var(--ease),transform .6s var(--ease),opacity .3s,filter .3s}
+.b3.near-l{transform:rotateY(24deg)}.b3.near-r{transform:rotateY(-24deg)}
+.b3.far-l{transform:rotateY(11deg)}.b3.far-r{transform:rotateY(-11deg)}
+.b3.on{width:var(--cw);height:var(--ch);z-index:8;transform:translateZ(70px)}
+.b3-box{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .75s var(--ease)}
+.b3.on .b3-box{transform:rotateY(180deg)}
+.b3 .spine{position:absolute;left:50%;bottom:0;margin-left:calc(var(--w) / -2);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.b3 .spine:hover,.b3 .spine:focus-visible{transform:translateY(-10px);rotate:-1deg}
+.b3.on .spine{pointer-events:none}
+.b3-front{position:absolute;left:50%;bottom:0;width:var(--cw);margin-left:calc(var(--cw) / -2);padding:0;border:0;background:none;cursor:pointer;color:inherit;
+  transform:rotateY(180deg);-webkit-backface-visibility:hidden;backface-visibility:hidden;pointer-events:none;outline:none}
+.b3.on .b3-front{pointer-events:auto}
+.b3-front .cover{width:100%;border-radius:3px 6px 6px 3px;box-shadow:0 22px 30px -12px #000,inset 4px 0 6px -3px rgba(255,255,255,.25),inset -1px 0 0 rgba(0,0,0,.4)}
+.b3-front:focus-visible .cover{outline:2px solid #f0c46a;outline-offset:3px}
+.b3-front .rb{position:absolute;top:-7px;right:-6px;z-index:3;min-width:24px;height:24px;padding:0 6px;border-radius:99px;display:grid;place-items:center;font-size:.72rem;font-weight:800;color:#fff;background:var(--red);box-shadow:0 4px 10px rgba(0,0,0,.5);border:2px solid #1a110c}
+.b3-front .rb.read{background:#2f7d4a}.b3-front .rb.reading{background:#b9792a}.b3-front .rb.want{background:#3b6fa8}.b3-front .rb.fav{background:#c4285a}
+
+
+.chip-sep{display:inline-block;width:1px;align-self:stretch;background:var(--line);margin:0 4px}.chip-news{border-color:#c4a35a;color:#f0c46a}.chip-news[aria-pressed="true"]{background:#3a2a10;color:#f0c46a}
+.kit-pair.solo{display:block;max-width:240px}.news-rail{margin:0 0 30px}.news-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}.news-head b{font-family:var(--serif);color:#f0c46a;letter-spacing:.06em}.news-head span{font-size:.75rem;color:var(--muted)}.news-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 16px;-webkit-overflow-scrolling:touch}.news-card{flex:0 0 150px;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px;animation:newsIn .6s var(--ease) both;animation-delay:var(--d,0ms);transition:transform .35s var(--ease)}.news-card:hover{transform:translateY(-6px)}.news-card .cover{width:100%}.news-card b{font-family:var(--serif);font-size:.95rem;line-height:1.15}.news-card span{font-size:.75rem;color:var(--muted)}@keyframes newsIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}@media (max-width:560px){.news-card{flex-basis:124px}}@media (prefers-reduced-motion:reduce){.news-card{animation:none}}
+#v-cronologia{position:relative;overflow:hidden}#v-cronologia>.wrap{position:relative;z-index:1}@keyframes caFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-14px) rotate(1.5deg)}}@keyframes caSway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}@keyframes caGlow{0%,100%{opacity:.7}50%{opacity:1}}@keyframes caDrift{from{transform:translateX(-6%)}to{transform:translateX(6%)}}.ca-balloon{transform-origin:185px 150px;animation:caFloat 9s ease-in-out infinite}.ca-moon{animation:caGlow 7s ease-in-out infinite}.ca-tower{transform-origin:366px 480px;animation:caSway 11s ease-in-out infinite}.ca-stone{animation:caGlow 13s ease-in-out infinite reverse}.ca-mist{animation:caDrift 18s ease-in-out infinite alternate}@media (prefers-reduced-motion:reduce){.crono-art g{animation:none!important}}
+.tl::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:64px;transform:translateX(-50%);background:url("data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="200" viewBox="0 0 64 200">%0A<ellipse cx="32" cy="22" rx="9" ry="11" fill="#b3261e"/>%0A<path d="M32 33 Q29 44 33 56" fill="none" stroke="#b3261e" stroke-width="1"/>%0A<circle cx="32" cy="92" r="6" fill="#ece3d3"/>%0A<path d="M22 150 L22 132 L28 124 L32 118 L36 124 L42 132 L42 150 Z" fill="#ece3d3"/>%0A<path d="M4 200 L4 180 L10 170 L16 180 L16 200 Z M46 200 L46 178 L52 168 L58 178 L58 200 Z" fill="#ece3d3"/>%0A</svg>") repeat-y center top;opacity:.22;pointer-events:none;z-index:0;animation:tlDrift 28s linear infinite}@keyframes tlDrift{from{background-position:center 0}to{background-position:center 200px}}@media (prefers-reduced-motion:reduce){.tl::after{animation:none}}@media (max-width:700px){.tl::after{left:18px}}
+#h-kit{text-wrap:balance}.nav a[href="#kit"]{white-space:nowrap;max-width:none}#h-kit{max-width:20ch}
+.trailer{position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;margin:8px 0 18px}.trailer iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media (min-width:901px){.nav{overflow-x:auto;scrollbar-width:none;max-width:100%}.nav::-webkit-scrollbar{display:none}}@media (min-width:901px) and (max-width:1366px){.nav a{padding:7px 8px;font-size:.8rem}}
+.cp-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:14px 12px;max-height:min(62vh,520px);overflow-y:auto;padding:6px 4px 4px;scrollbar-width:thin}.cp-item{display:flex;flex-direction:column;gap:6px;background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer;animation:cpIn .5s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms)}.cp-item:hover .cp-cov{transform:translateY(-4px)}.cp-cov{display:block;transition:transform .35s var(--ease)}.cp-cov .cover{width:100%}.cp-t{font-family:var(--serif);font-size:.92rem;line-height:1.15}.cp-y{font-size:.7rem;letter-spacing:.1em;color:var(--muted)}@keyframes cpIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@media (max-width:560px){.cp-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px}.cp-t{font-size:.8rem}}@media (prefers-reduced-motion:reduce){.cp-item{animation:none}}
+.conpanel .cp-list .cp-item,.cp-list .cp-item{border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;padding:0!important;min-height:0!important;width:auto!important;height:auto!important;color:#2b1d12!important;position:static!important;overflow:visible!important}.cp-list .cp-item::before,.cp-list .cp-item::after{content:none!important;display:none!important}.cp-list .cp-item .cp-cov{width:100%;display:block}.cp-list .cp-item .cp-cov .cover{width:100%!important;aspect-ratio:2/3;height:auto!important;border-radius:6px!important;box-shadow:0 10px 18px -10px rgba(0,0,0,.6)}.cp-list .cp-t{display:block;font-family:var(--serif);font-size:.95rem;line-height:1.15;color:#2b1d12!important}.cp-list .cp-y{display:block;font-size:.72rem;letter-spacing:.1em;color:#6b5a48!important}
+.cp-list{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 8px;grid-template-columns:none}.cp-list .cp-item{display:block!important;align-self:flex-end}.cp-spine{display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:44px;height:var(--sh);padding:12px 0;border-radius:3px 4px 4px 3px;background:linear-gradient(90deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 2px rgba(220,185,110,.35),0 8px 14px -8px rgba(0,0,0,.5);color:#ece3d3;transition:transform .35s var(--ease)}.cp-item:hover .cp-spine{transform:translateY(-6px)}.cp-sa{font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;opacity:.75}.cp-st{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--serif);font-weight:700;font-size:.8rem;line-height:1;overflow:hidden;text-overflow:ellipsis;max-height:calc(var(--sh) - 60px);white-space:nowrap}.cp-sy{font-size:.55rem;letter-spacing:.08em;opacity:.8}@media (max-width:560px){.cp-spine{width:36px}.cp-st{font-size:.72rem}}
+@media (min-width:701px){.conpanel{top:14px;bottom:auto;height:auto;width:fit-content;min-width:200px;max-width:min(46%,420px);max-height:calc(100% - 28px)}.conpanel .cp-list{max-height:min(58vh,480px);flex:0 1 auto}}
+body{background-color:var(--bg);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .9 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat}
+/* ---------- camada de papel velho nas capas e cartazes ---------- */
+html.vintage .cover.poster::before{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;mix-blend-mode:multiply;opacity:.92;
+  background:radial-gradient(ellipse at 50% 46%,transparent 50%,rgba(64,34,10,.38) 100%),linear-gradient(140deg,rgba(214,176,108,.24),rgba(120,78,30,.16) 60%,rgba(80,46,16,.22)),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .28 0 0 0 0 .14 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+html.vintage .cover.poster img{filter:sepia(.4) contrast(.94) saturate(.82) brightness(.98)}
+/* a estante: só os cartazes (em cartaz) envelhecem; as capas dos livros ficam limpas */
+html.vintage #v-estante .cover:not(.poster)::before{display:none}
+/* cartazes sem filtro retro: a camada de papel velho fica desligada em todo o site */
+html.vintage .cover.poster::before{display:none!important}
+html.vintage .cover.poster img{filter:none!important}
+html.vintage #v-estante .cover:not(.poster) img{filter:none}
+/* garantia: nenhuma capa de livro na estante (exceto os "em falta") recebe filtro ou camada de papel velho */
+#v-estante .cover:not(.poster),#v-estante .cover:not(.poster) img{filter:none!important;mix-blend-mode:normal!important}
+#v-estante .cover:not(.poster)::before{display:none!important}
+html.vintage #v-estante .b3-front .cover::before,html.vintage #v-estante .sk-book .cover::before,html.vintage #v-estante .sk-item .cover::before{display:none}
+.b3-cap{position:absolute;left:50%;top:calc(100% + 30px);width:240px;margin-left:-120px;text-align:center;opacity:0;pointer-events:none;transition:opacity .35s .15s}
+.b3.on .b3-cap{opacity:1}
+.b3-cap b{display:block;font-family:var(--serif);font-size:1.05rem;color:var(--bone,#ece3d3);line-height:1.15}
+.b3-cap span{display:block;margin-top:3px;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#f0c46a}
+.b3.ghost{opacity:.3;filter:grayscale(.85) brightness(.8)}
+.b3.ghost:hover,.b3.ghost.on{opacity:.85;filter:none}
+@media (max-width:560px){.shelf-row.s3d{min-height:250px}.b3-cap{width:190px;margin-left:-95px}}
 .case-empty{position:absolute;left:0;right:0;top:34%;z-index:4;text-align:center;padding:0 24px;pointer-events:none}
 .case-empty b{display:block;font-family:var(--serif);font-size:1.5rem;color:var(--bone)}
 .case-empty span{color:var(--muted);font-size:.9rem}
@@ -993,7 +1053,7 @@ html[data-theme=light] .constellation{background:radial-gradient(ellipse at cent
 <script>
 /* aplica preferências antes de pintar, para evitar flashes */
 (function(){try{var p=JSON.parse(localStorage.getItem('sk-prefs')||'{}');var d=document.documentElement;
-var rm=p.motion==='reduce'&&p.mv>=4?'reduce':'full';if(rm==='reduce')d.classList.add('reduce');else d.classList.add('motion-full');
+var rm=p.motion==='reduce'&&p.mv>=4?'reduce':'full';if(rm==='reduce')d.classList.add('reduce');else d.classList.add('motion-full');if(p.vintage!==false)d.classList.add('vintage');
 if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,normal:.6,fast:.35})[p.speed]||1);var th=p.theme||'dark';if(th==='auto')th=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';d.setAttribute('data-theme',th);}catch(e){}})();
 </script>
 </head>
@@ -1014,7 +1074,7 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
       <a href="#universos">Universos</a>
       <a href="#biografia">Biografia</a>
       <a href="#galeria">Galeria</a>
-      <a href="#kit">Kit do Fã</a>
+      <a href="#kit">Eu sou sua fã número um</a>
       <a href="#estante">A minha estante</a>
     </nav>
     <button class="search-trigger" id="openSearch" aria-label="Pesquisar (atalho /)">
@@ -1054,7 +1114,6 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
     </div>
   </div>
   <div class="wrap">
-    <div class="stats reveal" id="stats"></div>
     <div id="homeRows"></div>
   </div>
 </section>
@@ -1171,6 +1230,7 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
       <h1 id="h-bio">Biografia</h1>
       <p class="lead">Nascido em Portland, no Maine, em 1947, Stephen King publicou mais de 65 romances e cerca de 200 contos. As suas obras venderam mais de 350 milhões de exemplares e geraram uma das filmografias mais extensas de qualquer escritor vivo.</p>
     </header>
+    <nav class="stats reveal" id="stats" aria-label="Números de Stephen King"></nav>
     <div class="bio-grid">
       <aside class="bio-portrait reveal">
         <div class="ph"><img id="bioImg" alt="Retrato de Stephen King" loading="lazy" decoding="async"></div>
@@ -1205,7 +1265,7 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
   <div class="wrap">
     <header class="page-head">
       <p class="eyebrow">Para colecionadores</p>
-      <h1 id="h-kit">Kit do Fã</h1>
+      <h1 id="h-kit">Eu sou sua fã número um</h1>
       <p class="lead">Cartazes, capas, citações e fotografias na máxima resolução disponível. Toque numa imagem para baixar o original, uma versão Full HD (1920 px) ou 4K (3840 px), em JPG ou PNG, ou imprimir. Cada cartaz e cada capa aparece em duas versões lado a lado: a original e a edição em português (marcada «Brasil» quando a editora ou a fonte o confirma). Toque numa imagem para a ver ampliada e abrir o ficheiro original.</p>
     </header>
     <div class="toolbar"><div class="toolbar-in"><div class="chips" id="kitKinds" role="group" aria-label="Mostrar"></div></div></div>
@@ -1221,8 +1281,6 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
       <h1 id="h-shelf">A minha estante</h1>
       <p class="lead">Tudo fica guardado neste navegador. Organize os seus livros como numa prateleira: veja-os em capas, em lombadas ou em lista, e marque lidos, a ler, quero ler, favoritos e adaptações vistas.</p>
     </header>
-    <div class="shelf-top reveal" id="shelfTop"></div>
-    <div class="sk-tabs" id="shelfTabs" role="tablist" aria-label="Listas"></div>
     <div id="shelfGrid" role="tabpanel"></div>
     <div class="shelf-actions">
       <button class="btn sm primary" id="exportListsBtn">Exportar listas organizadas (PDF · Excel · PNG)</button>
@@ -1231,6 +1289,8 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
       <input type="file" id="importFile" accept="application/json" class="sr-only">
       <button class="btn sm" id="resetBtn">Apagar dados locais</button>
     </div>
+    <div class="shelf-top reveal" id="shelfTop"></div>
+    <div class="sk-tabs" id="shelfTabs" role="tablist" aria-label="Listas"></div>
   </div>
 </section>
 </main>
@@ -1247,7 +1307,8 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
       </div>
     </section>
     <p><b style="color:var(--bone)">Derry Archive</b> — enciclopédia não oficial, feita por fãs, sem afiliação com Stephen King ou os seus editores. Dados revistos em novembro de 2026.</p>
-    <p>Capas, cartazes e resumos enciclopédicos são carregados em tempo real da <a href="https://www.wikipedia.org" target="_blank" rel="noopener">Wikipédia</a> e da <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a>; as fotografias do Kit do Fã vêm da <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, com autor e licença indicados em cada uma, com ligação à fonte em cada ficha. Títulos brasileiros só são mostrados quando confirmados; caso contrário, aparece «não confirmado».</p>
+    <p>Capas, cartazes e resumos enciclopédicos são carregados em tempo real da <a href="https://www.wikipedia.org" target="_blank" rel="noopener">Wikipédia</a> e da <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a>; as fotografias da secção Eu sou sua fã número um vêm da <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, com autor e licença indicados em cada uma, com ligação à fonte em cada ficha. Títulos brasileiros só são mostrados quando confirmados; caso contrário, aparece «não confirmado».</p>
+      <p style="font-size:.8rem;color:var(--muted)">Privacidade: a estante, as preferências e os dados do site ficam guardados no seu próprio navegador (armazenamento local). Não usamos cookies de publicidade. Capas, cartazes e fotos pertencem aos seus titulares e são mostrados para fins informativos.</p>
       <p><button class="btn sm" type="button" data-open-support>Apoie o projeto</button> <button class="btn sm" type="button" data-open-box>Caixa de Pesadelos</button> &nbsp; Feito por <a href="https://instagram.com/jefefnds" target="_blank" rel="noopener">@jefefnds</a></p>
 </div>
 </footer>
@@ -1313,17 +1374,19 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
     <h2 id="sTitle">Definições</h2>
     <div class="opt"><label for="sLite">Modo leve<small>Desliga animações, neblina, parallax e aparições (telemóveis mais fracos)</small></label><input type="checkbox" class="switch" id="sLite"></div>
     <div class="opt"><label for="sSpeed">Velocidade das animações<small>Lenta é o padrão; aumente se preferir mais rápido</small></label><select id="sSpeed"><option value="slow">Lenta (padrão)</option><option value="normal">Normal</option><option value="fast">Rápida</option></select></div>
-    <div class="opt"><label for="sMotion">Animações<small>Completas por predefinição</small></label>
+    <div class="opt"><label for="sMotion">Animações<small>Inclui o efeito das lombadas na estante</small></label>
       <select id="sMotion"><option value="full">Completas</option><option value="reduce">Reduzidas</option></select></div>
     <div class="opt"><label for="sTheme">Tema<small>Escuro, claro ou conforme o sistema</small></label><select id="sTheme"><option value="dark">Escuro</option><option value="light">Claro</option><option value="auto">Automático</option></select></div>
-    <div class="opt"><label for="sParallax">Parallax<small>Profundidade no topo e inclinação dos cartões</small></label><input type="checkbox" class="switch" id="sParallax"></div>
-    <div class="opt"><label for="sOmens">Aparições<small>Balões, corvos, nevoeiro e outras visitas das histórias</small></label><input type="checkbox" class="switch" id="sOmens"></div>
+    <div class="opt"><label for="sParallax">Parallax<small>Profundidade no topo e inclinação dos cartões (desligado por padrão)</small></label><input type="checkbox" class="switch" id="sParallax"></div>
+    
+    <div class="opt"><label for="sFog">Neblina e grão<small>Névoa e película a mexer por cima do site (desligado por padrão)</small></label><input type="checkbox" class="switch" id="sFog"></div>
+    <div class="opt"><label for="sOmens">Aparições<small>Balões, corvos e outras visitas das histórias (desligado por padrão)</small></label><input type="checkbox" class="switch" id="sOmens"></div>
     <div class="opt"><label>Caixa de Pesadelos<small>Sugestões, correções e livro favorito, sem login</small></label><button class="btn sm" type="button" data-open-box>Enviar</button></div>
     <div class="opt"><label>Apoie o projeto<small>Pix, Instagram e balões vermelhos</small></label><button class="btn sm" type="button" data-open-support>Apoiar</button></div>
     <div class="opt"><label>Ver uma agora<small>Dispara uma aparição aleatória</small></label><button class="btn sm" id="omenNow" type="button">Assustar-me</button></div>
     <div class="opt" style="flex-wrap:wrap"><label for="sOmdb">Notas do IMDb<small>Chave gratuita em <a href="https://www.omdbapi.com/apikey.aspx" target="_blank" rel="noopener">omdbapi.com</a> — fica só neste navegador</small></label><span style="display:flex;gap:8px"><input type="text" id="sOmdb" autocomplete="off" spellcheck="false" placeholder="a sua chave" style="width:130px;height:38px;padding:0 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--bone)"><button class="btn sm primary" id="sOmdbSave" type="button">Guardar</button></span></div>
     <div class="opt"><label for="sCovers">Carregar capas online<small>Desligue para poupar dados</small></label><input type="checkbox" class="switch" id="sCovers"></div>
-    <div class="opt"><label for="sVol">Volume do som ambiente<small>Sinos, risadas de palhaço, gatos e aves</small></label><input type="range" id="sVol" min="0" max="1" step="0.05" style="width:130px"></div>
+    <div class="opt"><label for="sVol">Volume do som ambiente<small>Desligado por padrão: ative-o no botão do altifalante no topo</small></label><input type="range" id="sVol" min="0" max="1" step="0.05" style="width:130px"></div>
     <div class="opt"><label for="sFs">Tamanho do texto</label>
       <select id="sFs"><option value="0.92">Pequeno</option><option value="1">Normal</option><option value="1.1">Grande</option><option value="1.2">Muito grande</option></select></div>
     <div style="display:flex;justify-content:flex-end;margin-top:20px"><button class="btn primary sm" id="closeSettings">Fechar</button></div>
@@ -1366,10 +1429,11 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
         <div class="opt"><label for="pzCenter">Ilustração</label><select id="pzCenter"></select></div>
         <div class="opt"><label for="pzSize">Tamanho</label><select id="pzSize">
           <option value="a4">A4 · 21×29,7 cm</option><option value="a3">A3 · 29,7×42 cm</option><option value="a2">A2 · 42×59,4 cm</option>
-          <option value="s3040">30×40 cm</option><option value="s4050">40×50 cm</option><option value="s4060">40×60 cm</option><option value="s5070">50×70 cm</option></select></div>
-        <div class="opt"><label for="pzRes">Qualidade</label><select id="pzRes"><option value="3840">4K (3840 px)</option><option value="1920">Full HD (1920 px)</option><option value="d300">Impressão 300 dpi</option><option value="d150">Impressão 150 dpi</option></select></div>
+          <option value="ig45">Instagram · feed 4:5</option><option value="ig916">Instagram · Stories 9:16</option><option value="s3040">30×40 cm</option><option value="s4050">40×50 cm</option><option value="s4060">40×60 cm</option><option value="s5070">50×70 cm</option></select></div>
+        <div class="opt"><label for="pzRes">Qualidade</label><select id="pzRes"><option value="3840">4K (3840 px)</option><option value="1920">Full HD (1920 px)</option><option value="d300">Impressão 300 dpi</option><option value="d150">Impressão 150 dpi</option><option value="ig">Instagram (1080 px de largura)</option></select></div>
         <div class="opt"><label for="pzStyle">Aspeto</label><select id="pzStyle"><option value="night">Noite</option><option value="paper">Papel claro (poupa tinta)</option><option value="color">Cor do universo</option></select></div>
         <div class="opt"><label for="pzBg">Cor do fundo</label><select id="pzBg"><option value="auto">Automática (do universo)</option><option value="preto">Preto</option><option value="grafite">Grafite</option><option value="roxo">Roxo</option><option value="bordo">Vermelho escuro</option><option value="azul">Azul-noite</option><option value="verde">Verde-floresta</option><option value="ambar">Âmbar / sépia</option><option value="petroleo">Petróleo</option><option value="custom">Personalizada…</option></select><input type="color" id="pzBgX" value="#2a1a4a" aria-label="Cor personalizada do fundo" hidden style="width:38px;height:30px;margin-left:8px;border:0;background:none;padding:0;cursor:pointer"></div>
+        <div class="opt"><label for="pzAge">Papel velho<small>Camada envelhecida: amarelecido, grão, manchas e vincos</small></label><select id="pzAge"><option value="0">Nenhum</option><option value="0.55">Suave</option><option value="1">Vintage</option><option value="1.4">Muito gasto (com carimbo)</option></select></div>
         <div class="opt"><label for="pzMat">Margem de moldura<small>Borda tipo passe-partout</small></label><input type="checkbox" class="switch" id="pzMat" checked></div>
         <div class="opt"><label for="pzDesc">Texto de descrição<small>Mais texto, menos ilustração</small></label><input type="checkbox" class="switch" id="pzDesc"></div>
         <div class="opt"><label for="pzList">Lista (obras, locais…)</label><input type="checkbox" class="switch" id="pzList" checked></div>
@@ -1798,7 +1862,8 @@ WORKS.forEach(w => {
 const BOOKS = WORKS.filter(w => w.k !== 'conto');
 const RELEASED = ADAPTS.filter(a => a.st === 'lancado');
 const FUTURE = ADAPTS.filter(a => a.st === 'futuro');
-const titleOf = x => x.pt || x.t;
+let titleLang = 'pt';
+const titleOf = x => titleLang === 'en' ? (x.t || x.pt) : (x.pt || x.t);
 const isSeries = k => k !== 'filme';
 function linksOf(id) {
   const x = BY.get(id), set = new Set([id]);
@@ -1814,17 +1879,19 @@ function linksOf(id) {
 }
 
 /* ============================== preferências e estado ============================== */
-const prefs = Object.assign({ speed: 'slow', theme: 'dark', motion: 'full', fog: true, parallax: true, covers: true, omens: true, fs: '1', sound: false, vol: .7 }, store.get('sk-prefs', {}));
+const prefs = Object.assign({ speed: 'slow', theme: 'dark', motion: 'full', fog: false, parallax: false, covers: true, omens: false, vintage: true, fs: '1', sound: false, vol: .7 }, store.get('sk-prefs', {}));
+titleLang = store.get('sk-tlang', 'pt') === 'en' ? 'en' : 'pt';
 const user = Object.assign({ fav: {}, status: {}, seen: {}, own: {}, quotes: [], rate: {}, note: {}, done: {}, goal: {} }, store.get('sk-user', {}));
 const saveUser = () => store.set('sk-user', user);
 const savePrefs = () => store.set('sk-prefs', prefs);
 const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
-if (!(prefs.mv >= 4)) { if (prefs.lite && prefs.liteBackup) Object.assign(prefs, prefs.liteBackup); delete prefs.liteBackup; Object.assign(prefs, { mv: 4, motion: 'full', lite: false, parallax: true, omens: true }); store.set('sk-prefs', prefs); }
+if (!(prefs.mv >= 5)) { if (prefs.lite && prefs.liteBackup) Object.assign(prefs, prefs.liteBackup); delete prefs.liteBackup; Object.assign(prefs, { mv: 5, motion: 'full', lite: false, parallax: false, fog: false, omens: false, sound: false }); store.set('sk-prefs', prefs); }
 const reduced = () => prefs.motion === 'reduce';
 const SPD = { slow: 1, normal: .6, fast: .35 }, spdMul = () => SPD[prefs.speed] || 1;
 function applyPrefs() {
   const d = document.documentElement;
   d.classList.toggle('reduce', reduced());
+  d.classList.toggle('vintage', prefs.vintage !== false);
   d.classList.toggle('motion-full', prefs.motion !== 'reduce');
   d.style.setProperty('--fs', prefs.fs);
   d.style.setProperty('--spd', spdMul());
@@ -1847,8 +1914,8 @@ function hash(s) { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) 
 function cover(x, cls = '') {
   const p = PALETTES[hash(x.id) % PALETTES.length];
   const by = x.kind === 'adapt' ? (AKINDS[x.k] || '') : (x.by === 'Richard Bachman' ? 'Richard Bachman' : 'Stephen King');
-  return `<div class="cover ${cls}" data-w="${esc(x.w)}" data-id="${esc(x.id)}" data-label="${esc(titleOf(x))}" style="--c1:${p[0]};--c2:${p[1]}">
-    <div class="gen" aria-hidden="true"><span class="a">${esc(by)}</span><span class="t">${esc(x.t)}</span><span class="y">${x.y || 'em breve'}</span></div>
+  return `<div class="cover ${cls}${x.kind === 'adapt' ? ' poster' : ''}" role="img" aria-label="${x.kind === 'adapt' ? 'Cartaz' : 'Capa'} de ${esc(titleOf(x))}" data-w="${esc(x.w)}" data-id="${esc(x.id)}" data-label="${esc(titleOf(x))}" style="--c1:${p[0]};--c2:${p[1]}">
+    <div class="gen" aria-hidden="true"><span class="a">${esc(by)}</span><span class="t">${esc(titleOf(x))}</span><span class="y">${x.y || 'em breve'}</span></div>
     <span class="shine"></span></div>`;
 }
 const queue = []; let active = 0;
@@ -1963,6 +2030,20 @@ function loadImg(src, alt) {
     img.src = src;
   });
 }
+/* capas da edição brasileira (ISBN). Acrescente aqui id da obra: ISBN da edição BR */
+const BR_ISBN = { carrie: '9788556511348' };
+function brIsbnCover(id) { const i = BR_ISBN[id]; return i ? `https://covers.openlibrary.org/b/isbn/${i}-L.jpg?default=false` : null; }
+/* ligações de compra com comissão. Preencha com o seu código/link de afiliado */
+const AFF = {
+  amazon: '',   /* o seu Tag de afiliado da Amazon BR, ex.: 'oseunome-20' */
+  shopee: ''    /* o seu link de afiliado da Shopee com {q} onde entra o título, ex.: 'https://s.shopee.com.br/XXXX?q={q}' */
+};
+function buyLinks(x) {
+  const q = encodeURIComponent(titleOf(x) + ' Stephen King');
+  const amz = 'https://www.amazon.com.br/s?k=' + q + (AFF.amazon ? '&tag=' + encodeURIComponent(AFF.amazon) : '');
+  const shp = AFF.shopee ? AFF.shopee.replace('{q}', q) : 'https://shopee.com.br/search?keyword=' + q;
+  return `<a class="toggle" href="${esc(amz)}" target="_blank" rel="sponsored noopener">Comprar na Amazon</a><a class="toggle" href="${esc(shp)}" target="_blank" rel="sponsored noopener">Comprar na Shopee</a>`;
+}
 function paintCover(el) {
   if (el.dataset.done) return;
   el.dataset.done = '1';
@@ -1973,8 +2054,12 @@ function paintCover(el) {
   (async () => {
     const x = BY.get(el.dataset.id);
     const canOL = x && x.kind === 'work' && x.k !== 'conto';
-    const u = await wikiImage(w);
-    let img = u ? await loadImg(u, alt) : null;
+    let img = null;
+    const bu = x && x.kind === 'work' ? brIsbnCover(x.id) : null;
+    if (bu) img = await loadImg(bu, alt);
+    if (!img && x && x.kind === 'work' && x.k !== 'conto') { const b = await brCover(x); if (b && b.src) img = await loadImg(b.src, alt); }
+    const u = img ? null : await wikiImage(w);
+    if (!img) img = u ? await loadImg(u, alt) : null;
     if (!img && canOL) { const o = await olCover(x); if (o) img = await loadImg(o, alt); }
     if (!img) { ld.remove(); return; }
     ld.remove();
@@ -2073,7 +2158,7 @@ function route() {
   if (!rendered[v] || v === 'estante') { RENDER[v](); rendered[v] = true; }
   closeMenu();
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
-  const titles = { inicio: 'Enciclopédia Stephen King', cronologia: 'Cronologia', bibliografia: 'Bibliografia', filmografia: 'Adaptações', universos: 'Universos partilhados', biografia: 'Biografia', galeria: 'Galeria', kit: 'Kit do Fã', estante: 'A minha estante' };
+  const titles = { inicio: 'Enciclopédia Stephen King', cronologia: 'Cronologia', bibliografia: 'Bibliografia', filmografia: 'Adaptações', universos: 'Universos partilhados', biografia: 'Biografia', galeria: 'Galeria', kit: 'Eu sou sua fã número um', estante: 'A minha estante' };
   document.title = `${titles[v]} — Derry Archive`;
   if (deepId) setTimeout(() => openDetail(deepId), 150);
   if (pendingLink && v === 'cronologia') { const id = pendingLink; pendingLink = null; setTimeout(() => highlightLinks(id, true), 60); }
@@ -2101,11 +2186,6 @@ function renderHome() {
     if (el.dataset.split) return; el.dataset.split = 1;
     el.innerHTML = [...el.textContent].map((c, i) => `<span class="l" aria-hidden="true" style="animation-delay:${Math.round(((j * 7 + i) * 55 + 150) * spdMul())}ms">${c}</span>`).join('');
   });
-  const novels = WORKS.filter(w => ['romance','bachman','colab'].includes(w.k)).length;
-  const stats = [[novels,'romances'],[WORKS.filter(w => w.k === 'colecao').length,'coletâneas'],[RELEASED.length,'adaptações lançadas'],[new Date().getFullYear() - 1974,'anos de carreira']];
-  const SIC = ['<path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h10"/>', '<rect x="4" y="9" width="13" height="11" rx="2"/><path d="M7 6h13v11M10 4h10"/>', '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 5v14M16 5v14M3 10h5M3 14h5M16 10h5M16 14h5"/>', '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/>'];
-  $('#stats').innerHTML = stats.map(([n, l], i) => `<div class="stat"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${SIC[i]}</svg></span><span class="tx"><b data-n="${n}">0</b><span class="lb">${l}</span></span></div>`).join('');
-  $$('#stats b').forEach(b => animateNumber(b, +b.dataset.n));
   const pick = ids => ids.map(i => BY.get(i)).filter(Boolean);
   $('#homeRows').innerHTML =
     row('Por onde começar', pick(['carrie','salem','shining','stand','it','misery','petsematary','greenmile','gunslinger','112263','doctorsleep','fairytale']), '#bibliografia') +
@@ -2228,7 +2308,7 @@ function fillSelect(el, first, vals, fmt = v => v) {
 }
 function renderBooks() {
   if (!$('#bType').childElementCount) {
-    fillSelect($('#bType'), 'Todos os tipos', Object.keys(TYPES), v => TYPES[v]);
+    fillSelect($('#bType'), 'Todos os tipos', ['romances', ...Object.keys(TYPES)], v => v === 'romances' ? 'Romances (todos)' : TYPES[v]);
     fillSelect($('#bGenre'), 'Todos os géneros', [...new Set(WORKS.flatMap(w => w.g))].sort((a, b) => a.localeCompare(b, 'pt')));
     fillSelect($('#bDecade'), 'Todas as décadas', [...new Set(WORKS.map(w => decade(w.y)))].sort(), v => v + 's');
     const saved = store.get('sk-bf', {});
@@ -2242,7 +2322,7 @@ function drawBooks() {
   store.set('sk-bf', f);
   const q = norm($('#bSearch').value.trim());
   let xs = WORKS.filter(w =>
-    (!f.bType || w.k === f.bType) && (!f.bGenre || w.g.includes(f.bGenre)) && (!f.bDecade || decade(w.y) == f.bDecade) &&
+    (!f.bType || (f.bType === 'romances' ? ['romance','bachman','colab'].includes(w.k) : w.k === f.bType)) && (!f.bGenre || w.g.includes(f.bGenre)) && (!f.bDecade || decade(w.y) == f.bDecade) &&
     (!q || norm([w.t, w.pt, w.y, w.by].join(' ')).includes(q)) &&
     (!f.bStatus || (f.bStatus === 'fav' ? user.fav[w.id] : f.bStatus === 'none' ? !user.status[w.id] : f.bStatus === 'adapted' ? w.adapts.length : user.status[w.id] === f.bStatus)));
   const s = f.bSort || 'y';
@@ -2305,6 +2385,11 @@ function renderGuide() {
     <div class="guide-grid">${GUIDES.map(gd => `<article class="guide"><h3>${esc(gd.t)}</h3><p class="usub" style="margin:0;color:var(--muted)">${esc(gd.sub)}</p>
       <ol>${gd.steps.filter(([id]) => BY.has(id)).map(([id, n]) => { const w = BY.get(id); return `<li><button data-open="${id}">${esc(titleOf(w))} <span style="color:var(--muted)">${w.y || ''}</span>${user.status[id] === 'read' ? ' ✓' : ''}</button>${n ? `<small>${esc(n)}</small>` : ''}</li>`; }).join('')}</ol></article>`).join('')}</div>`;
 }
+function uniSpine(w) {
+  const h = hash(w.id), c = SPINES[h % SPINES.length];
+  const H = 168 + (h >> 4) % 5 * 14;
+  return `<span class="cp-spine" style="--c1:${c[0]};--c2:${c[1]};--sh:${H}px"><span class="cp-sa">${w.by === 'Richard Bachman' ? 'Bachman' : 'King'}</span><span class="cp-st">${esc(titleOf(w))}</span><span class="cp-sy">${w.y || ''}</span></span>`;
+}
 function renderUniverses() {
   const members = u => WORKS.filter(w => (w.u || []).includes(u.id)).sort((a, b) => a.y - b.y);
   // constelação: universos ligados pelas obras que partilham
@@ -2355,8 +2440,9 @@ function renderUniverses() {
     panel.style.setProperty('--uc', U.c);
     panel.classList.toggle('r', pos[i][0] < cx - 20); panel.classList.toggle('l', pos[i][0] >= cx - 20);
     panel.innerHTML = `<header><div><h4>${esc(U.n)}</h4><div class="cp-sub">${esc(U.sub)} · ${ms.length} obras</div></div><button type="button" class="cp-x" aria-label="Fechar">×</button></header>
-      <div class="cp-list">${ms.map((w, k) => `<button type="button" data-open="${w.id}" style="--i:${k}">${esc(titleOf(w))}<span>${w.y || ''}</span></button>`).join('')}</div>
+      <div class="cp-list">${ms.map((w, k) => `<button type="button" class="cp-item" data-open="${w.id}" style="--i:${k}" aria-label="${esc(titleOf(w))} (${w.y || 's/d'})">${uniSpine(w)}</button>`).join('')}</div>
       <div class="cp-foot"><span>Toque num título para abrir a ficha</span><button type="button" data-cgo="${U.id}">Ver cartão ↓</button></div>`;
+    observeCovers(panel);
     wrap.classList.add('open');
   };
   wrap.addEventListener('click', e => {
@@ -2376,7 +2462,26 @@ function renderUniverses() {
 }
 
 /* ============================== biografia ============================== */
+function renderBioStats() {
+  const novels = WORKS.filter(w => ['romance','bachman','colab'].includes(w.k)).length;
+  const stats = [[novels, 'romances', '#bibliografia', 'romances', 'Ver os romances'], [WORKS.filter(w => w.k === 'colecao').length, 'coletâneas', '#bibliografia', 'colecao', 'Ver as coletâneas'], [RELEASED.length, 'adaptações lançadas', '#filmografia', '', 'Ver as adaptações'], [new Date().getFullYear() - 1974, 'anos de carreira', '#cronologia', '', 'Ver a cronologia']];
+  const SIC = ['<path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h10"/>', '<rect x="4" y="9" width="13" height="11" rx="2"/><path d="M7 6h13v11M10 4h10"/>', '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 5v14M16 5v14M3 10h5M3 14h5M16 10h5M16 14h5"/>', '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/>'];
+  $('#stats').innerHTML = stats.map(([n, l, href, kind, tip], i) => `<a class="stat" href="${href}" data-stat="${kind}" title="${tip}" aria-label="${n} ${l} — ${tip}"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${SIC[i]}</svg></span><span class="tx"><b data-n="${n}">0</b><span class="lb">${l}</span></span><i class="go" aria-hidden="true">→</i></a>`).join('');
+  $$('#stats b').forEach(b => animateNumber(b, +b.dataset.n));
+}
+/* cada número abre a lista correspondente, já filtrada */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-stat]'); if (!a) return;
+  const href = a.getAttribute('href');
+  if (href === '#bibliografia') {
+    store.set('sk-bf', { bType: a.dataset.stat });
+    if ($('#bType').childElementCount) { ['bGenre', 'bDecade', 'bStatus'].forEach(id => $('#' + id).value = ''); $('#bType').value = a.dataset.stat; $('#bSearch').value = ''; if (location.hash === href) drawBooks(); else if (rendered.bibliografia) setTimeout(drawBooks, 0); }
+  } else if (href === '#filmografia') {
+    fKind = ''; store.set('sk-fk', ''); const c = $('#fKinds .chip[data-k=""]'); if (c && c.getAttribute('aria-pressed') !== 'true') c.click();
+  }
+});
 function renderBio() {
+  renderBioStats();
   $('#bioEvents').innerHTML = BIO.map((e, i) => `<article class="ev reveal" style="--d:${(i % 4) * 60}ms"><div class="ey">${e.y}</div><h3>${esc(e.t)}</h3><p>${esc(e.d)}</p></article>`).join('');
   reveal($('#v-biografia'));
   { const bw = $('#bioWiki'); if (bw && !bw.dataset.done) { bw.dataset.done = '1'; bw.innerHTML = '<h2 style="margin:0 0 12px">Stephen King na Wikipédia</h2><div id="bioWikiBox"></div>'; wikiPanel($('#bioWikiBox'), { w: 'Stephen_King', props: PERSON_PROPS, stale: () => false }); } }
@@ -2406,12 +2511,17 @@ function drawGallery() {
 
 /* ============================== kit do fã ============================== */
 let kitKind = 'all';
+let kitNews = false; /* filtro Novidades: desligado por predefinição */
+const NEWS_FROM = 2024; /* publicações a partir deste ano são consideradas novidades */
 function renderKit() {
   if (!$('#kitKinds').childElementCount) {
-    $('#kitKinds').innerHTML = [['all','Tudo'],['poster','Quadros'],['adapt','Cartazes'],['work','Capas'],['quotes','Citações'],['photo','Fotos']].map(([v, l]) => `<button class="chip" data-k="${v}" aria-pressed="${kitKind === v}">${l}</button>`).join('');
+    $('#kitKinds').innerHTML = [['all','Tudo'],['poster','Quadros'],['adapt','Cartazes'],['work','Capas'],['quotes','Citações'],['photo','Fotos']].map(([v, l]) => `<button class="chip" data-k="${v}" aria-pressed="${kitKind === v}">${l}</button>`).join('') + `<span class="chip-sep" aria-hidden="true"></span><button class="chip chip-news" data-k="news" aria-pressed="${kitNews}" title="Mostrar só novidades">✦ Novidades</button>`;
     $('#kitKinds').addEventListener('click', e => {
-      const c = e.target.closest('.chip'); if (!c) return; kitKind = c.dataset.k;
-      $$('#kitKinds .chip').forEach(b => b.setAttribute('aria-pressed', b === c)); drawKit();
+      const c = e.target.closest('.chip'); if (!c) return;
+      if (c.dataset.k === 'news') { kitNews = !kitNews; c.setAttribute('aria-pressed', kitNews); drawKit(); return; }
+      kitKind = c.dataset.k; kitNews = false;
+      $$('#kitKinds .chip:not(.chip-news)').forEach(b => b.setAttribute('aria-pressed', b === c));
+      $('#kitKinds .chip-news').setAttribute('aria-pressed', 'false'); drawKit();
     });
   }
   drawKit();
@@ -2420,9 +2530,8 @@ function kitItem(x) {
   const p = PALETTES[hash(x.id) % PALETTES.length];
   const isW = x.kind === 'work';
   return `<article class="kit-item reveal" data-kit="${x.id}">
-    <div class="kit-pair">
-      <figure>${cover(x)}<figcaption>Original</figcaption></figure>
-      <figure><div class="cover kit-br nobr" data-kit-br="${x.id}" style="--c1:${p[0]};--c2:${p[1]}"><div class="gen" aria-hidden="true"><span class="a">${isW ? 'Edição PT' : 'Cartaz PT'}</span><span class="t">${esc(x.pt || x.t)}</span><span class="y">a procurar…</span></div></div><figcaption class="brcap">${isW ? 'Edição em português' : 'Cartaz em português'}</figcaption></figure>
+    <div class="kit-pair solo">
+      <figure><div class="cover kit-br nobr${isW ? '' : ' poster'}" data-kit-br="${x.id}" style="--c1:${p[0]};--c2:${p[1]}"><div class="gen" aria-hidden="true"><span class="a">${isW ? 'Edição PT' : 'Cartaz PT'}</span><span class="t">${esc(x.pt || x.t)}</span><span class="y">a procurar…</span></div></div><figcaption class="brcap">${isW ? 'Edição em português' : 'Cartaz em português'}</figcaption></figure>
     </div>
     <div class="kit-meta"><b>${esc(titleOf(x))}</b><span>${x.y || 'Sem data'} · ${esc(isW ? TYPES[x.k] : AKINDS[x.k])}</span></div>
     <div class="kit-actions"><button class="btn sm" data-open="${x.id}">Ver ficha</button></div>
@@ -2431,6 +2540,14 @@ function kitItem(x) {
 const kitIO = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { kitIO.unobserve(e.target); paintKitBr(e.target); }
 }), { rootMargin: '400px 200px' }) : null;
+function showKitOriginal(el, x) {
+  /* sem versão em português: mostra a original no mesmo lugar */
+  const fig = el.closest('figure'); if (!fig) return;
+  const wrap = document.createElement('figure');
+  wrap.innerHTML = `${cover(x)}<figcaption>Original</figcaption>`;
+  fig.replaceWith(wrap);
+  observeCovers(wrap);
+}
 function paintKitBr(el) {
   if (el.dataset.done) return; el.dataset.done = '1';
   if (!prefs.covers) return;
@@ -2439,12 +2556,12 @@ function paintKitBr(el) {
   if (isW && x.k === 'conto') { el.querySelector('.y').textContent = 'sem edição própria'; return; }
   (isW ? brCover(x) : ptWikiImage(x.w)).then(r => {
     const cap = el.parentElement.querySelector('.brcap');
-    if (!r) { el.querySelector('.y').textContent = 'não encontrado'; return; }
+    if (!r) { showKitOriginal(el, x); return; }
     const img = new Image();
     img.alt = (isW ? 'Capa da edição em português de ' : 'Cartaz em português de ') + titleOf(x);
     img.decoding = 'async'; img.referrerPolicy = 'no-referrer'; img.dataset.src = r.src;
     img.onload = () => { img.classList.add('on'); el.classList.remove('nobr'); el.querySelector('.gen')?.setAttribute('hidden', ''); };
-    img.onerror = () => { el.querySelector('.y').textContent = 'indisponível'; };
+    img.onerror = () => showKitOriginal(el, x);
     img.src = r.src;
     el.insertBefore(img, el.firstChild);
     if (cap) cap.innerHTML = (isW ? (r.br ? 'Edição brasileira' : 'Edição em português') : 'Cartaz em português') + (r.pub ? ` · ${esc(r.pub)}` : '') + (r.link ? ` · <a href="${esc(r.link)}" target="_blank" rel="noopener">fonte</a>` : '');
@@ -2474,9 +2591,29 @@ function photoCard(p) {
   return `<figure class="photo reveal"><img src="${esc(p.thumb)}" data-src="${esc(p.full)}" width="${p.w}" height="${p.h}" alt="${esc(p.desc || 'Fotografia de Stephen King')}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
     <figcaption>${esc(p.desc || 'Stephen King')}${p.date ? ` · ${esc(p.date)}` : ''}<br>${p.by ? 'Autor: ' + esc(p.by) + ' · ' : ''}${esc(p.lic || 'ver licença')} · ${p.w}×${p.h}px · <a href="${esc(p.page)}" target="_blank" rel="noopener">Commons</a> · <a href="${esc(p.full)}" target="_blank" rel="noopener">original</a></figcaption></figure>`;
 }
+function newsItems() {
+  const adapts = ADAPTS.filter(a => a.st === 'futuro');
+  const books = BOOKS.filter(b => b.y && b.y >= NEWS_FROM);
+  return [...adapts, ...books].sort((a, b) => (a.y || 9999) - (b.y || 9999));
+}
+function newsRail() {
+  const items = newsItems();
+  if (!items.length) return '';
+  return `<section class="news-rail" aria-label="Novidades">
+    <div class="news-head"><b>✦ Novidades</b><span>deslize para o lado →</span></div>
+    <div class="news-track">${items.map((x, i) => `<div class="news-card" style="--d:${Math.min(i, 12) * 70}ms">${cover(x)}<b>${esc(titleOf(x))}</b><span>${x.y || ''}</span></div>`).join('')}</div>
+  </section>`;
+}
 function drawKit() {
   const body = $('#kitBody');
-  const parts = [];
+  const parts = [newsRail()];
+  if (kitNews) {
+    const items = newsItems();
+    parts.push(`<div class="kit-sec"><h2>Novidades</h2><p>Adaptações anunciadas e publicações recentes. Desligue o filtro para voltar a ver tudo.</p></div><div class="kit-grid">${items.length ? items.map(kitItem).join('') : '<p class="kit-note">Não há novidades de momento.</p>'}</div>`);
+    body.innerHTML = parts.join('');
+    observeCovers(body); observeKit(body); reveal(body); pzThumbs(body);
+    return;
+  }
   if (kitKind === 'all' || kitKind === 'poster') parts.push(kitPosters());
   if (kitKind === 'all' || kitKind === 'adapt') parts.push(`<div class="kit-sec"><h2>Cartazes</h2><p>Cartaz original e versão em português de cada filme ou série já estreado.</p></div><div class="kit-grid">${RELEASED.slice().sort((a, b) => a.y - b.y).map(kitItem).join('')}</div>`);
   if (kitKind === 'all' || kitKind === 'work') parts.push(`<div class="kit-sec"><h2>Capas</h2><p>Capa original e edição em português (brasileira quando identificada pela editora).</p></div><div class="kit-grid">${BOOKS.slice().sort((a, b) => a.y - b.y).map(kitItem).join('')}</div>`);
@@ -2731,7 +2868,55 @@ function spine(x, ghost) {
   return `<button class="spine${ghost ? ' ghost' : ''}" data-open="${x.id}" style="--w:${w}px;--h:${H}px;--c1:${c[0]};--c2:${c[1]};--fs:${fs}rem" aria-label="${esc(t)} (${x.y || 's/d'})${ghost ? ' — ainda não tenho' : ''}" title="${esc(t)} · ${x.y || ''}">
     <span class="sp-a">${bach ? 'Bachman' : 'King'}</span><span class="sp-t">${esc(t)}</span><span class="sp-m">${mark}</span><span class="sp-y">${x.y || ''}</span></button>`;
 }
-let shelfView = store.get('sk-shelfview', 'covers'), shelfQ = '', shelfSort = 'y';
+function spine3(x, ghost) {
+  const h = hash(x.id), t = titleOf(x), len = t.length, bach = x.by === 'Richard Bachman';
+  const c = bach ? ['#34343a', '#141417'] : SPINES[h % SPINES.length];
+  const w = 30 + (h >> 3) % 4 * 5 + Math.min(14, Math.floor(len / 3)), H = 196 + (h >> 5) % 6 * 11;
+  const fs = len > 30 ? .64 : len > 22 ? .72 : len > 14 ? .82 : .94;
+  const ch = Math.round(H * 1.12), cw = Math.round(ch / 1.5);
+  const st = user.status[x.id], mark = user.fav[x.id] ? '♥' : st === 'read' ? '✓' : st === 'reading' ? '…' : '', bd = skBadge(x);
+  return `<div class="b3${ghost ? ' ghost' : ''}" role="listitem" style="--w:${w}px;--h:${H}px;--cw:${cw}px;--ch:${ch}px;--c1:${c[0]};--c2:${c[1]}">
+    <div class="b3-box">
+      <button type="button" class="spine" data-pick aria-expanded="false" style="--w:${w}px;--h:${H}px;--fs:${fs}rem" aria-label="${esc(t)} (${x.y || 's/d'})${ghost ? ' — ainda não tenho' : ''}">
+        <span class="sp-a">${bach ? 'Bachman' : 'King'}</span><span class="sp-t">${esc(t)}</span><span class="sp-m">${mark}</span><span class="sp-y">${x.y || ''}</span></button>
+      <button type="button" class="b3-front" data-open="${x.id}" tabindex="-1" aria-label="Abrir a ficha de ${esc(t)}">${cover(x)}${bd ? `<span class="rb ${bd[0]}">${bd[1]}</span>` : ''}</button>
+    </div>
+    <div class="b3-cap" aria-hidden="true"><b>${esc(t)}</b><span>${x.y || ''}</span></div></div>`;
+}
+/* a lombada selecionada sai da prateleira, vira para mostrar a capa e as vizinhas inclinam-se */
+function spine3Setup(box) {
+  if (box._s3) return; box._s3 = true;
+  let hov = 0;
+  const all = () => [...box.querySelectorAll('.b3')];
+  function pick(b, focus) {
+    if (!b) return;
+    const row = [...b.parentElement.children].filter(e => e.classList.contains('b3')), i = row.indexOf(b);
+    all().forEach(el => {
+      const j = row.indexOf(el), d = j < 0 ? 0 : j - i, a = Math.abs(d);
+      el.classList.toggle('on', el === b);
+      el.classList.toggle('near-l', d === -1); el.classList.toggle('near-r', d === 1);
+      el.classList.toggle('far-l', d === -2); el.classList.toggle('far-r', d === 2);
+      const on = el === b, f = el.querySelector('.b3-front'), s = el.querySelector('.spine');
+      f.tabIndex = on ? 0 : -1; s.setAttribute('aria-expanded', on);
+    });
+    if (focus) b.querySelector('.b3-front').focus({ preventScroll: true });
+  }
+  box.addEventListener('click', e => { const p = e.target.closest('[data-pick]'); if (p) pick(p.closest('.b3'), true); });
+  box.addEventListener('pointerover', e => {
+    if (e.pointerType !== 'mouse') return;
+    const b = e.target.closest('.b3'); if (!b || b.classList.contains('on')) return;
+    clearTimeout(hov); hov = setTimeout(() => pick(b), 120);
+  });
+  box.addEventListener('pointerout', e => { if (e.target.closest('.b3') && !e.relatedTarget?.closest?.('.b3')) clearTimeout(hov); });
+  box.addEventListener('focusin', e => { const p = e.target.closest('[data-pick]'); if (p) pick(p.closest('.b3')); });
+  box.addEventListener('keydown', e => {
+    const b = e.target.closest('.b3'); if (!b) return;
+    const k = e.key, list = all(), i = list.indexOf(b);
+    if (k === 'ArrowRight' || k === 'ArrowLeft') { e.preventDefault(); pick(list[Math.max(0, Math.min(list.length - 1, i + (k === 'ArrowRight' ? 1 : -1)))], true); }
+    else if (k === 'Escape') { all().forEach(el => el.classList.remove('on', 'near-l', 'near-r', 'far-l', 'far-r')); b.querySelector('.spine').focus({ preventScroll: true }); }
+  });
+}
+let shelfView = store.get('sk-shelfview', 'spines'), shelfQ = '', shelfSort = 'y';
 const SK_ST = { read: 'Lido', reading: 'A ler', want: 'Quero ler' };
 const skStars = x => user.rate[x.id] ? '★'.repeat(user.rate[x.id]) + '☆'.repeat(5 - user.rate[x.id]) : '';
 const skBadge = x => user.fav[x.id] ? ['fav', '♥'] : user.status[x.id] === 'read' ? ['read', '✓'] : user.status[x.id] === 'reading' ? ['reading', '…'] : user.status[x.id] === 'want' ? ['want', '★'] : null;
@@ -2741,7 +2926,7 @@ function skBook(x, ghost) {
 }
 function skItem(x, ghost) {
   const t = titleOf(x), stt = user.status[x.id], st = skStars(x);
-  return `<button class="sk-item${ghost ? ' ghost' : ''}" data-open="${x.id}" style="${ghost ? 'opacity:.45' : ''}">${cover(x)}<span><span class="tt">${esc(t)}</span><span class="ss">${x.y || 's/d'} · ${esc(TYPES[x.k] || '')}${x.pt && x.pt !== x.t ? ' · ' + esc(x.t) : ''}</span></span><span class="rt">${st ? `<span class="stz" aria-hidden="true">${st}</span>` : ''}<span>${user.fav[x.id] ? '<span class="sk-pill fav">♥ Favorito</span> ' : ''}${stt && SK_ST[stt] ? `<span class="sk-pill ${stt}">${SK_ST[stt]}</span> ` : ''}${user.own[x.id] ? '<span class="sk-pill">Tenho</span>' : ''}</span></span></button>`;
+  return `<button class="sk-item${ghost ? ' ghost' : ''}" data-open="${x.id}" style="${ghost ? 'opacity:.45' : ''}">${cover(x)}<span><span class="tt">${esc(t)}</span><span class="ss">${x.y || 's/d'} · ${esc(TYPES[x.k] || '')}${titleLang === 'en' && x.pt && x.pt !== x.t ? ' · ' + esc(x.pt) : ''}</span></span><span class="rt">${st ? `<span class="stz" aria-hidden="true">${st}</span>` : ''}<span>${user.fav[x.id] ? '<span class="sk-pill fav">♥ Favorito</span> ' : ''}${stt && SK_ST[stt] ? `<span class="sk-pill ${stt}">${SK_ST[stt]}</span> ` : ''}${user.own[x.id] ? '<span class="sk-pill">Tenho</span>' : ''}</span></span></button>`;
 }
 function drawBookcase() {
   const box = $('#caseBox'); if (!box) return;
@@ -2767,11 +2952,12 @@ function drawBookcase() {
   if (!items.length) { box.innerHTML = `<div class="sk-empty"><b>${q ? 'Nada encontrado' : msgs[shelfTab]}</b>${q ? 'Experimente outro título.' : hint}</div>`; return; }
   if (shelfView === 'list') { box.innerHTML = `<div class="sk-list">${items.map(i => skItem(i.w, i.ghost)).join('')}</div>`; observeCovers(box); return; }
   if (shelfView === 'spines') {
-    const spines = items.map(i => spine(i.w, i.ghost));
-    const perRow = Math.max(5, Math.floor(((box.clientWidth || innerWidth) - 80) / 47));
+    const spines = items.map(i => spine3(i.w, i.ghost));
+    const perRow = Math.max(4, Math.floor(((box.clientWidth || innerWidth) - 80 - 140) / 47));
     const rows = []; for (let i = 0; i < spines.length; i += perRow) rows.push(spines.slice(i, i + perRow).join(''));
     while (rows.length < 3) rows.push('');
-    box.innerHTML = `<div class="bookcase" role="list" aria-label="Estante">${rows.map(r => `<div class="shelf-row">${r}</div>`).join('')}</div>`;
+    box.innerHTML = `<div class="bookcase" role="list" aria-label="Estante">${rows.map(r => `<div class="shelf-row s3d">${r}</div>`).join('')}</div>`;
+    spine3Setup(box); observeCovers(box);
     return;
   }
   const bw = (box.clientWidth || innerWidth) < 560 ? 84 : 112, perRow = Math.max(3, Math.floor(((box.clientWidth || innerWidth) - 64) / (bw + 16)));
@@ -2899,6 +3085,7 @@ function renderShelf() {
       <div class="sk-seg" role="group" aria-label="Vista"><button type="button" data-sview="covers" aria-pressed="${shelfView === 'covers'}">▦ Capas</button><button type="button" data-sview="spines" aria-pressed="${shelfView === 'spines'}">▥ Lombadas</button><button type="button" data-sview="list" aria-pressed="${shelfView === 'list'}">☰ Lista</button></div>
       <input type="search" id="shelfQ" placeholder="Procurar nesta lista…" autocomplete="off" value="${esc(shelfQ)}" aria-label="Procurar nesta lista">
       <select id="shelfSort" aria-label="Ordenar"><option value="y"${shelfSort === 'y' ? ' selected' : ''}>Mais antigos primeiro</option><option value="yd"${shelfSort === 'yd' ? ' selected' : ''}>Mais recentes primeiro</option><option value="t"${shelfSort === 't' ? ' selected' : ''}>Título A–Z</option><option value="r"${shelfSort === 'r' ? ' selected' : ''}>Melhor avaliados</option></select>
+      <select id="shelfLang" aria-label="Idioma dos títulos"><option value="pt"${titleLang !== 'en' ? ' selected' : ''}>Títulos em português</option><option value="en"${titleLang === 'en' ? ' selected' : ''}>Títulos em inglês</option></select>
       ${shelfTab === 'own' ? `<button class="chip" id="ghostBtn" aria-pressed="${shelfGhost}">Mostrar os que me faltam</button>` : ''}
       <span class="cnt" id="skCnt"></span></div>`;
   $('#shelfGrid').innerHTML = `${bar}<div id="caseBox"></div>${shelfTab === 'own' ? `<div class="add-panel"><h3>Adicionar livros à estante</h3><input type="search" id="addQ" placeholder="Pesquisar título…" autocomplete="off" value="${esc(addQ)}" aria-label="Pesquisar livros para adicionar"><div class="add-list" id="addList"></div></div>` : ''}`;
@@ -2913,7 +3100,7 @@ $('#shelfGrid').addEventListener('click', e => {
   if (a) { user.own[a.dataset.ownAdd] = true; saveUser(); toast('Adicionado à estante'); renderShelf(); }
 });
 $('#shelfGrid').addEventListener('input', e => { if (e.target.id === 'addQ') { addQ = e.target.value; drawAddList(); } else if (e.target.id === 'shelfQ') { shelfQ = e.target.value; drawBookcase(); } });
-$('#shelfGrid').addEventListener('change', e => { if (e.target.id === 'shelfSort') { shelfSort = e.target.value; drawBookcase(); } });
+$('#shelfGrid').addEventListener('change', e => { if (e.target.id === 'shelfSort') { shelfSort = e.target.value; drawBookcase(); } else if (e.target.id === 'shelfLang') { titleLang = e.target.value; store.set('sk-tlang', titleLang); renderShelf(); } });
 let rsT; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { if ($('#v-estante').classList.contains('active')) drawBookcase(); }, 150); });
 $('#shelfTabs').addEventListener('click', e => { const c = e.target.closest('[data-tab]'); if (c) { shelfTab = c.dataset.tab; renderShelf(); } });
 $('#exportBtn').addEventListener('click', () => {
@@ -3134,7 +3321,15 @@ function factBadges(x) {
   (x.u || []).forEach(u => { const U = UNIVERSES.find(z => z.id === u); if (U) b.push(`<a class="badge" style="text-decoration:none;border-color:${U.c}" href="#universos">${esc(U.n)}</a>`); });
   return b.join('');
 }
+function trailerBlock(x) {
+  const t = x.pt || x.t;
+  const q = encodeURIComponent(t + ' trailer dublado legendado');
+  return `<section class="trailer-sec"><h3>Trailer</h3><div class="trailer"><iframe src="https://www.youtube-nocookie.com/embed?listType=search&list=${q}&hl=pt-BR&cc_lang_pref=pt-BR" title="Trailer de ${esc(t)}" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></section>`;
+}
 function watchBlock(x) {
+  return (x.kind === 'adapt' ? trailerBlock(x) : '') + watchBase(x);
+}
+function watchBase(x) {
   if (x.st === 'futuro') return `<section><h3>Onde ver</h3><div class="watch"><p>Ainda sem estreia — ainda não está disponível em nenhum serviço.</p></div></section>`;
   const orig = isStream(x)
     ? `<p><b style="color:var(--bone)">Original de streaming:</b> estreou em ${esc(x.on)}. O catálogo de cada país muda — confirme abaixo.</p>`
@@ -3165,7 +3360,7 @@ function openDetail(id) {
     <div class="sheet-hero"><div class="backdrop" id="dBackdrop"></div>
       <div class="covers-pair">
         <figure>${cover(x)}<figcaption>${isW ? 'Capa original' : 'Cartaz'}</figcaption></figure>
-        ${(!isW || x.k !== 'conto') ? `<figure class="br" id="brSlot"><div class="cover" style="--c1:#1d1a17;--c2:#0d0b0a"><div class="loading"></div></div><p>${isW ? 'A procurar edição em português…' : 'A procurar cartaz em português…'}</p></figure>` : ''}
+        ${(!isW || x.k !== 'conto') ? `<figure class="br" id="brSlot"><div class="cover${isW ? '' : ' poster'}" style="--c1:#1d1a17;--c2:#0d0b0a"><div class="loading"></div></div><p>${isW ? 'A procurar edição em português…' : 'A procurar cartaz em português…'}</p></figure>` : ''}
       </div>
       <div>
         <p class="eyebrow">${isW ? esc(TYPES[x.k]) : esc(AKINDS[x.k])}${parent ? ` · em <button class="link-btn" style="color:var(--red2);padding:0" data-open="${parent.id}">${esc(titleOf(parent))}</button>` : ''}</p>
@@ -3179,6 +3374,7 @@ function openDetail(id) {
           ${status}
           <button class="toggle" data-links>${ICON.link}Ver ligações</button>
           <button class="toggle" data-copylink type="button">${ICON.link}Copiar link</button>
+          ${isW ? buyLinks(x) : ''}
           ${!isW ? `<a class="btn sm" data-imdb-a="${x.id}" href="${esc(imdbUrl(x))}" target="_blank" rel="noopener">IMDb ↗ <b data-imdb-s="${x.id}">${esc((scoreOf(x) || {}).text || '')}</b></a>` : ''}
         </div>
         ${!isW && !scoreOf(x) && !omdbKey() ? '<p class="wp-note" style="margin:8px 0 0">Nota do IMDb: <button type="button" class="link-btn" data-open-settings style="color:var(--red2);padding:0">adicione uma chave gratuita da OMDb nas Definições</button>.</p>' : ''}
@@ -3332,7 +3528,7 @@ document.addEventListener('keydown', e => {
 /* ============================== definições, menu, toast ============================== */
 const sDlg = $('#settings');
 $('#openSettings').addEventListener('click', () => {
-  $('#sLite').checked = !!prefs.lite; $('#sMotion').value = prefs.motion; $('#sSpeed').value = prefs.speed || 'slow'; $('#sTheme').value = prefs.theme || 'dark'; $('#sParallax').checked = prefs.parallax; $('#sCovers').checked = prefs.covers; $('#sOmens').checked = prefs.omens !== false; $('#sFs').value = prefs.fs; $('#sVol').value = prefs.vol == null ? .7 : prefs.vol;
+  $('#sLite').checked = !!prefs.lite; $('#sMotion').value = prefs.motion; $('#sSpeed').value = prefs.speed || 'slow'; $('#sTheme').value = prefs.theme || 'dark'; $('#sParallax').checked = prefs.parallax; $('#sCovers').checked = prefs.covers; $('#sOmens').checked = !!prefs.omens; $('#sFog').checked = !!prefs.fog; $('#sFs').value = prefs.fs; $('#sVol').value = prefs.vol == null ? .7 : prefs.vol;
   sDlg.showModal();
 });
 $('#closeSettings').addEventListener('click', () => sDlg.close());
@@ -3341,10 +3537,10 @@ sDlg.addEventListener('change', e => {
   const coversWas = prefs.covers;
   if (e.target && e.target.id === 'sLite') {
     if (e.target.checked) { prefs.liteBackup = { motion: prefs.motion, fog: prefs.fog, parallax: prefs.parallax, omens: prefs.omens }; Object.assign(prefs, { lite: true, motion: 'reduce', fog: false, parallax: false, omens: false }); }
-    else { Object.assign(prefs, prefs.liteBackup || { motion: 'full', fog: true, parallax: true, omens: true }, { lite: false }); delete prefs.liteBackup; }
-    $('#sMotion').value = prefs.motion === 'reduce' ? 'reduce' : 'full'; $('#sParallax').checked = prefs.parallax; $('#sOmens').checked = prefs.omens !== false;
-  } else if (prefs.lite && e.target && ['sMotion', 'sParallax', 'sOmens'].includes(e.target.id)) { prefs.lite = false; delete prefs.liteBackup; $('#sLite').checked = false; }
-  Object.assign(prefs, { motion: $('#sMotion').value, theme: $('#sTheme').value, speed: $('#sSpeed').value, parallax: $('#sParallax').checked, covers: $('#sCovers').checked, omens: $('#sOmens').checked, fs: $('#sFs').value });
+    else { Object.assign(prefs, prefs.liteBackup || { motion: 'full', fog: false, parallax: false, omens: false }, { lite: false }); delete prefs.liteBackup; }
+    $('#sMotion').value = prefs.motion === 'reduce' ? 'reduce' : 'full'; $('#sParallax').checked = prefs.parallax; $('#sOmens').checked = !!prefs.omens; $('#sFog').checked = !!prefs.fog;
+  } else if (prefs.lite && e.target && ['sMotion', 'sParallax', 'sOmens', 'sFog'].includes(e.target.id)) { prefs.lite = false; delete prefs.liteBackup; $('#sLite').checked = false; }
+  Object.assign(prefs, { motion: $('#sMotion').value, theme: $('#sTheme').value, speed: $('#sSpeed').value, parallax: $('#sParallax').checked, fog: $('#sFog').checked, covers: $('#sCovers').checked, omens: $('#sOmens').checked, fs: $('#sFs').value });
   savePrefs(); applyPrefs();
   if (!prefs.parallax || reduced()) $$('[data-depth]').forEach(el => el.style.transform = '');
   if (prefs.covers && !coversWas) { $$('.cover[data-done]').forEach(el => delete el.dataset.done); observeCovers(); }
@@ -4265,7 +4461,7 @@ async function shareRun(x, mode, withNote) {
 }
 
 /* ============================== cartazes para quadro (Universos + Kit do Fã) ============================== */
-const PZ_SIZES = { a4: [21, 29.7, 'A4'], a3: [29.7, 42, 'A3'], a2: [42, 59.4, 'A2'], s3040: [30, 40, '30x40cm'], s4050: [40, 50, '40x50cm'], s4060: [40, 60, '40x60cm'], s5070: [50, 70, '50x70cm'] };
+const PZ_SIZES = { a4: [21, 29.7, 'A4'], a3: [29.7, 42, 'A3'], a2: [42, 59.4, 'A2'], s3040: [30, 40, '30x40cm'], s4050: [40, 50, '40x50cm'], s4060: [40, 60, '40x60cm'], s5070: [50, 70, '50x70cm'], ig45: [21, 26.25, 'Instagram-4x5'], ig916: [21, 37.33, 'Stories-9x16'] };
 const hex2rgb = h => { h = h.replace('#', ''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); };
 function rgb2hsl([r, g, b]) {
   r /= 255; g /= 255; b /= 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn, l = (mx + mn) / 2; let h = 0, s = 0;
@@ -4698,6 +4894,71 @@ function pzArt(g, T, motif, U, x0, y0, w, h) {
 }
 
 /* ---------- desenho principal ---------- */
+/* camada de «papel velho»: desbota, amarelece, grão, manchas, vincos, bordas gastas e (no nível máximo) carimbo */
+function pzAge(c, level, seed = 1) {
+  level = +level; if (!level) return c;
+  const W = c.width, H = c.height, g = c.getContext('2d'), s = W / 1000, L = Math.min(1.5, level);
+  let a = seed >>> 0; const R = () => { a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0);
+  const fill = (op, style, al = 1) => { g.globalCompositeOperation = op; g.globalAlpha = al; g.fillStyle = style; g.fillRect(0, 0, W, H); };
+  fill('saturation', '#808080', Math.min(.45, .2 * L));                                   // desbotar a cor
+  fill('lighten', `rgb(${Math.round(30 * L)},${Math.round(22 * L)},${Math.round(14 * L)})`); // pretos de tinta velha
+  fill('multiply', '#e6c88e', Math.min(.7, .42 * L));                                       // papel amarelecido
+  g.globalCompositeOperation = 'multiply'; g.globalAlpha = 1;
+  for (let i = 0, n = Math.round(3 + 3 * L); i < n; i++) {                                 // manchas de humidade
+    const x = R() * W, y = R() * H, r = (130 + R() * 280) * s, q = g.createRadialGradient(x, y, 0, x, y, r);
+    q.addColorStop(0, `rgba(128,82,30,${.17 * L})`); q.addColorStop(.6, `rgba(128,82,30,${.07 * L})`); q.addColorStop(1, 'rgba(128,82,30,0)'); g.fillStyle = q; g.fillRect(x - r, y - r, 2 * r, 2 * r);
+  }
+  const e = 110 * s;                                                                        // bordas queimadas
+  [[0, 0, 0, e, 0, 0, W, e], [0, H, 0, H - e, 0, H - e, W, e], [0, 0, e, 0, 0, 0, e, H], [W, 0, W - e, 0, W - e, 0, e, H]].forEach(([x0, y0, x1, y1, rx, ry, rw, rh]) => {
+    const q = g.createLinearGradient(x0, y0, x1, y1); q.addColorStop(0, `rgba(78,44,14,${.3 * L})`); q.addColorStop(1, 'rgba(78,44,14,0)'); g.fillStyle = q; g.fillRect(rx, ry, rw, rh);
+  });
+  const vg = g.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .35, W / 2, H / 2, Math.hypot(W, H) * .56); vg.addColorStop(0, 'rgba(60,32,10,0)'); vg.addColorStop(1, `rgba(60,32,10,${.26 * L})`); g.fillStyle = vg; g.fillRect(0, 0, W, H);
+  for (let i = 0, n = Math.round(60 * L * H / W); i < n; i++) {                              // pintas castanhas (foxing)
+    const x = R() * W, y = R() * H, r = (1.3 + R() * R() * 6) * s; g.fillStyle = `rgba(112,66,22,${.1 + R() * .22})`; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
+  }
+  const T = 256, tc = document.createElement('canvas'); tc.width = tc.height = T; const tg = tc.getContext('2d'), id = tg.createImageData(T, T);
+  for (let i = 0; i < T * T; i++) { const v = 128 + (R() - .5) * 130; id.data[i * 4] = id.data[i * 4 + 1] = id.data[i * 4 + 2] = v; id.data[i * 4 + 3] = 255; }
+  tg.putImageData(id, 0, 0); const sc = Math.max(.6, s * .7); g.save(); g.scale(sc, sc); g.globalCompositeOperation = 'overlay'; g.globalAlpha = Math.min(.6, .3 * L); g.fillStyle = g.createPattern(tc, 'repeat'); g.fillRect(0, 0, W / sc, H / sc); g.restore();  // grão do papel
+  g.globalCompositeOperation = 'screen'; g.globalAlpha = 1;
+  { const q = g.createRadialGradient(W * .08, H * .06, 0, W * .08, H * .06, Math.max(W, H) * .6); q.addColorStop(0, `rgba(255,150,80,${.16 * L})`); q.addColorStop(1, 'rgba(255,150,80,0)'); g.fillStyle = q; g.fillRect(0, 0, W, H); }
+  g.globalCompositeOperation = 'source-over';
+  for (let i = 0, n = Math.round(380 * L * H / W); i < n; i++) { g.fillStyle = `rgba(255,248,228,${.25 + R() * .4})`; g.beginPath(); g.arc(R() * W, R() * H, (.4 + R() * 1.1) * s, 0, 7); g.fill(); }   // poeira clara
+  for (let i = 0, n = Math.round(220 * L * H / W); i < n; i++) { g.fillStyle = `rgba(34,20,8,${.2 + R() * .4})`; g.beginPath(); g.arc(R() * W, R() * H, (.4 + R() * 1.2) * s, 0, 7); g.fill(); }       // partículas escuras
+  g.lineCap = 'round';
+  for (let i = 0, n = Math.round(10 * L); i < n; i++) {                                    // riscos
+    const x = R() * W, y = R() * H, l = (30 + R() * 150) * s, an = (R() < .7 ? Math.PI / 2 : R() * 3.14) + (R() - .5) * .3;
+    g.strokeStyle = `rgba(255,250,235,${.12 + R() * .2})`; g.lineWidth = (.5 + R() * .8) * s; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(an) * l, y + Math.sin(an) * l); g.stroke();
+  }
+  if (L >= .9) {                                                                            // vincos de dobra
+    const crease = (vert, p) => {
+      const len = vert ? H : W, w = 16 * s;
+      for (let t = 0; t < len; t += 20 * s) {
+        const al = (.45 + R() * .55) * Math.min(1, L), x = vert ? p : t, y = vert ? t : p, q = vert ? g.createLinearGradient(x - w, 0, x + w, 0) : g.createLinearGradient(0, y - w, 0, y + w);
+        q.addColorStop(0, 'rgba(0,0,0,0)'); q.addColorStop(.42, `rgba(40,22,6,${.14 * al})`); q.addColorStop(.5, `rgba(255,248,226,${.2 * al})`); q.addColorStop(.58, `rgba(40,22,6,${.1 * al})`); q.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = q; if (vert) g.fillRect(x - w, y, 2 * w, 20 * s + 1); else g.fillRect(x, y - w, 20 * s + 1, 2 * w);
+      }
+    };
+    crease(true, W / 2); crease(false, H / 2);
+  }
+  g.fillStyle = 'rgba(236,222,186,.6)';                                                    // bordas gastas
+  for (let t = 0; t < W; t += 7 * s) { if (R() < .22) { const l = (2 + R() * 7) * s, d = (.5 + R() * 1.4) * s; g.fillRect(t, 0, l, d); g.fillRect(t, H - d, l, d); } }
+  for (let t = 0; t < H; t += 7 * s) { if (R() < .22) { const l = (2 + R() * 7) * s, d = (.5 + R() * 1.4) * s; g.fillRect(0, t, d, l); g.fillRect(W - d, t, d, l); } }
+  if (L >= .9) {                                                                            // marca de chávena de café
+    g.globalCompositeOperation = 'multiply'; const cx = W * (R() < .5 ? .16 : .84), cy = H * (.1 + R() * .12), r = 64 * s;
+    g.strokeStyle = 'rgba(112,70,26,.24)'; g.lineWidth = 6 * s; g.beginPath(); g.arc(cx, cy, r, 0, 7); g.stroke();
+    g.strokeStyle = 'rgba(112,70,26,.12)'; g.lineWidth = 2 * s; g.beginPath(); g.arc(cx, cy, r - 8 * s, 0, 7); g.stroke();
+    const q = g.createRadialGradient(cx, cy, 0, cx, cy, r); q.addColorStop(0, 'rgba(150,100,40,.06)'); q.addColorStop(1, 'rgba(150,100,40,.12)'); g.fillStyle = q; g.beginPath(); g.arc(cx, cy, r, 0, 7); g.fill();
+  }
+  if (L >= 1.3) {                                                                           // carimbo «Derry Archive»
+    g.globalCompositeOperation = 'multiply'; g.save(); g.translate(W - 98 * s, H - 98 * s); g.rotate(-.22);
+    g.strokeStyle = g.fillStyle = 'rgba(150,26,22,.34)'; g.lineWidth = 3 * s; g.beginPath(); g.arc(0, 0, 54 * s, 0, 7); g.stroke(); g.lineWidth = 1.2 * s; g.beginPath(); g.arc(0, 0, 47 * s, 0, 7); g.stroke();
+    g.font = `800 ${9 * s}px Manrope, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    const txt = 'DERRY ARCHIVE · MAINE · ', n = txt.length; for (let i = 0; i < n; i++) { g.save(); g.rotate(i / n * 6.283 - 1.57); g.translate(0, -39 * s); g.fillText(txt[i], 0, 0); g.restore(); }
+    g.font = `700 ${22 * s}px "Cormorant Garamond", Georgia, serif`; g.fillText('ARQUIVO', 0, -4 * s); g.font = `800 ${8 * s}px Manrope, sans-serif`; g.fillText('Nº ' + String(1 + Math.floor(R() * 998)).padStart(3, '0'), 0, 12 * s); g.restore();
+  }
+  g.restore(); return c;
+}
 async function drawPoster(o) {
   try { await Promise.all([document.fonts.load('700 60px "Cormorant Garamond"'), document.fonts.load('italic 600 40px "Cormorant Garamond"'), document.fonts.load('800 24px Manrope'), document.fonts.load('600 24px Manrope')]); } catch (e) {}
   let kind = o.kind || (o.uni === 'all' ? 'all' : 'uni'); if (kind === 'uni' && o.uni === 'all') kind = 'all';
@@ -4767,6 +5028,7 @@ async function drawPoster(o) {
     });
     g.textAlign = 'center';
   }
+  if (o.age) pzAge(c, o.age, hash(pzKey(o) + (o.title || '')));
   return c;
 }
 function pzStars(g, T, U, ms, x0, y0, w, h) {
@@ -4825,17 +5087,18 @@ async function pzCovers(g, T, sel, x0, y0, w, h, o, SER, SAN, max = 250) {
 }
 
 /* ---------- interface ---------- */
-const pzDlg = $('#posterDlg'), PZ_MAX_BOOKS = 15, PZ_RES = { '3840': ['4K (3840 px)', '4k'], '1920': ['Full HD (1920 px)', 'fullhd'], d300: ['Impressão 300 dpi', '300dpi'], d150: ['Impressão 150 dpi', '150dpi'] };
+const pzDlg = $('#posterDlg'), PZ_MAX_BOOKS = 15, PZ_RES = { '3840': ['4K (3840 px)', '4k'], '1920': ['Full HD (1920 px)', 'fullhd'], d300: ['Impressão 300 dpi', '300dpi'], d150: ['Impressão 150 dpi', '150dpi'], ig: ['Instagram (1080 px de largura)', 'instagram'] };
 const pzBooks = () => BOOKS.filter(w => w.k !== 'conto').slice().sort((a, b) => (a.y || 0) - (b.y || 0));
-const pzSaved = () => Object.assign({ kind: 'uni', uni: 'torre', map: 'derry', book: 'it', title: '', size: 'a3', style: 'night', bgc: 'auto', bgx: '#2a1a4a', center: 'covers', res: '3840', mat: true, desc: false, list: true }, store.get('sk-pz2', {}));
+const pzSaved = () => Object.assign({ kind: 'uni', uni: 'torre', map: 'derry', book: 'it', title: '', size: 'a3', style: 'night', bgc: 'auto', bgx: '#2a1a4a', center: 'covers', res: '3840', mat: true, desc: false, list: true, age: 1 }, store.get('sk-pz2', {}));
 const pzSelected = () => $$('#pzChecks input:checked').map(i => i.value);
 function pzOpts() {
   const sz = PZ_SIZES[$('#pzSize').value];
-  return { kind: $('#pzKind').value, uni: $('#pzUni').value, map: $('#pzMap').value, book: $('#pzBook').value, books: pzSelected(), title: $('#pzTitleIn').value, size: $('#pzSize').value, wcm: sz[0], hcm: sz[1], style: $('#pzStyle').value, bgc: $('#pzBg').value, bgx: $('#pzBgX').value, center: $('#pzCenter').value, res: $('#pzRes').value, mat: $('#pzMat').checked, desc: $('#pzDesc').checked, list: $('#pzList').checked };
+  return { kind: $('#pzKind').value, uni: $('#pzUni').value, map: $('#pzMap').value, book: $('#pzBook').value, books: pzSelected(), title: $('#pzTitleIn').value, size: $('#pzSize').value, wcm: sz[0], hcm: sz[1], style: $('#pzStyle').value, bgc: $('#pzBg').value, bgx: $('#pzBgX').value, center: $('#pzCenter').value, res: $('#pzRes').value, age: +$('#pzAge').value, mat: $('#pzMat').checked, desc: $('#pzDesc').checked, list: $('#pzList').checked };
 }
 function pzDims(o) {
   let px, py;
-  if (o.res === '3840' || o.res === '1920') { py = +o.res; px = Math.round(py * o.wcm / o.hcm); }
+  if (o.res === 'ig') { px = 1080; py = Math.round(px * o.hcm / o.wcm); }
+  else if (o.res === '3840' || o.res === '1920') { py = +o.res; px = Math.round(py * o.wcm / o.hcm); }
   else { px = Math.round(o.wcm / 2.54 * (o.res === 'd150' ? 150 : 300)); py = Math.round(px * o.hcm / o.wcm); const cap = 18e6; if (px * py > cap) { px = Math.floor(px * Math.sqrt(cap / (px * py))); py = Math.round(px * o.hcm / o.wcm); } }
   return [px, py];
 }
@@ -4858,13 +5121,14 @@ let pzT = 0, pzTok = 0;
 function pzUpdate(e) {
   const t = e && e.target, id = t && t.id;
   if (t && t.closest && t.closest('#pzChecks') && t.checked && pzSelected().length > PZ_MAX_BOOKS) { t.checked = false; toast('No máximo ' + PZ_MAX_BOOKS + ' livros por cartaz'); }
+  if (id === 'pzSize' && /^ig/.test($('#pzSize').value)) $('#pzRes').value = 'ig';
   const kind = $('#pzKind').value; if (id === 'pzKind' && kind === 'multi' && !pzSelected().length) pzChecks(pzDefaultSel());
   $$('[data-pzf]').forEach(el => { el.hidden = el.dataset.pzf !== kind; });
   if (!e || id === 'pzKind' || id === 'pzUni') pzFillCenter(kind, $('#pzUni').value, e && id !== 'pzKind' ? $('#pzCenter').value : (pzUpdate.want || $('#pzCenter').value));
   const o = pzOpts(), [px, py] = pzDims(o);
   $('#pzHint').textContent = `Ficheiro final: ${PZ_RES[o.res][0]} · ${px}×${py} px.`;
   $('#pzMultiN').textContent = pzSelected().length + ' de ' + PZ_MAX_BOOKS + ' livros escolhidos';
-  const { kind: k2, uni, map, book, title, size, style, bgc, bgx, center, res, mat, desc, list } = o; store.set('sk-pz2', { kind: k2, uni, map, book, title, size, style, bgc, bgx, center, res, mat, desc, list }); store.set('sk-pzsel', pzSelected());
+  const { kind: k2, uni, map, book, title, size, style, bgc, bgx, center, res, mat, desc, list, age } = o; store.set('sk-pz2', { kind: k2, uni, map, book, title, size, style, bgc, bgx, center, res, mat, desc, list, age }); store.set('sk-pzsel', pzSelected());
   $('#pzBgX').hidden = $('#pzBg').value !== 'custom';
   pzLinks(o); pzFavState(o);
   clearTimeout(pzT); pzT = setTimeout(pzPreview, 160);
@@ -4901,7 +5165,7 @@ function pzOpen(pre = {}) {
   $('#pzBook').innerHTML = pzBooks().map(w => `<option value="${w.id}">${esc(titleOf(w))} (${w.y || ''})</option>`).join('');
   $('#pzUni').value = sv.uni; $('#pzMap').value = sv.map; if (BY.has(sv.book)) $('#pzBook').value = sv.book; $('#pzTitleIn').value = sv.title || '';
   $('#pzSize').value = sv.size; $('#pzStyle').value = sv.style; $('#pzBg').value = (PZ_BG[sv.bgc] || sv.bgc === 'custom') ? sv.bgc : 'auto'; $('#pzBgX').value = sv.bgx || '#2a1a4a'; $('#pzRes').value = sv.res in PZ_RES ? sv.res : '3840';
-  $('#pzMat').checked = !!sv.mat; $('#pzDesc').checked = !!sv.desc; $('#pzList').checked = !!sv.list;
+  $('#pzAge').value = ['0', '0.55', '1', '1.4'].includes(String(sv.age)) ? String(sv.age) : '1'; $('#pzMat').checked = !!sv.mat; $('#pzDesc').checked = !!sv.desc; $('#pzList').checked = !!sv.list;
   if (!pre.bgc && !pre.style) pzApplyFav();
   pzChecks(sel); pzUpdate.want = sv.center; if (!pzDlg.open) pzDlg.showModal(); pzUpdate(); pzUpdate.want = null;
 }
@@ -4929,10 +5193,11 @@ async function pzExport(kind) {
   } catch (e) { toast('Não foi possível gerar o cartaz'); }
   finally { btns.forEach(b => b.disabled = false); }
 }
-const pzFavFields = ['style', 'bgc', 'bgx', 'mat', 'desc', 'list'];
+const pzFavFields = ['style', 'bgc', 'bgx', 'age', 'mat', 'desc', 'list'];
 function pzApplyFav() {
   const f = store.get('sk-pzfav', {})[pzKey(pzOpts())]; if (!f) return;
   if (f.style) $('#pzStyle').value = f.style; if (f.bgc) $('#pzBg').value = f.bgc; if (f.bgx) $('#pzBgX').value = f.bgx;
+  if (f.age != null && ['0', '0.55', '1', '1.4'].includes(String(f.age))) $('#pzAge').value = String(f.age);
   $('#pzMat').checked = !!f.mat; $('#pzDesc').checked = !!f.desc; $('#pzList').checked = !!f.list;
 }
 ['pzKind', 'pzUni', 'pzMap', 'pzBook'].forEach(id => $('#' + id).addEventListener('change', pzApplyFav));
@@ -4962,14 +5227,14 @@ document.addEventListener('click', e => {
 async function pzThumbs(root) {
   for (const cv of $$('canvas[data-k]', root)) {
     if (cv.dataset.done) continue; cv.dataset.done = '1';
-    try { const o = { kind: cv.dataset.k, px: 316, wcm: 21, hcm: 29.7, style: 'night', center: cv.dataset.c, mat: true, desc: false, list: false, noCovers: true }; if (o.kind === 'uni') o.uni = cv.dataset.a; if (o.kind === 'map') o.map = cv.dataset.a;
+    try { const o = { kind: cv.dataset.k, px: 316, wcm: 21, hcm: 29.7, style: 'night', center: cv.dataset.c, mat: true, desc: false, list: false, noCovers: true, age: prefs.vintage !== false ? 1 : 0 }; if (o.kind === 'uni') o.uni = cv.dataset.a; if (o.kind === 'map') o.map = cv.dataset.a;
       const s = await drawPoster(o); cv.width = s.width; cv.height = s.height; cv.getContext('2d').drawImage(s, 0, 0); } catch (e) {}
   }
 }
 const pzTile = (pz, k, a, c, label) => `<button type="button" class="poster-thumb" data-pz="${pz}" aria-label="Criar cartaz: ${esc(label)}"><canvas data-k="${k}" data-a="${a}" data-c="${c}" width="316" height="447"></canvas><span>${esc(label)}</span></button>`;
 function renderPosterBar() {
   const box = $('#posterBar'); if (!box) return;
-  box.innerHTML = `<p class="eyebrow">Para pendurar na parede</p><h2 style="margin:4px 0 6px">Cartazes para quadro</h2><p style="color:var(--muted);margin:0;max-width:64ch">Um cartaz de cada universo, desenhado para imprimir e emoldurar (de A4 a 50×70 cm), em Full HD, 4K ou 300 dpi. Toque num para personalizar. Mais opções — um livro, vários livros, mapas e ilustrações — no Kit do Fã.</p>
+  box.innerHTML = `<p class="eyebrow">Para pendurar na parede</p><h2 style="margin:4px 0 6px">Cartazes para quadro</h2><p style="color:var(--muted);margin:0;max-width:64ch">Um cartaz de cada universo, desenhado para imprimir e emoldurar (de A4 a 50×70 cm), em Full HD, 4K ou 300 dpi. Toque num para personalizar. Mais opções — um livro, vários livros, mapas e ilustrações — na secção Eu sou sua fã número um.</p>
     <div class="poster-strip">${[{ id: 'all', n: 'Todos os universos' }, ...UNIVERSES].map(u => pzTile('uni:' + u.id + ':covers', 'uni', u.id, 'stars', u.n)).join('')}</div>`;
   pzThumbs(box);
 }
