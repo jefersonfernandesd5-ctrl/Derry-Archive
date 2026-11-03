@@ -43,13 +43,14 @@ a{color:var(--bone)}
 .skip:focus{top:12px}
 
 /* ---------- atmosfera: grão, vinheta, neblina ---------- */
-.grain{position:fixed;inset:-50%;pointer-events:none;z-index:60;opacity:.07;
+.grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.07;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .9 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation:grain 1.2s steps(6) infinite}
+  }
+html.motion-full .grain{inset:-50%;animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:59;background:radial-gradient(ellipse at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)}
 .fog{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:.55}
-.fog i{position:absolute;width:160%;height:60%;left:-30%;border-radius:50%;filter:blur(60px);
+.fog i{position:absolute;width:160%;height:60%;left:-30%;border-radius:50%;will-change:transform;
   background:radial-gradient(ellipse at center,rgba(140,120,110,.16),transparent 65%);animation:drift 38s ease-in-out infinite alternate}
 .fog i:nth-child(1){top:55%}
 .fog i:nth-child(2){top:70%;animation-duration:52s;animation-delay:-12s;background:radial-gradient(ellipse at center,rgba(120,30,30,.12),transparent 65%)}
@@ -104,11 +105,29 @@ body.no-fog .fog,body.no-fog .grain{display:none}
   .nav a:hover:not([aria-current="page"]){background:rgba(255,255,255,.04)}
 }
 
+.nav-more{position:relative;display:flex}
+.nav-more-btn{font:inherit;font-size:.86rem;font-weight:600;background:none;border:0;cursor:pointer;color:var(--muted);padding:8px 15px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;transition:color .25s,background .25s}
+.nav-more-btn svg{width:12px;height:12px;transition:transform .25s var(--ease)}
+.nav-more-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.nav-more-btn:hover,.nav-more.open .nav-more-btn,.nav-more.has-current .nav-more-btn{color:var(--bone)}
+.nav-more.has-current .nav-more-btn{background:rgba(209,52,47,.14);box-shadow:inset 0 0 0 1px rgba(209,52,47,.35)}
+.nav-pop{position:absolute;top:calc(100% + 8px);right:0;min-width:190px;display:grid;gap:2px;padding:6px;background:rgba(14,11,10,.98);border:1px solid var(--line2);border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,transform .2s var(--ease),visibility .2s;z-index:5}
+.nav-more.open .nav-pop{opacity:1;visibility:visible;transform:none}
+.nav .nav-pop a{padding:10px 14px;border-radius:8px}
+@media (max-width:1180px){
+  .nav-more,.nav-pop{display:contents}
+  .nav-more-btn{display:none}
+  .nav-pop{opacity:1;visibility:visible;transform:none}
+}
+.to-top{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:55;width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:rgba(14,11,10,.9);color:var(--bone);cursor:pointer;display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s,transform .25s var(--ease),visibility .25s,border-color .2s}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{border-color:var(--red2)}
+.to-top svg{width:18px;height:18px}
 /* ---------- layout ---------- */
 main{position:relative;z-index:1}
 .view{display:none}
-.view.active{display:block;animation:viewIn .7s var(--ease)}
-@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.view.active{display:block;animation:viewIn .38s var(--ease)}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
 .page-head{padding:clamp(42px,7vw,86px) 0 26px}
 .eyebrow{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--red2);font-weight:700;margin:0 0 10px}
@@ -474,9 +493,14 @@ dialog[open] .sheet{animation:sheetIn .55s var(--ease)}
 .switch:checked::after{transform:translateX(20px)}
 
 /* ---------- rodapé, toast, revelação ---------- */
-footer{position:relative;z-index:1;border-top:1px solid var(--line);margin-top:40px;padding:36px 0 50px;color:var(--muted);font-size:.82rem}
+footer{content-visibility:auto;contain-intrinsic-size:auto 260px;position:relative;z-index:1;border-top:1px solid var(--line);margin-top:40px;padding:36px 0 50px;color:var(--muted);font-size:.82rem}
 footer .wrap{display:grid;gap:10px}
 footer a{color:var(--text)}
+.support{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:12px;padding:16px 18px;margin-bottom:14px;display:grid;gap:8px}
+.support h3{margin:0;font-size:1.05rem;color:var(--bone)}
+.support p{margin:0}
+.support-row{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.support-key{font-size:.82rem;color:var(--text);background:rgba(10,8,7,.5);border:1px solid var(--line2);border-radius:8px;padding:5px 9px;user-select:all;word-break:break-all}
 .toast{position:fixed;left:50%;bottom:22px;z-index:200;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:var(--surface2);border:1px solid var(--line2);padding:11px 18px;border-radius:999px;font-size:.86rem;font-weight:600;box-shadow:0 18px 40px -12px #000;transition:all .4s var(--ease);max-width:calc(100% - 32px)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0ms)}
@@ -757,7 +781,7 @@ html.reduce #omens,html.reduce .om-cap{display:none}
 .xl-sec h2{margin:4px 0 6px}
 .xl-sec .lead2{color:var(--muted);margin:0}
 .xl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:12px;margin:18px 0 8px}
-.xl{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--uc,var(--red));border-radius:12px;padding:14px 16px;display:grid;gap:8px}
+.xl{content-visibility:auto;contain-intrinsic-size:auto 120px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--uc,var(--red));border-radius:12px;padding:14px 16px;display:grid;gap:8px}
 .xl .pair{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .xl .pair i{font-style:normal;color:var(--muted)}
 .xl button,.xlinks button{font:inherit;font-size:.8rem;padding:4px 10px;border-radius:999px;border:1px solid var(--line2);background:rgba(10,8,7,.4);cursor:pointer;color:var(--text);transition:border-color .2s,color .2s}
@@ -791,10 +815,16 @@ if(p.fs)d.style.setProperty('--fs',p.fs);}catch(e){}})();
       <a href="#bibliografia">Bibliografia</a>
       <a href="#filmografia">Adaptações</a>
       <a href="#universos">Universos</a>
-      <a href="#biografia">Biografia</a>
-      <a href="#galeria">Galeria</a>
-      <a href="#kit">Kit do Fã</a>
       <a href="#estante">A minha estante</a>
+      <div class="nav-more" id="navMore">
+        <button type="button" class="nav-more-btn" id="navMoreBtn" aria-haspopup="true" aria-expanded="false" aria-controls="navPop">Mais
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="nav-pop" id="navPop" role="group" aria-label="Mais secções">
+          <a href="#biografia">Biografia</a>
+          <a href="#galeria">Galeria</a>
+          <a href="#kit">Kit do Fã</a>
+        </div>
+      </div>
     </nav>
     <button class="search-trigger" id="openSearch" aria-label="Pesquisar (atalho /)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -830,11 +860,6 @@ if(p.fs)d.style.setProperty('--fs',p.fs);}catch(e){}})();
       <h1 id="h-inicio" aria-label="Stephen King">
         <span class="split">Stephen</span><br><em class="split">King</em>
       </h1>
-      <div class="ctas">
-        <a class="btn primary" href="#cronologia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 8h14M7 16h10"/></svg>Explorar a cronologia</a>
-        <a class="btn" href="#bibliografia">Bibliografia</a>
-        <a class="btn" href="#filmografia">Adaptações</a>
-      </div>
     </div>
   </div>
   <div class="wrap">
@@ -1025,8 +1050,18 @@ if(p.fs)d.style.setProperty('--fs',p.fs);}catch(e){}})();
 </section>
 </main>
 
+<button type="button" class="to-top" id="toTop" aria-label="Voltar ao topo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button>
 <footer>
   <div class="wrap">
+    <section class="support" id="apoio" aria-labelledby="apoioT">
+      <h3 id="apoioT">Ajude o projeto</h3>
+      <p>O Derry Archive é gratuito e feito por um fã. Se gostou, pode apoiar com o valor que quiser — ajuda a manter o site e a criar novidades.</p>
+      <div class="support-row">
+        <button type="button" class="btn sm" data-copy="jeferson.fernadesd5@gmail.com" data-copied="Chave Pix copiada">Pix · copiar chave</button>
+        <code class="support-key">jeferson.fernadesd5@gmail.com</code>
+        <a class="btn sm" href="https://revolut.me/jefefnds" target="_blank" rel="noopener">Revolut · @jefefnds</a>
+      </div>
+    </section>
     <p><b style="color:var(--bone)">Derry Archive</b> — enciclopédia não oficial, feita por fãs, sem afiliação com Stephen King ou os seus editores. Dados revistos em novembro de 2026.</p>
     <p>Capas, cartazes e resumos enciclopédicos são carregados em tempo real da <a href="https://www.wikipedia.org" target="_blank" rel="noopener">Wikipédia</a> e da <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a>; as fotografias do Kit do Fã vêm da <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, com autor e licença indicados em cada uma, com ligação à fonte em cada ficha. Títulos brasileiros só são mostrados quando confirmados; caso contrário, aparece «não confirmado».</p>
   </div>
@@ -1783,6 +1818,7 @@ function route() {
   $$('.view').forEach(s => s.classList.toggle('active', s.dataset.view === v));
   $$('.nav a').forEach(a => a.getAttribute('href') === '#' + v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
   if (!rendered[v] || v === 'estante') { RENDER[v](); rendered[v] = true; }
+  $('#navMore').classList.toggle('has-current', !!$('#navPop [aria-current]'));
   closeMenu();
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   const titles = { inicio: 'Enciclopédia Stephen King', cronologia: 'Cronologia', bibliografia: 'Bibliografia', filmografia: 'Adaptações', universos: 'Universos partilhados', biografia: 'Biografia', galeria: 'Galeria', kit: 'Kit do Fã', estante: 'A minha estante' };
@@ -1834,15 +1870,18 @@ document.addEventListener('click', e => {
 
 /* parallax do herói */
 let ticking = false;
+let depthEls = null;
 function parallax() {
   ticking = false;
   const y = window.scrollY;
   $('#top').classList.toggle('scrolled', y > 30);
+  $('#toTop').classList.toggle('show', y > 900);
+  updateTlProgress();
   if (!$('#v-inicio').classList.contains('active') || !prefs.parallax || reduced()) return;
-  $$('[data-depth]').forEach(el => { el.style.transform = `translate3d(${(px * +el.dataset.depth * 40).toFixed(1)}px,${(y * +el.dataset.depth).toFixed(1)}px,0)`; });
+  (depthEls || (depthEls = $$('[data-depth]'))).forEach(el => { el.style.transform = `translate3d(${(px * +el.dataset.depth * 40).toFixed(1)}px,${(y * +el.dataset.depth).toFixed(1)}px,0)`; });
 }
 let px = 0;
-window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(parallax); updateTlProgress(); } }, { passive: true });
+window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(parallax); } }, { passive: true });
 window.addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; px = e.clientX / innerWidth - .5; if (!ticking) { ticking = true; requestAnimationFrame(parallax); } }, { passive: true });
 
 /* ============================== cronologia ============================== */
@@ -3039,10 +3078,21 @@ const topEl = $('#top');
 const setHdr = () => document.documentElement.style.setProperty('--hdr', topEl.offsetHeight + 'px');
 setHdr(); addEventListener('resize', setHdr); if ('ResizeObserver' in window) new ResizeObserver(setHdr).observe(topEl);
 const menuBtn = $('#menuBtn'), nav = $('#nav');
-function closeMenu() { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }
+const navMore = $('#navMore'), navMoreBtn = $('#navMoreBtn');
+function closeMore() { navMore.classList.remove('open'); navMoreBtn.setAttribute('aria-expanded', 'false'); }
+navMoreBtn.addEventListener('click', e => { e.stopPropagation(); const o = !navMore.classList.contains('open'); navMore.classList.toggle('open', o); navMoreBtn.setAttribute('aria-expanded', o); });
+document.addEventListener('click', e => { if (!e.target.closest('#navMore')) closeMore(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && navMore.classList.contains('open')) { closeMore(); navMoreBtn.focus(); } });
+$('#toTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }));
+function closeMenu() { closeMore(); nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }
 menuBtn.addEventListener('click', () => { const o = !nav.classList.contains('open'); nav.classList.toggle('open', o); menuBtn.setAttribute('aria-expanded', o); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('open')) { closeMenu(); menuBtn.focus(); } });
 let toastT;
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copy); toast(b.dataset.copied || 'Copiado'); }
+  catch (er) { toast('Não foi possível copiar — selecione o texto'); }
+});
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2200); }
 
 /* ============================== som ambiente (gerado, sem ficheiros) ============================== */
