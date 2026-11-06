@@ -1048,6 +1048,149 @@ html[data-theme=light] .constellation{background:radial-gradient(ellipse at cent
 .sk-empty b{display:block;font-family:var(--serif);font-size:1.5rem;color:var(--bone)}
 @media (max-width:900px){.sk-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.sk-hero{grid-template-columns:1fr;justify-items:center;text-align:center}.sk-hero .bars{text-align:left;width:100%}}
 @media (max-width:560px){.sk-tab{padding:10px 10px 12px}.sk-tab b{font-size:1.5rem}.sk-tab span{font-size:.64rem}.sk-row{gap:12px!important}.sk-item{grid-template-columns:44px minmax(0,1fr)}.sk-item .cover{width:44px}.sk-item .rt{grid-column:2;flex-direction:row;align-items:center;flex-wrap:wrap}.sk-bar .cnt{margin-left:0;width:100%}}
+
+/* ==========================================================================
+   AJUSTES DE UNIFORMIDADE (v2) — capa giratória, trailer, botões e responsividade
+   ========================================================================== */
+/* --- ficha: capa giratória original ⇄ português --- */
+.covers-pair{display:grid;gap:12px;align-content:start}
+.flip{position:relative;perspective:1400px}
+.flip-in{position:relative;display:grid;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.2,.75,.2,1)}
+.flip-face{grid-area:1/1;margin:0;position:relative;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r-sm,8px);box-shadow:0 26px 50px -20px rgba(0,0,0,.85)}
+.flip-face .cover{border-radius:var(--r-sm,8px)}
+.flip-face.back{transform:rotateY(180deg)}
+.flip-face.back .cover img{opacity:0;transition:opacity .5s}
+.flip-face.back .cover img.on{opacity:1}
+.flip[data-side="pt"] .flip-in{transform:rotateY(180deg)}
+@media (hover:hover){
+  .flip.has-back{cursor:pointer}
+  .flip.has-back:hover .flip-in{transform:rotateY(180deg)}
+  .flip.has-back[data-side="pt"]:hover .flip-in{transform:rotateY(360deg)}
+}
+html.reduce .flip-in{transition:none}
+.face-tag{position:absolute;left:8px;top:8px;z-index:6;padding:5px 9px;border-radius:999px;background:rgba(10,8,7,.74);color:#f1e9dc;font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;line-height:1;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);pointer-events:none;opacity:0;transition:opacity .3s}
+.flip.has-back .face-tag,.flip:hover .face-tag{opacity:1}
+.cv-switch{display:grid;grid-template-columns:1fr 1fr;padding:3px;border-radius:999px;border:1px solid var(--line2);background:rgba(var(--ink-rgb),.55)}
+.cv-switch button{height:32px;border:0;border-radius:999px;background:none;color:var(--muted);font:inherit;font-weight:700;font-size:.76rem;cursor:pointer;transition:background .25s,color .25s}
+.cv-switch button:hover:not(:disabled){color:var(--bone)}
+.cv-switch button[aria-pressed="true"]{background:var(--red);color:#fff}
+.cv-switch button:disabled{opacity:.4;cursor:not-allowed}
+.cv-note{margin:0;display:grid;gap:3px;font-size:.76rem;line-height:1.45;color:var(--muted)}
+.cv-note b{color:var(--bone);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+.cv-note a{color:var(--red2);font-weight:700;text-decoration:none}
+.cv-note a:hover{text-decoration:underline}
+@media (max-width:700px){
+  .covers-pair,.covers-pair.has-pt{grid-template-columns:minmax(0,150px) minmax(0,1fr);align-items:start;column-gap:16px}
+  .covers-pair .flip{grid-row:1/span 3}
+}
+
+/* --- cartões: ao passar o rato a capa gira e mostra a outra versão --- */
+.card .cv{perspective:1000px}
+.card .cover.can-flip{transition:transform .75s cubic-bezier(.2,.75,.2,1)}
+.card .cover img.alt{transform:scaleX(-1);opacity:0;transition:opacity 0s .3s}
+.card .cover .alt-tag{position:absolute;right:8px;bottom:8px;z-index:6;transform:scaleX(-1);padding:4px 8px;border-radius:999px;background:rgba(10,8,7,.78);color:#f1e9dc;font-size:.56rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;line-height:1;opacity:0;transition:opacity 0s .3s;pointer-events:none}
+@media (hover:hover){
+  .card:hover .cover.can-flip{transform:rotateY(180deg)}
+  .card:hover .cover.can-flip > img:not(.alt){opacity:0;transition:opacity 0s .3s}
+  .card:hover .cover.can-flip img.alt{opacity:1;transform:scaleX(-1) scale(1.04)}
+  .card:hover .cover.can-flip .alt-tag{opacity:1}
+}
+html.reduce .card:hover .cover.can-flip{transform:none}
+html.reduce .card:hover .cover.can-flip img.alt,html.reduce .card .cover .alt-tag{transform:none}
+
+/* --- trailer: cartão do YouTube --- */
+.yt-card{position:relative;display:flex;align-items:flex-end;min-height:clamp(170px,26vw,260px);padding:clamp(16px,3vw,26px);border-radius:var(--r,14px);overflow:hidden;isolation:isolate;text-decoration:none;color:#f3ece0;border:1px solid var(--line2);background:#0b0908;transition:border-color .25s}
+.yt-card:hover{border-color:var(--red)}
+.yt-bg{position:absolute;inset:-12px;z-index:-2;background-image:linear-gradient(135deg,#3a1513,#0b0908);background-size:cover;background-position:center 30%;filter:blur(3px) brightness(.45) saturate(1.1);transform:scale(1.04);transition:transform .9s var(--ease),filter .5s}
+.yt-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(8,6,5,.1) 20%,rgba(8,6,5,.88))}
+.yt-card:hover .yt-bg{transform:scale(1.09);filter:blur(1px) brightness(.55) saturate(1.15)}
+.yt-play{position:absolute;left:50%;top:44%;width:68px;height:68px;margin:-34px 0 0 -34px;display:grid;place-items:center;border-radius:50%;background:var(--red);color:#fff;box-shadow:0 14px 40px -8px rgba(166,27,27,.7);transition:transform .35s var(--ease),background .25s}
+.yt-play svg{width:30px;height:30px;margin-left:3px}
+.yt-card:hover .yt-play{transform:scale(1.1);background:var(--red2)}
+.yt-txt{display:grid;gap:3px}
+.yt-txt b{font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.4rem);font-weight:700}
+.yt-txt small{font-size:.8rem;color:rgba(243,236,224,.72)}
+.yt-opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.trailer-sec .trailer{display:none}
+
+/* --- botões e controlos: mesma altura, sem sublinhados, foco visível --- */
+a.toggle{text-decoration:none;color:inherit}
+.toggle,.btn.sm{height:38px}
+.toggle:hover{transform:translateY(-1px)}
+.toggle:active,.btn:active{transform:translateY(0) scale(.98)}
+.toggle:focus-visible,.btn:focus-visible,.cv-switch button:focus-visible,.yt-card:focus-visible,.card:focus-visible,.chip:focus-visible,.icon-btn:focus-visible{outline:2px solid var(--red2);outline-offset:3px}
+.sheet .actions{gap:8px}
+.sx-row input[type="checkbox"],.sheet input[type="checkbox"]:not(.switch){width:18px;height:18px;padding:0;margin:0;flex:none;accent-color:var(--red);border-radius:4px;cursor:pointer}
+.sheet-body section > h3{display:flex;align-items:center;gap:10px}
+.sheet-body section > h3::before{content:"";width:4px;height:1em;border-radius:2px;background:var(--red)}
+.sheet{scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.watch .wrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px}
+
+/* --- responsividade geral --- */
+@media (max-width:700px){
+  .sheet .actions{gap:6px}
+  .sheet .actions .toggle,.sheet .actions .btn.sm{flex:1 1 auto;justify-content:center}
+  .yt-opts .toggle{flex:1 1 auto;justify-content:center}
+  .sheet h2{font-size:clamp(1.8rem,8vw,2.4rem)}
+  #detailSheet .sheet-hero{padding-top:64px}
+}
+@media (max-width:420px){
+  .covers-pair,.covers-pair.has-pt{grid-template-columns:minmax(0,120px) minmax(0,1fr)}
+}
+/* barra de filtros: numa só linha sempre que cabe, sem sobrepor os cartões */
+.toolbar{background:linear-gradient(180deg,rgba(var(--ink-rgb),.97) 82%,rgba(var(--ink-rgb),0))}
+.toolbar-in .field{flex:1.2 1 200px}
+.toolbar-in > select,.toolbar-in > label:not(.field){flex:1 1 150px;min-width:0}
+.toolbar-in > label:not(.field) select{width:100%;min-width:0;text-overflow:ellipsis}
+@media (max-width:640px){.toolbar-in > select,.toolbar-in > label:not(.field){flex:1 1 calc(50% - 6px)}}
+
+/* ==========================================================================
+   FUNDO CONTÍNUO — cena do universo King fixa atrás de todas as páginas
+   ========================================================================== */
+html{background-color:var(--bg)}
+body{background-color:transparent!important}
+.sk-world{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;transform:translateZ(0)}
+.sk-world svg{position:absolute;left:0;bottom:0;width:100%;height:112%;transform:translateY(calc(var(--sk-p,0) * 6%));transition:transform .2s linear}
+.sk-world::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(var(--ink-rgb),.15) 0%,rgba(var(--ink-rgb),.05) 35%,rgba(var(--ink-rgb),.55) 100%),
+  rgba(var(--ink-rgb),calc(.12 + var(--sk-dim,0) * .5));transition:background-color .4s}
+.sk-balloon{transform-box:fill-box;transform-origin:50% 0;animation:skFloat 9s ease-in-out infinite alternate}
+@keyframes skFloat{0%{transform:translate(0,0) rotate(-2deg)}50%{transform:translate(-14px,-22px) rotate(2deg)}100%{transform:translate(10px,-40px) rotate(-1deg)}}
+.sk-crows{animation:skCrows 60s linear infinite}
+@keyframes skCrows{from{transform:translateX(-200px)}to{transform:translateX(1400px)}}
+.sk-stars{animation:skTwinkle 6s ease-in-out infinite alternate}
+@keyframes skTwinkle{from{opacity:.6}to{opacity:1}}
+html.reduce .sk-balloon,html.reduce .sk-crows,html.reduce .sk-stars{animation:none}
+/* ecrãs verticais: enquadra a lua, o balão e Derry em vez do centro */
+@media (max-aspect-ratio:1/1){.sk-world svg{left:50%;width:auto;aspect-ratio:16/9;transform:translate(-70%,calc(var(--sk-p,0) * 6%))}}
+@media (prefers-reduced-motion:reduce){html:not(.motion-full) .sk-balloon,html:not(.motion-full) .sk-crows{animation:none}}
+/* o herói fica transparente: a cena atravessa a página sem cortes de cor */
+.hero{overflow:visible}
+.hero-bg{background:none!important}
+.hero-trees{display:none}
+.hero::after{display:none}
+.hero-moon{display:none}
+#v-cronologia{overflow:visible}
+footer{background:linear-gradient(180deg,rgba(var(--ink-rgb),0),rgba(var(--ink-rgb),.7))}
+/* modo claro: as mesmas definições do escuro — cena, aparições, neblina e grão —
+   com um véu claro por cima da cena para o texto escuro continuar legível */
+html[data-theme=light] body:not(.no-fog) .fog,html[data-theme=light] body:not(.no-fog) .grain{display:block}
+html[data-theme=light] .vignette{display:block;background:radial-gradient(ellipse at 50% 40%,transparent 60%,rgba(60,40,30,.22) 100%)}
+html[data-theme=light] .sk-world::after{background:
+  linear-gradient(180deg,rgba(245,239,226,.62) 0%,rgba(245,239,226,.42) 40%,rgba(245,239,226,.72) 100%),
+  rgba(245,239,226,calc(var(--sk-dim,0) * .3))}
+html[data-theme=light] .hero h1{text-shadow:0 6px 30px rgba(245,239,226,.9)}
+/* as aparições e a neblina passam para trás do conteúdo, junto com o fundo (o conteúdo está em main, z-index 1) */
+#omens{z-index:0;opacity:.5;filter:blur(1.6px) saturate(.7) brightness(.9);transition:opacity .6s}
+.sk-balloon,.sk-crows{filter:blur(.8px)}
+.sk-world svg{filter:blur(.4px)}
+html[data-theme=light] #omens{opacity:.42;filter:blur(1.6px) saturate(.6)}
+.fog{opacity:.7}
+
+/* novidades do arquivo (Wikidata) */
+.live-pill{position:fixed;left:50%;top:calc(var(--hdr,64px) + 12px);z-index:70;transform:translate(-50%,-12px);opacity:0;display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 8px 0 16px;border-radius:999px;border:1px solid var(--line2);background:rgba(var(--ink-rgb),.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--bone);font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:0 14px 40px -12px #000;transition:opacity .5s,transform .5s var(--ease)}
+.live-pill.show{opacity:1;transform:translate(-50%,0)}
+.live-pill b{height:28px;display:inline-grid;place-items:center;padding:0 12px;border-radius:999px;background:var(--red);color:#fff}
 </style>
 <script>
 /* aplica preferências antes de pintar, para evitar flashes */
@@ -1058,6 +1201,46 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
 </head>
 <body>
 <a class="skip" href="#main">Saltar para o conteúdo</a>
+<div class="sk-world" aria-hidden="true"><svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="skSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c0807"/><stop offset=".45" stop-color="#1c0b0a"/><stop offset=".72" stop-color="#2a0f0d"/><stop offset="1" stop-color="#0a0807"/></linearGradient>
+<radialGradient id="skGlow" cx=".8" cy=".32" r=".55"><stop offset="0" stop-color="#a61b1b" stop-opacity=".42"/><stop offset=".5" stop-color="#5a1212" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+<radialGradient id="skMist" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#cdbfae" stop-opacity=".10"/><stop offset="1" stop-color="#cdbfae" stop-opacity="0"/></radialGradient>
+<radialGradient id="skBal" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#ff5a4a"/><stop offset=".55" stop-color="#b3201c"/><stop offset="1" stop-color="#5e0d0b"/></radialGradient>
+</defs>
+<rect width="1600" height="900" fill="url(#skSky)"/>
+<rect width="1600" height="900" fill="url(#skGlow)"/>
+<g class="sk-stars" fill="#ece3d3"><circle cx="1560" cy="17" r="0.7" opacity="0.55"/><circle cx="1332" cy="76" r="1.4" opacity="0.55"/><circle cx="1569" cy="221" r="0.7" opacity="0.55"/><circle cx="1393" cy="56" r="0.7" opacity="0.55"/><circle cx="420" cy="171" r="1.1" opacity="0.55"/><circle cx="1215" cy="419" r="1.1" opacity="0.25"/><circle cx="887" cy="133" r="0.9" opacity="0.55"/><circle cx="364" cy="217" r="1.4" opacity="0.25"/><circle cx="1273" cy="254" r="1.4" opacity="0.25"/><circle cx="913" cy="251" r="1.4" opacity="0.55"/><circle cx="1194" cy="326" r="0.9" opacity="0.55"/><circle cx="916" cy="65" r="0.7" opacity="0.4"/><circle cx="499" cy="345" r="0.9" opacity="0.55"/><circle cx="754" cy="194" r="1.1" opacity="0.25"/><circle cx="900" cy="163" r="0.9" opacity="0.4"/><circle cx="1217" cy="170" r="1.4" opacity="0.55"/><circle cx="386" cy="163" r="0.7" opacity="0.25"/><circle cx="914" cy="264" r="1.4" opacity="0.4"/><circle cx="733" cy="170" r="0.9" opacity="0.55"/><circle cx="1522" cy="72" r="1.4" opacity="0.25"/><circle cx="985" cy="197" r="0.7" opacity="0.25"/><circle cx="1174" cy="108" r="0.7" opacity="0.4"/><circle cx="812" cy="223" r="0.7" opacity="0.4"/><circle cx="376" cy="54" r="0.7" opacity="0.4"/><circle cx="1397" cy="122" r="1.4" opacity="0.4"/><circle cx="745" cy="268" r="0.7" opacity="0.4"/><circle cx="443" cy="183" r="0.7" opacity="0.55"/><circle cx="48" cy="354" r="1.4" opacity="0.4"/><circle cx="762" cy="64" r="0.7" opacity="0.4"/><circle cx="1527" cy="164" r="0.9" opacity="0.25"/><circle cx="519" cy="393" r="0.9" opacity="0.4"/><circle cx="1525" cy="67" r="0.7" opacity="0.55"/><circle cx="1020" cy="160" r="0.7" opacity="0.55"/><circle cx="990" cy="12" r="1.4" opacity="0.25"/><circle cx="29" cy="317" r="1.1" opacity="0.25"/><circle cx="409" cy="353" r="1.1" opacity="0.4"/><circle cx="1408" cy="258" r="0.7" opacity="0.25"/><circle cx="1509" cy="107" r="0.7" opacity="0.25"/><circle cx="1110" cy="317" r="0.9" opacity="0.4"/><circle cx="580" cy="237" r="1.1" opacity="0.55"/><circle cx="1125" cy="160" r="1.1" opacity="0.4"/><circle cx="427" cy="43" r="1.4" opacity="0.4"/><circle cx="880" cy="375" r="0.9" opacity="0.25"/><circle cx="429" cy="320" r="1.4" opacity="0.55"/><circle cx="398" cy="234" r="1.4" opacity="0.25"/><circle cx="1258" cy="197" r="0.7" opacity="0.4"/><circle cx="787" cy="306" r="0.9" opacity="0.55"/><circle cx="616" cy="100" r="0.7" opacity="0.4"/><circle cx="308" cy="266" r="1.1" opacity="0.4"/><circle cx="266" cy="399" r="0.9" opacity="0.25"/><circle cx="400" cy="210" r="1.4" opacity="0.4"/><circle cx="968" cy="142" r="1.1" opacity="0.55"/><circle cx="754" cy="129" r="0.9" opacity="0.55"/><circle cx="1599" cy="213" r="0.9" opacity="0.55"/><circle cx="462" cy="180" r="0.9" opacity="0.4"/><circle cx="1314" cy="200" r="1.1" opacity="0.4"/><circle cx="1199" cy="218" r="0.9" opacity="0.55"/><circle cx="223" cy="341" r="1.1" opacity="0.25"/><circle cx="608" cy="406" r="1.1" opacity="0.4"/><circle cx="347" cy="128" r="0.7" opacity="0.55"/><circle cx="430" cy="137" r="1.4" opacity="0.55"/><circle cx="1414" cy="232" r="0.9" opacity="0.55"/><circle cx="1468" cy="175" r="0.7" opacity="0.55"/><circle cx="84" cy="385" r="1.1" opacity="0.55"/><circle cx="1180" cy="271" r="1.1" opacity="0.4"/><circle cx="582" cy="121" r="1.4" opacity="0.25"/><circle cx="1514" cy="78" r="1.1" opacity="0.25"/><circle cx="1423" cy="243" r="0.9" opacity="0.55"/><circle cx="675" cy="402" r="0.9" opacity="0.55"/><circle cx="1352" cy="158" r="1.4" opacity="0.55"/></g>
+<radialGradient id="skMoon" cx=".38" cy=".36" r=".7"><stop offset="0" stop-color="#f3e7d2"/><stop offset=".4" stop-color="#cdb999"/><stop offset=".75" stop-color="#7d6a54"/><stop offset="1" stop-color="#3a2e25"/></radialGradient>
+<radialGradient id="skHalo" cx=".5" cy=".5" r=".5"><stop offset=".35" stop-color="#f3dcbe" stop-opacity=".16"/><stop offset=".6" stop-color="#a61b1b" stop-opacity=".14"/><stop offset="1" stop-color="#a61b1b" stop-opacity="0"/></radialGradient>
+<circle cx="1250" cy="400" r="300" fill="url(#skHalo)"/><circle class="sk-moon" cx="1250" cy="400" r="128" fill="url(#skMoon)" opacity=".88"/>
+<!-- a Torre Negra no horizonte -->
+<g fill="#1a0e0d" opacity=".9"><path d="M226 700L236 452L230 446L240 420L246 404L252 420L262 446L256 452L266 700Z"/><path d="M240 420l-6-14 6 4 6-16 6 16 6-4-6 14z"/><rect x="243" y="470" width="5" height="9" fill="#c9442f" opacity=".7"/><rect x="244" y="540" width="4" height="7" fill="#c9442f" opacity=".45"/></g>
+<!-- campo de rosas vermelhas aos pés da torre -->
+<g fill="#7d1714" opacity=".55"><circle cx="238" cy="704" r="2"/><circle cx="256" cy="708" r="1.6"/><circle cx="220" cy="708" r="2.4"/><circle cx="294" cy="703" r="1.6"/><circle cx="171" cy="706" r="1.6"/><circle cx="288" cy="714" r="2.4"/><circle cx="236" cy="712" r="2.4"/><circle cx="310" cy="705" r="1.6"/><circle cx="239" cy="704" r="1.6"/><circle cx="219" cy="713" r="2.4"/><circle cx="310" cy="703" r="2"/><circle cx="281" cy="702" r="1.6"/><circle cx="336" cy="702" r="1.6"/><circle cx="273" cy="715" r="2.4"/><circle cx="322" cy="706" r="2"/><circle cx="195" cy="714" r="1.6"/><circle cx="263" cy="716" r="1.6"/><circle cx="314" cy="712" r="2.4"/><circle cx="287" cy="711" r="2.4"/><circle cx="203" cy="713" r="2"/><circle cx="206" cy="705" r="2.4"/><circle cx="205" cy="704" r="2"/><circle cx="264" cy="700" r="2"/><circle cx="282" cy="704" r="2"/><circle cx="221" cy="702" r="2.4"/><circle cx="187" cy="709" r="2.4"/><circle cx="260" cy="716" r="2"/><circle cx="275" cy="716" r="1.6"/><circle cx="289" cy="712" r="2.4"/><circle cx="301" cy="706" r="1.6"/><circle cx="279" cy="716" r="2.4"/><circle cx="284" cy="712" r="1.6"/><circle cx="213" cy="705" r="1.6"/><circle cx="204" cy="709" r="2.4"/><circle cx="182" cy="708" r="1.6"/><circle cx="241" cy="709" r="1.6"/><circle cx="285" cy="710" r="2"/><circle cx="262" cy="705" r="1.6"/><circle cx="335" cy="716" r="2"/><circle cx="204" cy="702" r="2"/></g>
+<!-- colinas distantes -->
+<path fill="#150b0a" d="M0 720C140 690 260 700 400 676S640 650 780 668 1060 640 1200 610 1460 600 1600 624V900H0Z"/>
+<!-- hotel isolado na montanha -->
+<g><path fill="#120908" d="M1180 640L1300 560L1420 590L1560 540L1600 556V900H1180Z"/>
+<path fill="#1a0f0d" d="M1318 586h150v-26l-12-10h-126l-12 10z"/><path fill="#1a0f0d" d="M1380 550l14-14 14 14z"/>
+<g fill="#d9a85c" opacity=".55"><rect x="1328" y="566" width="5" height="6"/><rect x="1346" y="566" width="5" height="6"/><rect x="1400" y="566" width="5" height="6"/><rect x="1436" y="566" width="5" height="6"/><rect x="1454" y="574" width="5" height="6"/><rect x="1364" y="574" width="5" height="6"/></g></g>
+<!-- névoa -->
+<ellipse cx="420" cy="720" rx="520" ry="70" fill="url(#skMist)"/><ellipse cx="1180" cy="700" rx="560" ry="80" fill="url(#skMist)"/>
+<!-- Derry: casas, igreja e a caixa-d'água -->
+<g fill="#0f0807"><path d="M560 735V701L579 685L598 701V735ZM601 735V709L616 697L631 709V735ZM636 735V695L659 677L682 695V735ZM691 735V705L708 691L725 705V735ZM734 735V699L760 679L786 699V735ZM790 735V711L804 701L818 711V735ZM821 735V703L841 687L861 703V735ZM867 735V707L885 693L903 707V735ZM911 735V697L933 679L955 697V735Z"/>
+<path d="M1000 735V650h26v85zM1004 650l9-60 9 60z"/><path d="M1012 598v-14M1007 590h11" stroke="#0f0807" stroke-width="2"/>
+<path d="M808 735V588h44v147z"/><path d="M802 588h56v-8h-56z"/><path d="M806 580l24-18 24 18z"/>
+</g>
+<g fill="#d9a85c" opacity=".6"><rect x="915" y="718" width="4" height="5"/><rect x="867" y="710" width="4" height="5"/><rect x="952" y="708" width="4" height="5"/><rect x="621" y="715" width="4" height="5"/><rect x="623" y="711" width="4" height="5"/><rect x="740" y="721" width="4" height="5"/><rect x="643" y="709" width="4" height="5"/><rect x="881" y="717" width="4" height="5"/><rect x="837" y="720" width="4" height="5"/><rect x="717" y="715" width="4" height="5"/><rect x="954" y="712" width="4" height="5"/><rect x="912" y="709" width="4" height="5"/><rect x="800" y="720" width="4" height="5"/><rect x="818" y="725" width="4" height="5"/><rect x="816" y="596" width="28" height="2" opacity=".35"/></g>
+<!-- floresta -->
+<path class="sk-far" fill="#0d0807" d="M-60 760L-40 659L-20 760ZM-56 732L-40 659L-24 732ZM-51 704L-40 659L-29 704ZM-37 760L-20 669L-3 760ZM-33 735L-20 669L-6 735ZM-29 709L-20 669L-10 709ZM-9 760L6 683L21 760ZM-6 738L6 683L18 738ZM-2 717L6 683L15 717ZM7 760L23 684L40 760ZM10 739L23 684L36 739ZM14 718L23 684L33 718ZM24 760L41 694L57 760ZM28 741L41 694L54 741ZM31 723L41 694L50 723ZM43 760L58 666L74 760ZM46 734L58 666L70 734ZM50 707L58 666L67 707ZM55 760L73 688L91 760ZM59 740L73 688L87 740ZM63 720L73 688L83 720ZM71 760L92 656L112 760ZM76 731L92 656L108 731ZM80 702L92 656L103 702ZM91 760L111 694L131 760ZM95 742L111 694L126 742ZM100 723L111 694L122 723ZM115 760L134 676L153 760ZM119 737L134 676L149 737ZM123 713L134 676L145 713ZM131 760L151 645L172 760ZM135 728L151 645L168 728ZM140 696L151 645L163 696ZM159 760L175 643L191 760ZM163 727L175 643L187 727ZM166 694L175 643L184 694ZM175 760L195 656L216 760ZM180 731L195 656L211 731ZM184 702L195 656L207 702ZM195 760L214 692L233 760ZM199 741L214 692L229 741ZM204 722L214 692L225 722ZM215 760L229 658L243 760ZM218 731L229 658L240 731ZM222 703L229 658L237 703ZM234 760L249 671L264 760ZM237 735L249 671L261 735ZM240 710L249 671L257 710ZM252 760L269 670L286 760ZM255 735L269 670L282 735ZM259 710L269 670L278 710ZM272 760L293 648L315 760ZM277 729L293 648L310 729ZM282 697L293 648L305 697ZM293 760L310 698L327 760ZM297 743L310 698L324 743ZM301 726L310 698L320 726ZM310 760L326 658L342 760ZM313 731L326 658L338 731ZM317 703L326 658L335 703ZM324 760L341 683L358 760ZM328 738L341 683L355 738ZM332 717L341 683L351 717ZM348 760L364 672L380 760ZM351 735L364 672L377 735ZM355 711L364 672L373 711ZM371 760L386 697L402 760ZM374 742L386 697L398 742ZM377 725L386 697L395 725ZM394 760L408 655L423 760ZM397 731L408 655L420 731ZM400 701L408 655L417 701ZM404 760L423 670L442 760ZM408 735L423 670L438 735ZM412 709L423 670L434 709ZM421 760L437 674L454 760ZM425 736L437 674L450 736ZM428 712L437 674L446 712ZM436 760L452 690L469 760ZM440 740L452 690L465 740ZM443 721L452 690L462 721ZM453 760L472 693L491 760ZM457 741L472 693L487 741ZM461 723L472 693L483 723ZM482 760L497 659L511 760ZM485 732L497 659L508 732ZM488 703L497 659L505 703ZM504 760L518 662L532 760ZM507 733L518 662L529 733ZM510 705L518 662L526 705ZM515 760L537 661L559 760ZM520 732L537 661L554 732ZM525 704L537 661L549 704ZM543 760L562 666L581 760ZM548 734L562 666L577 734ZM552 707L562 666L573 707ZM570 760L588 687L606 760ZM574 740L588 687L602 740ZM578 719L588 687L598 719ZM583 760L602 654L622 760ZM587 730L602 654L617 730ZM592 700L602 654L613 700ZM601 760L619 688L637 760ZM605 740L619 688L633 740ZM609 720L619 688L629 720ZM625 760L642 692L659 760ZM629 741L642 692L655 741ZM633 722L642 692L651 722ZM641 760L662 684L683 760ZM646 739L662 684L679 739ZM650 718L662 684L674 718ZM666 760L685 643L704 760ZM670 727L685 643L700 727ZM674 694L685 643L695 694ZM689 760L707 683L725 760ZM693 738L707 683L721 738ZM697 717L707 683L717 717ZM712 760L726 671L741 760ZM715 735L726 671L737 735ZM718 710L726 671L734 710ZM733 760L750 691L768 760ZM737 741L750 691L764 741ZM740 721L750 691L760 721ZM755 760L775 669L796 760ZM759 735L775 669L792 735ZM764 709L775 669L787 709ZM776 760L793 672L810 760ZM779 735L793 672L806 735ZM783 711L793 672L802 711ZM793 760L810 678L828 760ZM797 737L810 678L824 737ZM801 714L810 678L820 714ZM820 760L835 642L849 760ZM823 727L835 642L846 727ZM826 694L835 642L843 694ZM839 760L857 668L874 760ZM843 734L857 668L870 734ZM847 709L857 668L866 709ZM855 760L871 678L888 760ZM858 737L871 678L884 737ZM862 714L871 678L880 714ZM873 760L889 664L906 760ZM876 733L889 664L903 733ZM880 706L889 664L899 706ZM885 760L907 684L929 760ZM890 739L907 684L924 739ZM895 717L907 684L919 717ZM910 760L926 642L941 760ZM914 727L926 642L938 727ZM917 694L926 642L934 694ZM928 760L948 667L967 760ZM932 734L948 667L963 734ZM937 708L948 667L959 708ZM949 760L968 648L987 760ZM953 729L968 648L982 729ZM957 697L968 648L978 697ZM964 760L982 659L1001 760ZM968 732L982 659L997 732ZM972 703L982 659L993 703ZM979 760L999 656L1020 760ZM983 731L999 656L1016 731ZM988 702L999 656L1011 702ZM1000 760L1017 691L1033 760ZM1004 741L1017 691L1029 741ZM1008 721L1017 691L1026 721ZM1023 760L1038 673L1052 760ZM1026 736L1038 673L1049 736ZM1030 711L1038 673L1046 711ZM1039 760L1057 667L1076 760ZM1043 734L1057 667L1072 734ZM1047 708L1057 667L1068 708ZM1056 760L1075 653L1095 760ZM1060 730L1075 653L1091 730ZM1065 700L1075 653L1086 700ZM1071 760L1093 679L1114 760ZM1076 737L1093 679L1109 737ZM1081 715L1093 679L1105 715ZM1093 760L1109 673L1126 760ZM1096 736L1109 673L1122 736ZM1100 711L1109 673L1118 711ZM1115 760L1130 652L1145 760ZM1118 730L1130 652L1142 730ZM1122 700L1130 652L1139 700ZM1131 760L1146 696L1161 760ZM1135 742L1146 696L1158 742ZM1138 724L1146 696L1155 724ZM1145 760L1167 671L1188 760ZM1150 735L1167 671L1184 735ZM1155 710L1167 671L1179 710ZM1172 760L1186 668L1200 760ZM1175 734L1186 668L1197 734ZM1178 709L1186 668L1194 709ZM1187 760L1203 681L1219 760ZM1190 738L1203 681L1215 738ZM1194 716L1203 681L1212 716ZM1211 760L1226 675L1241 760ZM1215 736L1226 675L1238 736ZM1218 712L1226 675L1235 712ZM1231 760L1247 691L1262 760ZM1235 741L1247 691L1259 741ZM1238 721L1247 691L1255 721ZM1248 760L1268 695L1288 760ZM1252 742L1268 695L1284 742ZM1257 724L1268 695L1279 724ZM1268 760L1287 696L1307 760ZM1272 742L1287 696L1302 742ZM1276 724L1287 696L1298 724ZM1292 760L1313 656L1334 760ZM1297 731L1313 656L1329 731ZM1301 702L1313 656L1324 702ZM1320 760L1338 684L1356 760ZM1324 739L1338 684L1352 739ZM1328 717L1338 684L1348 717ZM1339 760L1361 676L1383 760ZM1344 737L1361 676L1378 737ZM1349 713L1361 676L1373 713ZM1365 760L1380 699L1395 760ZM1369 743L1380 699L1392 743ZM1372 726L1380 699L1388 726ZM1380 760L1399 699L1418 760ZM1384 743L1399 699L1414 743ZM1389 726L1399 699L1410 726ZM1403 760L1425 644L1447 760ZM1408 728L1425 644L1442 728ZM1413 695L1425 644L1437 695ZM1428 760L1442 689L1457 760ZM1431 740L1442 689L1453 740ZM1434 720L1442 689L1450 720ZM1453 760L1467 698L1482 760ZM1456 743L1467 698L1479 743ZM1459 726L1467 698L1475 726ZM1471 760L1489 643L1508 760ZM1475 727L1489 643L1504 727ZM1479 695L1489 643L1500 695ZM1483 760L1504 698L1525 760ZM1488 743L1504 698L1520 743ZM1493 725L1504 698L1516 725ZM1504 760L1526 681L1548 760ZM1509 738L1526 681L1543 738ZM1514 716L1526 681L1539 716ZM1522 760L1544 691L1565 760ZM1527 741L1544 691L1561 741ZM1532 721L1544 691L1556 721ZM1543 760L1558 678L1574 760ZM1546 737L1558 678L1570 737ZM1550 714L1558 678L1567 714ZM1564 760L1580 671L1596 760ZM1568 735L1580 671L1593 735ZM1571 710L1580 671L1589 710ZM1580 760L1602 694L1623 760ZM1585 741L1602 694L1619 741ZM1589 723L1602 694L1614 723ZM1606 760L1625 687L1644 760ZM1610 740L1625 687L1640 740ZM1614 719L1625 687L1635 719ZM1626 760L1642 666L1659 760ZM1629 734L1642 666L1655 734ZM1633 707L1642 666L1651 707ZM1644 760L1659 671L1673 760ZM1647 735L1659 671L1670 735ZM1651 710L1659 671L1667 710ZM-40 758H1660V900H-40Z"/>
+<ellipse cx="800" cy="800" rx="900" ry="60" fill="url(#skMist)"/>
+<path class="sk-near" fill="#070504" d="M-65 900L-40 693L-15 900ZM-59 842L-40 693L-21 842ZM-54 784L-40 693L-26 784ZM-33 900L-9 761L15 900ZM-28 861L-9 761L9 861ZM-23 822L-9 761L4 822ZM-5 900L18 701L41 900ZM-0 844L18 701L35 844ZM5 789L18 701L30 789ZM31 900L55 752L79 900ZM36 859L55 752L73 859ZM41 817L55 752L68 817ZM56 900L83 680L110 900ZM62 839L83 680L104 839ZM68 777L83 680L98 777ZM85 900L113 671L141 900ZM91 836L113 671L135 836ZM97 772L113 671L129 772ZM111 900L139 759L167 900ZM117 861L139 759L161 861ZM123 821L139 759L155 821ZM146 900L171 715L195 900ZM152 848L171 715L190 848ZM157 796L171 715L184 796ZM161 900L191 674L221 900ZM167 837L191 674L214 837ZM174 773L191 674L208 773ZM199 900L226 687L253 900ZM205 840L226 687L247 840ZM211 781L226 687L241 781ZM217 900L249 674L282 900ZM224 837L249 674L275 837ZM231 773L249 674L268 773ZM243 900L271 711L299 900ZM249 847L271 711L292 847ZM255 794L271 711L286 794ZM261 900L291 717L321 900ZM268 849L291 717L314 849ZM274 798L291 717L308 798ZM286 900L319 752L352 900ZM294 859L319 752L344 859ZM301 817L319 752L337 817ZM320 900L351 749L382 900ZM327 858L351 749L376 858ZM334 816L351 749L369 816ZM359 900L387 737L416 900ZM365 854L387 737L410 854ZM371 809L387 737L404 809ZM377 900L409 765L441 900ZM384 862L409 765L434 862ZM391 825L409 765L427 825ZM423 900L446 678L470 900ZM428 838L446 678L465 838ZM433 775L446 678L460 775ZM454 900L479 737L504 900ZM460 854L479 737L498 854ZM465 809L479 737L493 809ZM492 900L515 769L538 900ZM497 863L515 769L533 863ZM502 827L515 769L528 827ZM515 900L541 764L568 900ZM521 862L541 764L562 862ZM526 824L541 764L556 824ZM540 900L573 723L606 900ZM547 851L573 723L599 851ZM554 801L573 723L591 801ZM573 900L601 764L630 900ZM579 862L601 764L624 862ZM585 824L601 764L617 824ZM598 900L622 707L646 900ZM603 846L622 707L640 846ZM608 792L622 707L635 792ZM617 900L651 732L684 900ZM625 853L651 732L676 853ZM632 806L651 732L669 806ZM647 900L673 749L699 900ZM653 858L673 749L693 858ZM658 815L673 749L687 815ZM668 900L702 737L736 900ZM676 854L702 737L729 854ZM683 809L702 737L721 809ZM709 900L739 676L769 900ZM716 837L739 676L762 837ZM722 775L739 676L756 775ZM749 900L773 719L798 900ZM754 849L773 719L792 849ZM760 799L773 719L787 799ZM765 900L796 759L827 900ZM772 861L796 759L821 861ZM779 821L796 759L814 821ZM803 900L828 776L854 900ZM808 865L828 776L848 865ZM814 831L828 776L843 831ZM824 900L850 722L876 900ZM829 850L850 722L870 850ZM835 800L850 722L864 800ZM851 900L878 739L905 900ZM857 855L878 739L899 855ZM863 810L878 739L893 810ZM884 900L907 693L929 900ZM889 842L907 693L924 842ZM894 784L907 693L919 784ZM909 900L940 716L972 900ZM916 848L940 716L965 848ZM923 797L940 716L958 797ZM930 900L963 748L996 900ZM937 858L963 748L989 858ZM945 815L963 748L981 815ZM974 900L1000 750L1027 900ZM980 858L1000 750L1021 858ZM985 816L1000 750L1015 816ZM993 900L1026 744L1060 900ZM1000 856L1026 744L1052 856ZM1008 813L1026 744L1045 813ZM1022 900L1055 733L1088 900ZM1030 853L1055 733L1081 853ZM1037 807L1055 733L1074 807ZM1057 900L1087 677L1117 900ZM1064 838L1087 677L1110 838ZM1070 775L1087 677L1103 775ZM1087 900L1115 771L1143 900ZM1093 864L1115 771L1137 864ZM1099 828L1115 771L1130 828ZM1112 900L1144 712L1176 900ZM1119 847L1144 712L1169 847ZM1126 795L1144 712L1162 795ZM1139 900L1171 720L1203 900ZM1146 849L1171 720L1196 849ZM1153 799L1171 720L1189 799ZM1183 900L1208 689L1233 900ZM1188 841L1208 689L1227 841ZM1194 782L1208 689L1222 782ZM1217 900L1243 706L1268 900ZM1222 846L1243 706L1263 846ZM1228 791L1243 706L1257 791ZM1241 900L1273 693L1304 900ZM1248 842L1273 693L1297 842ZM1255 784L1273 693L1290 784ZM1267 900L1297 726L1327 900ZM1274 851L1297 726L1320 851ZM1280 803L1297 726L1314 803ZM1289 900L1320 696L1352 900ZM1295 843L1320 696L1345 843ZM1302 786L1320 696L1338 786ZM1325 900L1351 675L1376 900ZM1330 837L1351 675L1371 837ZM1336 774L1351 675L1365 774ZM1346 900L1376 673L1405 900ZM1353 836L1376 673L1398 836ZM1359 773L1376 673L1392 773ZM1370 900L1396 732L1421 900ZM1376 853L1396 732L1416 853ZM1381 806L1396 732L1410 806ZM1407 900L1431 673L1454 900ZM1412 836L1431 673L1449 836ZM1417 773L1431 673L1444 773ZM1439 900L1463 686L1486 900ZM1445 840L1463 686L1481 840ZM1450 780L1463 686L1476 780ZM1464 900L1491 776L1517 900ZM1470 865L1491 776L1511 865ZM1476 831L1491 776L1505 831ZM1496 900L1521 702L1546 900ZM1501 845L1521 702L1541 845ZM1507 789L1521 702L1535 789ZM1527 900L1553 719L1579 900ZM1532 849L1553 719L1574 849ZM1538 799L1553 719L1568 799ZM1551 900L1582 692L1614 900ZM1558 842L1582 692L1607 842ZM1565 783L1582 692L1600 783ZM1582 900L1610 693L1637 900ZM1588 842L1610 693L1631 842ZM1594 784L1610 693L1625 784ZM1610 900L1638 755L1666 900ZM1616 859L1638 755L1660 859ZM1623 819L1638 755L1654 819ZM1633 900L1659 687L1686 900ZM1639 840L1659 687L1680 840ZM1644 781L1659 687L1674 781ZM-40 898H1660V900H-40Z"/>
+<!-- corvos -->
+<g class="sk-crows" fill="none" stroke="#0a0606" stroke-width="2.4" stroke-linecap="round"><path d="M640 300q8-7 16 0q8-7 16 0"/><path d="M700 270q6-5 12 0q6-5 12 0"/><path d="M590 330q5-4 10 0q5-4 10 0"/></g>
+<!-- o balão vermelho -->
+<g class="sk-balloon"><path d="M1062 512q-6 40 6 80t-4 70" fill="none" stroke="#d8cbb8" stroke-opacity=".5" stroke-width="1.2"/><ellipse cx="1062" cy="484" rx="22" ry="27" fill="url(#skBal)"/><path d="M1058 510l4 4 4-4z" fill="#8e1714"/><ellipse cx="1054" cy="474" rx="5" ry="8" fill="#fff" opacity=".18"/></g>
+</svg></div>
 <div class="fog" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="vignette" aria-hidden="true"></div>
@@ -1378,8 +1561,8 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
     <div class="opt"><label for="sTheme">Tema<small>Escuro, claro ou conforme o sistema</small></label><select id="sTheme"><option value="dark">Escuro</option><option value="light">Claro</option><option value="auto">Automático</option></select></div>
     <div class="opt"><label for="sParallax">Parallax<small>Profundidade no topo e inclinação dos cartões (desligado por padrão)</small></label><input type="checkbox" class="switch" id="sParallax"></div>
     
-    <div class="opt"><label for="sFog">Neblina e grão<small>Névoa e película a mexer por cima do site (desligado por padrão)</small></label><input type="checkbox" class="switch" id="sFog"></div>
-    <div class="opt"><label for="sOmens">Aparições<small>Balões, corvos e outras visitas das histórias (desligado por padrão)</small></label><input type="checkbox" class="switch" id="sOmens"></div>
+    <div class="opt"><label for="sFog">Neblina e grão<small>Névoa e película a mexer no fundo do site</small></label><input type="checkbox" class="switch" id="sFog"></div>
+    <div class="opt"><label for="sOmens">Aparições<small>Balões, corvos e outras visitas das histórias, no fundo do site</small></label><input type="checkbox" class="switch" id="sOmens"></div>
     <div class="opt"><label>Caixa de Pesadelos<small>Sugestões, correções e livro favorito, sem login</small></label><button class="btn sm" type="button" data-open-box>Enviar</button></div>
     <div class="opt"><label>Apoie o projeto<small>Pix, Instagram e balões vermelhos</small></label><button class="btn sm" type="button" data-open-support>Apoiar</button></div>
     <div class="opt"><label>Ver uma agora<small>Dispara uma aparição aleatória</small></label><button class="btn sm" id="omenNow" type="button">Assustar-me</button></div>
@@ -1845,6 +2028,92 @@ const ICON = {
 
 /* ============================== dados derivados ============================== */
 const SITE_URL = 'https://derryarchive.site/';
+/* ============================== atualização automática (Wikidata) ==============================
+   Uma vez por dia o site procura no Wikidata livros novos de Stephen King e adaptações novas ou que já estrearam.
+   O resultado fica guardado neste navegador e junta-se à lista fixa abaixo — a lista fixa nunca é apagada. */
+const NOW_Y = new Date().getFullYear();
+const LIVE_KEY = 'sk-live1', LIVE_TTL = 20 * 3600 * 1000;
+const liveNorm = t => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const liveArt = w => { try { return decodeURIComponent(String(w || '')).replace(/ /g, '_'); } catch (e) { return String(w || ''); } };
+const LIVE_STATS = { works: 0, adapts: 0, released: 0, t: 0 };
+function liveMerge(data) {
+  if (!data || !data.works || !data.adapts) return;
+  LIVE_STATS.t = data.t || 0;
+  const today = new Date().toISOString().slice(0, 10);
+  const wArt = new Map(), wTitle = new Set();
+  WORKS.forEach(w => { wArt.set(liveArt(w.w), w); wTitle.add(liveNorm(w.t)); });
+  const aArt = new Map(), aTitle = new Map();
+  ADAPTS.forEach(a => { aArt.set(liveArt(a.w), a); aTitle.set(liveNorm(a.t) + '|' + (a.y || ''), a); });
+  // livros novos: só os recentes ou anunciados (evita encher o catálogo com edições antigas)
+  data.works.forEach(r => {
+    if (wArt.has(r.w) || wTitle.has(liveNorm(r.t))) return;
+    if (!r.y || r.y < NOW_Y - 3) return;            // sem data no Wikidata = não se sabe se é novo: ignora
+    const w = { id: 'wd-' + r.q, t: r.t, pt: r.pt || null, y: r.y || NOW_Y, k: r.k, g: [], w: r.w, s: r.s || 'Obra encontrada automaticamente no Wikidata — resumo completo na Wikipédia, abaixo.', live: true };
+    WORKS.push(w); wArt.set(r.w, w); wTitle.add(liveNorm(r.t)); LIVE_STATS.works++;
+  });
+  data.adapts.forEach(r => {
+    const out = r.date && r.date <= today;
+    const ex = aArt.get(r.w) || aTitle.get(liveNorm(r.t) + '|' + (r.y || ''));
+    if (ex) {
+      // um projeto «futuro» cuja data de estreia já passou passa a «lançado»
+      if (ex.st === 'futuro' && out) { ex.st = 'lancado'; if (r.y) ex.y = r.y; LIVE_STATS.released++; }
+      else if (ex.st === 'futuro' && r.y && !ex.y) ex.y = r.y;
+      return;
+    }
+    const src = (r.src || []).map(a => wArt.get(a)).filter(Boolean).map(w => w.id);
+    if (!src.length) return;                       // só adaptações de obras que estão no arquivo
+    if (!r.y || r.y < NOW_Y - 2) return;           // e só as recentes ou por estrear (com data conhecida)
+    const a = { id: 'wd-' + r.q, t: r.t, pt: r.pt || r.t, y: r.y || null, k: r.k, on: r.on || (r.k === 'filme' ? 'Cinema' : 'TV'), d: r.d || '—', src, w: r.w, st: out ? 'lancado' : 'futuro', s: r.s || 'Adaptação encontrada automaticamente no Wikidata.', live: true };
+    ADAPTS.push(a); aArt.set(r.w, a); LIVE_STATS.adapts++;
+  });
+}
+async function liveFetch() {
+  const sparql = q => fetch('https://query.wikidata.org/sparql?format=json', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/sparql-results+json' }, body: 'query=' + encodeURIComponent(q) })
+    .then(r => r.ok ? r.json() : null).then(d => (d && d.results && d.results.bindings) || null).catch(() => null);
+  const v = (b, k) => (b[k] && b[k].value) || '';
+  const labels = `OPTIONAL { ?item rdfs:label ?en FILTER(lang(?en)='en') } OPTIONAL { ?item rdfs:label ?ptbr FILTER(lang(?ptbr)='pt-br') } OPTIONAL { ?item rdfs:label ?pt FILTER(lang(?pt)='pt') } OPTIONAL { ?item schema:description ?desc FILTER(lang(?desc)='pt') }`;
+  const enArt = (it, n) => `?${n}a schema:about ${it} ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?${n} .`;
+  const WTYPE = { Q8261: 'romance', Q49084: 'conto', Q1279564: 'colecao', Q149537: 'novela', Q7725634: 'romance', Q47461344: 'romance', Q571: 'romance' };
+  const ATYPE = { Q11424: 'filme', Q5398426: 'serie', Q1259759: 'minisserie', Q506240: 'telefilme' };
+  const [wr, ar] = await Promise.all([
+    sparql(`SELECT ?item ?art ?en ?pt ?ptbr ?desc ?date ?type WHERE { ?item wdt:P50 wd:Q39829 ; wdt:P31 ?type . VALUES ?type { ${Object.keys(WTYPE).map(q => 'wd:' + q).join(' ')} } ${enArt('?item', 'art')} OPTIONAL { ?item wdt:P577 ?date } ${labels} }`),
+    sparql(`SELECT ?item ?art ?en ?pt ?ptbr ?desc ?date ?type ?srcArt ?dirL ?netL WHERE { ?item wdt:P144 ?src . ?src wdt:P50 wd:Q39829 . ?item wdt:P31 ?type . VALUES ?type { ${Object.keys(ATYPE).map(q => 'wd:' + q).join(' ')} } ${enArt('?item', 'art')} OPTIONAL { ${enArt('?src', 'srcArt')} } OPTIONAL { ?item wdt:P577 ?date } OPTIONAL { ?item wdt:P57 ?dir . ?dir rdfs:label ?dirL FILTER(lang(?dirL)='en') } OPTIONAL { ?item wdt:P449 ?net . ?net rdfs:label ?netL FILTER(lang(?netL)='en') } ${labels} }`)
+  ]);
+  if (!wr || !ar) return null;
+  const group = (rows, fn) => { const m = new Map(); rows.forEach(b => { const q = v(b, 'item').split('/').pop(); const o = m.get(q) || { q, src: [] }; fn(o, b); m.set(q, o); }); return [...m.values()]; };
+  const base = (o, b) => {
+    o.w = o.w || v(b, 'art').replace(/ /g, '_'); o.t = o.t || v(b, 'en') || v(b, 'art');
+    o.pt = o.pt || v(b, 'ptbr') || v(b, 'pt') || ''; if (o.pt === o.t) o.pt = o.pt;
+    o.s = o.s || v(b, 'desc');
+    const d = v(b, 'date').slice(0, 10); if (d && (!o.date || d < o.date)) { o.date = d; o.y = +d.slice(0, 4); }
+  };
+  const works = group(wr, (o, b) => { base(o, b); o.k = o.k || WTYPE[v(b, 'type').split('/').pop()] || 'romance'; });
+  const adapts = group(ar, (o, b) => {
+    base(o, b); o.k = o.k || ATYPE[v(b, 'type').split('/').pop()] || 'filme';
+    const sa = v(b, 'srcArt').replace(/ /g, '_'); if (sa && !o.src.includes(sa)) o.src.push(sa);
+    o.d = o.d || v(b, 'dirL'); o.on = o.on || v(b, 'netL');
+  });
+  return { t: Date.now(), works: works.filter(o => o.w && o.t), adapts: adapts.filter(o => o.w && o.t) };
+}
+const liveCache = store.get(LIVE_KEY, null);
+liveMerge(liveCache);
+function liveRefresh(force) {
+  if (!force && liveCache && Date.now() - (liveCache.t || 0) < LIVE_TTL) return;
+  liveFetch().then(d => {
+    if (!d) return;
+    const before = new Set([...WORKS, ...ADAPTS].map(x => liveArt(x.w)));
+    const fresh = d.works.concat(d.adapts).filter(r => !before.has(r.w)).length;
+    const futureOut = ADAPTS.filter(a => a.st === 'futuro').some(a => d.adapts.some(r => r.w === liveArt(a.w) && r.date && r.date <= new Date().toISOString().slice(0, 10)));
+    store.set(LIVE_KEY, d);
+    if (fresh || futureOut) {
+      // há novidades: o catálogo é refeito no próximo carregamento — oferece-o já
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'live-pill'; b.innerHTML = '✦ Há novidades no arquivo <b>Atualizar</b>';
+      b.addEventListener('click', () => location.reload());
+      document.body.appendChild(b); requestAnimationFrame(() => b.classList.add('show'));
+    }
+  });
+}
 const BY = new Map();
 WORKS.forEach(w => { w.kind = 'work'; BY.set(w.id, w); });
 ADAPTS.forEach(a => { a.kind = 'adapt'; BY.set(a.id, a); });
@@ -1878,13 +2147,15 @@ function linksOf(id) {
 }
 
 /* ============================== preferências e estado ============================== */
-const prefs = Object.assign({ speed: 'slow', theme: 'dark', motion: 'full', fog: false, parallax: false, covers: true, omens: false, vintage: true, fs: '1', sound: false, vol: .7 }, store.get('sk-prefs', {}));
+const prefs = Object.assign({ speed: 'slow', theme: 'dark', motion: 'full', fog: true, parallax: false, covers: true, omens: true, vintage: true, fs: '1', sound: false, vol: .7 }, store.get('sk-prefs', {}));
 titleLang = store.get('sk-tlang', 'pt') === 'en' ? 'en' : 'pt';
 const user = Object.assign({ fav: {}, status: {}, seen: {}, own: {}, quotes: [], rate: {}, note: {}, done: {}, goal: {} }, store.get('sk-user', {}));
 const saveUser = () => store.set('sk-user', user);
 const savePrefs = () => store.set('sk-prefs', prefs);
 const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
 if (!(prefs.mv >= 5)) { if (prefs.lite && prefs.liteBackup) Object.assign(prefs, prefs.liteBackup); delete prefs.liteBackup; Object.assign(prefs, { mv: 5, motion: 'full', lite: false, parallax: false, fog: false, omens: false, sound: false }); store.set('sk-prefs', prefs); }
+/* v6: aparições e neblina ligadas por padrão, a correr atrás do conteúdo junto com o fundo */
+if (!(prefs.mv >= 6)) { Object.assign(prefs, { mv: 6, omens: true, fog: true }); store.set('sk-prefs', prefs); }
 const reduced = () => prefs.motion === 'reduce';
 const SPD = { slow: 1, normal: .6, fast: .35 }, spdMul = () => SPD[prefs.speed] || 1;
 function applyPrefs() {
@@ -2053,10 +2324,12 @@ function paintCover(el) {
   (async () => {
     const x = BY.get(el.dataset.id);
     const canOL = x && x.kind === 'work' && x.k !== 'conto';
+    const onlyOrig = el.classList.contains('orig');
     let img = null;
-    const bu = x && x.kind === 'work' ? brIsbnCover(x.id) : null;
+    const bu = !onlyOrig && x && x.kind === 'work' ? brIsbnCover(x.id) : null;
     if (bu) img = await loadImg(bu, alt);
-    if (!img && x && x.kind === 'work' && x.k !== 'conto') { const b = await brCover(x); if (b && b.src) img = await loadImg(b.src, alt); }
+    if (!img && !onlyOrig && x && x.kind === 'work' && x.k !== 'conto') { const b = await brCover(x); if (b && b.src) img = await loadImg(b.src, alt); }
+    el.dataset.side = img ? 'pt' : 'orig';
     const u = img ? null : await wikiImage(w);
     if (!img) img = u ? await loadImg(u, alt) : null;
     if (!img && canOL) { const o = await olCover(x); if (o) img = await loadImg(o, alt); }
@@ -2118,6 +2391,33 @@ function card(x, i = 0) {
     <div class="cv">${cover(x)}${flags(x)}${x.kind === 'adapt' && x.st === 'futuro' ? '<span class="rank"><span class="badge future">Em breve</span></span>' : ''}</div>
     <div class="meta"><div class="ttl">${esc(titleOf(x))}</div><div class="sub">${sub}</div>${x.kind === 'adapt' ? `<span class="imdb-chip" role="link" tabindex="0" data-imdb-a="${x.id}" title="Abrir no IMDb">IMDb ↗ <b data-imdb-s="${x.id}">${esc((scoreOf(x) || {}).text || '')}</b></span>` : ''}</div></button>`;
 }
+/* cartões: ao passar o rato, a capa gira e mostra a outra versão (original ⇄ português).
+   A segunda imagem só é procurada no primeiro hover, para não gastar dados. */
+const altMemo = new Map();
+function altCover(x, side) {
+  const k = x.id + ':' + side; if (altMemo.has(k)) return altMemo.get(k);
+  const p = side === 'pt'
+    ? (x.kind === 'work' ? brCover(x) : ptWikiImage(x.w)).then(r => (r && r.src) || '').catch(() => '')
+    : wikiImage(x.w).then(u => u || (x.kind === 'work' && x.k !== 'conto' ? olCover(x) : '')).catch(() => '');
+  altMemo.set(k, p); return p;
+}
+if (matchMedia('(hover: hover)').matches) document.addEventListener('pointerover', e => {
+  const cv = e.target.closest && e.target.closest('.card .cover[data-done]');
+  if (!cv || cv.dataset.alt || !prefs.covers) return;
+  const front = cv.querySelector(':scope > img'); if (!front) return;
+  const x = BY.get(cv.dataset.id); if (!x || (x.kind === 'work' && x.k === 'conto')) { cv.dataset.alt = 'none'; return; }
+  cv.dataset.alt = 'loading';
+  const want = cv.dataset.side === 'pt' ? 'orig' : 'pt';
+  altCover(x, want).then(u => {
+    if (!u || u === front.src) { cv.dataset.alt = 'none'; return; }
+    return loadImg(u, (want === 'pt' ? 'Versão em português: ' : 'Versão original: ') + titleOf(x)).then(img => {
+      if (!img || !cv.isConnected) { cv.dataset.alt = 'none'; return; }
+      img.classList.add('alt', 'on'); cv.appendChild(img);
+      cv.insertAdjacentHTML('beforeend', `<span class="alt-tag">${want === 'pt' ? 'Português' : 'Original'}</span>`);
+      cv.dataset.alt = want; cv.classList.add('can-flip');
+    });
+  }).catch(() => { cv.dataset.alt = 'none'; });
+});
 function renderGrid(el, items) {
   el.innerHTML = items.map(card).join('');
   observeCovers(el); reveal(el); tilt(el);
@@ -2187,8 +2487,9 @@ function renderHome() {
   });
   const pick = ids => ids.map(i => BY.get(i)).filter(Boolean);
   $('#homeRows').innerHTML =
+    row('Acabado de chegar ao arquivo', [...WORKS, ...ADAPTS].filter(x => x.live).sort((a, b) => (b.y || 9999) - (a.y || 9999)), '#kit') +
     row('Por onde começar', pick(['carrie','salem','shining','stand','it','misery','petsematary','greenmile','gunslinger','112263','doctorsleep','fairytale']), '#bibliografia') +
-    row('Estreias recentes', RELEASED.filter(a => a.y >= 2024).sort((a, b) => b.y - a.y), '#filmografia') +
+    row('Estreias recentes', RELEASED.filter(a => a.y >= NOW_Y - 2).sort((a, b) => b.y - a.y), '#filmografia') +
     row('Projetos futuros', FUTURE, '#filmografia') +
     row('Clássicos no ecrã', pick(['a-carrie76','a-shining80','a-standbyme','a-misery','a-shawshank','a-greenmile','a-mist07','a-it17','a-doctorsleep','a-deadzone'])) +
     row('A saga da Torre Negra', pick(['gunslinger','drawing','wastelands','wizard','wind','wolves','susannah','darktower']), '#universos') +
@@ -2511,7 +2812,7 @@ function drawGallery() {
 /* ============================== kit do fã ============================== */
 let kitKind = 'all';
 let kitNews = false; /* filtro Novidades: desligado por predefinição */
-const NEWS_FROM = 2024; /* publicações a partir deste ano são consideradas novidades */
+const NEWS_FROM = NOW_Y - 2; /* publicações dos últimos anos são consideradas novidades (acompanha o ano corrente) */
 function renderKit() {
   if (!$('#kitKinds').childElementCount) {
     $('#kitKinds').innerHTML = [['all','Tudo'],['poster','Quadros'],['adapt','Cartazes'],['work','Capas'],['quotes','Citações'],['photo','Fotos']].map(([v, l]) => `<button class="chip" data-k="${v}" aria-pressed="${kitKind === v}">${l}</button>`).join('') + `<span class="chip-sep" aria-hidden="true"></span><button class="chip chip-news" data-k="news" aria-pressed="${kitNews}" title="Mostrar só novidades">✦ Novidades</button>`;
@@ -2572,7 +2873,7 @@ function observeKit(root) {
 let photosP = null;
 function loadPhotos() {
   if (photosP) return photosP;
-  const u = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=categorymembers&gcmtitle=Category:Stephen_King&gcmtype=file&gcmlimit=60&prop=imageinfo&iiprop=url|size|mime|extmetadata&iiurlwidth=1600&iiextmetadatafilter=Artist|LicenseShortName|ImageDescription|DateTimeOriginal';
+  const u = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=categorymembers&gcmtitle=Category:Stephen_King&gcmtype=file&gcmlimit=120&gcmsort=timestamp&gcmdir=desc&prop=imageinfo&iiprop=url|size|mime|timestamp|extmetadata&iiurlwidth=1600&iiextmetadatafilter=Artist|LicenseShortName|ImageDescription|DateTimeOriginal';
   const plain = h => { const d = document.createElement('div'); d.innerHTML = h || ''; return (d.textContent || '').replace(/\s+/g, ' ').trim(); };
   photosP = fetch(u).then(r => r.ok ? r.json() : null).then(d => {
     const pages = d && d.query && Object.values(d.query.pages || {});
@@ -2581,8 +2882,8 @@ function loadPhotos() {
       const ii = p.imageinfo && p.imageinfo[0]; if (!ii) return null;
       if (!/^image\/(jpeg|png|webp)$/.test(ii.mime) || ii.width < 900) return null;
       const m = ii.extmetadata || {};
-      return { thumb: ii.thumburl || ii.url, full: ii.url, w: ii.width, h: ii.height, page: ii.descriptionurl, by: plain(m.Artist && m.Artist.value), lic: plain(m.LicenseShortName && m.LicenseShortName.value), desc: plain(m.ImageDescription && m.ImageDescription.value).slice(0, 140), date: plain(m.DateTimeOriginal && m.DateTimeOriginal.value).slice(0, 40) };
-    }).filter(Boolean).sort((a, b) => b.w * b.h - a.w * a.h);
+      return { up: ii.timestamp || '', thumb: ii.thumburl || ii.url, full: ii.url, w: ii.width, h: ii.height, page: ii.descriptionurl, by: plain(m.Artist && m.Artist.value), lic: plain(m.LicenseShortName && m.LicenseShortName.value), desc: plain(m.ImageDescription && m.ImageDescription.value).slice(0, 140), date: plain(m.DateTimeOriginal && m.DateTimeOriginal.value).slice(0, 40) };
+    }).filter(Boolean).sort((a, b) => (b.up || '').localeCompare(a.up || '') || b.w * b.h - a.w * a.h);
   }).catch(() => null);
   return photosP;
 }
@@ -3320,10 +3621,21 @@ function factBadges(x) {
   (x.u || []).forEach(u => { const U = UNIVERSES.find(z => z.id === u); if (U) b.push(`<a class="badge" style="text-decoration:none;border-color:${U.c}" href="#universos">${esc(U.n)}</a>`); });
   return b.join('');
 }
+function ytSearch(q) { return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q); }
 function trailerBlock(x) {
-  const t = x.pt || x.t;
-  const q = encodeURIComponent(t + ' trailer dublado legendado');
-  return `<section class="trailer-sec"><h3>Trailer</h3><div class="trailer"><iframe src="https://www.youtube-nocookie.com/embed?listType=search&list=${q}&hl=pt-BR&cc_lang_pref=pt-BR" title="Trailer de ${esc(t)}" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></section>`;
+  /* o YouTube descontinuou o embed por pesquisa (listType=search), que mostrava «vídeo indisponível».
+     Agora: cartão com a imagem da obra que abre a pesquisa do trailer no YouTube, mais versões dublada/legendada/original. */
+  const pt = x.pt || x.t, yr = x.y ? ' ' + x.y : '';
+  const main = ytSearch(pt + yr + ' trailer');
+  const opts = [['Dublado', pt + yr + ' trailer dublado'], ['Legendado', pt + yr + ' trailer legendado'], ['Original (inglês)', x.t + yr + ' official trailer']];
+  return `<section class="trailer-sec"><h3>Trailer</h3>
+    <a class="yt-card" href="${esc(main)}" target="_blank" rel="noopener" aria-label="Ver o trailer de ${esc(pt)} no YouTube (abre numa nova aba)">
+      <span class="yt-bg" id="dYtBg" aria-hidden="true"></span>
+      <span class="yt-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
+      <span class="yt-txt"><b>Ver trailer no YouTube</b><small>${esc(pt)}${yr} · abre numa nova aba</small></span>
+    </a>
+    <div class="yt-opts">${opts.map(([l, q]) => `<a class="toggle" href="${esc(ytSearch(q))}" target="_blank" rel="noopener">${ICON.link}${l}</a>`).join('')}</div>
+  </section>`;
 }
 function watchBlock(x) {
   return (x.kind === 'adapt' ? trailerBlock(x) : '') + watchBase(x);
@@ -3357,9 +3669,15 @@ function openDetail(id) {
   $('#detailSheet').innerHTML = `
     <button class="icon-btn close" data-close aria-label="Fechar ficha">${ICON.x}</button>
     <div class="sheet-hero"><div class="backdrop" id="dBackdrop"></div>
-      <div class="covers-pair">
-        <figure>${cover(x)}<figcaption>${isW ? 'Capa original' : 'Cartaz'}</figcaption></figure>
-        ${(!isW || x.k !== 'conto') ? `<figure class="br" id="brSlot"><div class="cover${isW ? '' : ' poster'}" style="--c1:#1d1a17;--c2:#0d0b0a"><div class="loading"></div></div><p>${isW ? 'A procurar edição em português…' : 'A procurar cartaz em português…'}</p></figure>` : ''}
+      <div class="covers-pair${(!isW || x.k !== 'conto') ? ' has-pt' : ''}">
+        <div class="flip" id="coverFlip" data-side="orig">
+          <div class="flip-in">
+            <figure class="flip-face front">${cover(x, 'orig')}<span class="face-tag">${isW ? 'Original' : 'Cartaz original'}</span></figure>
+            ${(!isW || x.k !== 'conto') ? `<figure class="flip-face back" id="brSlot"><div class="cover${isW ? '' : ' poster'}" style="--c1:#1d1a17;--c2:#0d0b0a"><div class="loading"></div></div><span class="face-tag">${isW ? 'Português' : 'Cartaz PT'}</span></figure>` : ''}
+          </div>
+        </div>
+        ${(!isW || x.k !== 'conto') ? `<div class="cv-switch" role="group" aria-label="Versão da ${isW ? 'capa' : 'imagem'}"><button type="button" data-cv="orig" aria-pressed="true">Original</button><button type="button" data-cv="pt" aria-pressed="false" disabled>Português</button></div>
+        <p class="cv-note" id="brNote">${isW ? 'A procurar edição em português…' : 'A procurar cartaz em português…'}</p>` : `<p class="cv-note"><b>${isW ? 'Capa original' : 'Cartaz'}</b></p>`}
       </div>
       <div>
         <p class="eyebrow">${isW ? esc(TYPES[x.k]) : esc(AKINDS[x.k])}${parent ? ` · em <button class="link-btn" style="color:var(--red2);padding:0" data-open="${parent.id}">${esc(titleOf(parent))}</button>` : ''}</p>
@@ -3393,7 +3711,7 @@ function openDetail(id) {
   if (!dlg.open) dlg.showModal();
   sheet.scrollTop = 0;
   // capa de fundo
-  if (prefs.covers) wikiImage(x.w).then(u => { if (u) $('#dBackdrop').style.backgroundImage = `url("${u}")`; });
+  if (prefs.covers) wikiImage(x.w).then(u => { if (!u || currentId !== id) return; const b = $('#dBackdrop'), y = $('#dYtBg'); if (b) b.style.backgroundImage = `url("${u}")`; if (y) y.style.backgroundImage = `url("${u}")`; });
   wikiPanel($('#dWikiMore'), { w: x.w, props: isW ? WORK_PROPS : ADAPT_PROPS, stale: () => currentId !== id || !dlg.open || !$('#dWikiMore') });
   // resumo da Wikipédia (EN)
   wikiSummary(x.w).then(d => {
@@ -3404,26 +3722,42 @@ function openDetail(id) {
   });
   // segunda imagem: edição / cartaz em português
   if (!isW || x.k !== 'conto') {
-    const slot = $('#brSlot');
-    if (!prefs.covers) { slot.querySelector('p').textContent = 'Carregamento de imagens desligado nas definições.'; slot.querySelector('.loading')?.remove(); }
+    const slot = $('#brSlot'), note = $('#brNote'), flip = $('#coverFlip'), ptBtn = $('#detailSheet [data-cv="pt"]');
+    const origNote = isW ? 'Capa original' : 'Cartaz original';
+    const fail = msg => { if (!slot.isConnected) return; slot.querySelector('.loading')?.remove(); flip.classList.remove('has-back'); ptBtn.disabled = true; ptBtn.title = msg; note.dataset.orig = `<b>${origNote}</b><span>${msg}</span>`; note.dataset.pt = ''; note.innerHTML = note.dataset.orig; };
+    if (!prefs.covers) fail('Carregamento de imagens desligado nas definições.');
     else (isW ? brCover(x) : ptWikiImage(x.w)).then(r => {
       if (!slot.isConnected) return;
-      slot.querySelector('.loading')?.remove();
-      if (r) {
-        const c = slot.querySelector('.cover');
-        c.innerHTML = `<img class="on" src="${esc(r.src)}" data-src="${esc(r.src)}" alt="${isW ? 'Capa da edição em português de' : 'Cartaz em português de'} ${esc(titleOf(x))}" referrerpolicy="no-referrer" decoding="async">`;
-        slot.querySelector('p').innerHTML = isW
-          ? `<b style="color:var(--bone)">${r.br ? 'Edição brasileira' : 'Edição em português'}</b><br>${esc(r.title || '')}${r.pub ? ' · ' + esc(r.pub) : ''}<br><a href="${esc(r.link)}" target="_blank" rel="noopener">Ver na Open Library</a>`
-          : `<b style="color:var(--bone)">Cartaz em português</b><br>${esc(r.title || '')}<br>${r.link ? `<a href="${esc(r.link)}" target="_blank" rel="noopener">Ver na Wikipédia PT</a>` : ''}`;
-        c.querySelector('img').onerror = () => { c.innerHTML = ''; slot.querySelector('p').textContent = 'Imagem em português indisponível.'; };
-      } else slot.querySelector('p').innerHTML = isW
-        ? 'Não foi encontrada capa de edição em português na <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a>.'
-        : 'Não foi encontrado cartaz em português na Wikipédia.';
+      if (!r) { fail(isW ? 'Sem capa de edição em português na Open Library.' : 'Sem cartaz em português na Wikipédia.'); return; }
+      const c = slot.querySelector('.cover');
+      const img = new Image();
+      img.alt = (isW ? 'Capa da edição em português de ' : 'Cartaz em português de ') + titleOf(x);
+      img.referrerPolicy = 'no-referrer'; img.decoding = 'async'; img.dataset.src = r.src;
+      img.onload = () => {
+        if (!slot.isConnected) return;
+        slot.querySelector('.loading')?.remove(); c.appendChild(img); requestAnimationFrame(() => img.classList.add('on'));
+        flip.classList.add('has-back'); ptBtn.disabled = false; ptBtn.removeAttribute('title');
+        note.dataset.orig = `<b>${origNote}</b><span>${matchMedia('(hover: hover)').matches ? 'Passe o rato sobre a capa para a girar' : 'Toque em «Português» para ver a outra versão'}</span>`;
+        note.dataset.pt = isW
+          ? `<b>${r.br ? 'Edição brasileira' : 'Edição em português'}</b><span>${esc(r.title || '')}${r.pub ? ' · ' + esc(r.pub) : ''}</span><a href="${esc(r.link)}" target="_blank" rel="noopener">Ver na Open Library ↗</a>`
+          : `<b>Cartaz em português</b><span>${esc(r.title || '')}</span>${r.link ? `<a href="${esc(r.link)}" target="_blank" rel="noopener">Ver na Wikipédia PT ↗</a>` : ''}`;
+        note.innerHTML = flip.dataset.side === 'pt' ? note.dataset.pt : note.dataset.orig;
+      };
+      img.onerror = () => fail('Imagem em português indisponível.');
+      img.src = r.src;
     });
   }
 }
+function setCoverSide(side) {
+  const flip = $('#coverFlip'), note = $('#brNote'); if (!flip) return;
+  if (side === 'pt' && !flip.classList.contains('has-back')) return;
+  flip.dataset.side = side;
+  $$('#detailSheet [data-cv]').forEach(b => b.setAttribute('aria-pressed', b.dataset.cv === side));
+  if (note && note.dataset.orig != null) note.innerHTML = side === 'pt' ? note.dataset.pt : note.dataset.orig;
+}
 dlg.addEventListener('click', e => {
   if (e.target === dlg || e.target.closest('[data-close]')) { dlg.close(); return; }
+  const cvb = e.target.closest('[data-cv]'); if (cvb) { setCoverSide(cvb.dataset.cv); return; }
   const cur = BY.get(currentId);
   const t = e.target.closest('[data-fav],[data-status],[data-seen],[data-links],[data-copylink],[data-own],[data-star],[data-share]');
   if (!t || !cur) return;
@@ -5249,6 +5583,7 @@ applyPrefs();
 route();
 parallax();
 Omens.start();
+setTimeout(() => liveRefresh(/[?&]atualizar\b/.test(location.search)), 2500);
 setTimeout(() => resolveImdb().then(fetchRatings), 1500);
 })();
 </script>
@@ -5270,6 +5605,19 @@ setTimeout(() => resolveImdb().then(fetchRatings), 1500);
   if(window.ResizeObserver)new ResizeObserver(place).observe(box);
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(place);
   addEventListener('load',place);
+})();
+</script>
+<script>
+/* fundo contínuo: escurece suavemente com o scroll para manter a leitura */
+(function(){
+  var root=document.documentElement,raf=0;
+  function upd(){raf=0;var home=document.querySelector('#v-inicio.active');var h=innerHeight||800,y=scrollY||0;
+    var dim=home?Math.min(1,y/(h*.9)):Math.min(1,.55+y/(h*2));
+    root.style.setProperty('--sk-dim',dim.toFixed(3));
+    root.style.setProperty('--sk-p',Math.min(1,y/(h*4)).toFixed(3));}
+  function q(){if(!raf)raf=requestAnimationFrame(upd);}
+  addEventListener('scroll',q,{passive:true});addEventListener('resize',q);addEventListener('hashchange',function(){setTimeout(upd,60);});
+  upd();
 })();
 </script>
 <script>
