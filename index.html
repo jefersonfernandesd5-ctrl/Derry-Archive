@@ -1191,6 +1191,74 @@ html[data-theme=light] #omens{opacity:.42;filter:blur(1.6px) saturate(.6)}
 .live-pill{position:fixed;left:50%;top:calc(var(--hdr,64px) + 12px);z-index:70;transform:translate(-50%,-12px);opacity:0;display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 8px 0 16px;border-radius:999px;border:1px solid var(--line2);background:rgba(var(--ink-rgb),.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--bone);font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:0 14px 40px -12px #000;transition:opacity .5s,transform .5s var(--ease)}
 .live-pill.show{opacity:1;transform:translate(-50%,0)}
 .live-pill b{height:28px;display:inline-grid;place-items:center;padding:0 12px;border-radius:999px;background:var(--red);color:#fff}
+
+/* ==========================================================================
+   REDES SOCIAIS — @derryarchive.site (feed automático do Instagram)
+   ========================================================================== */
+.om-cap{display:none!important}
+#omens .om-link{pointer-events:none;cursor:default}
+.ig-sec{margin:clamp(40px,7vw,80px) 0 clamp(24px,4vw,40px);padding:clamp(18px,3vw,30px);border-radius:var(--r,14px);border:1px solid var(--line2);background:rgba(var(--ink-rgb),.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.ig-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px}
+.ig-head h2{margin:2px 0 6px;font-family:var(--serif);font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.1}
+.ig-sub{margin:0;color:var(--muted);font-size:.86rem}
+.ig-links{display:flex;flex-wrap:wrap;gap:8px}
+.ig-links .toggle{display:inline-flex;align-items:center;gap:8px}
+.ig-links svg{width:17px;height:17px;flex:none}
+.ig-feed{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.ig-post{position:relative;display:block;aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#120c0b;border:1px solid var(--line2);color:#f3ece0;text-decoration:none;isolation:isolate}
+.ig-post img,.ig-post video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease),opacity .4s}
+.ig-post img{color:transparent;font-size:0}
+.ig-post video{opacity:0}
+.ig-post.playing video{opacity:1}
+.ig-post::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,6,5,0) 45%,rgba(8,6,5,.88));z-index:1}
+.ig-post:hover img,.ig-post:hover video{transform:scale(1.05)}
+.ig-badge{position:absolute;top:8px;right:8px;z-index:2;padding:4px 8px;border-radius:999px;background:rgba(10,8,7,.72);font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.ig-post.is-video .ig-badge{background:var(--red);color:#fff}
+.ig-cap{position:absolute;left:10px;right:10px;bottom:10px;z-index:2;text-shadow:0 1px 6px rgba(0,0,0,.8);font-size:.76rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.ig-cap small{display:block;font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#ffb3a8;text-shadow:0 1px 6px #000}
+.ig-more{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;border:1px dashed var(--line2);color:var(--muted);text-decoration:none;font-size:.84rem}
+.ig-more b{color:var(--bone)}
+.ig-more:hover{border-color:var(--red);color:var(--bone)}
+.ig-feed.empty{display:block}
+.ig-empty{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:18px;border-radius:12px;border:1px dashed var(--line2);text-decoration:none;color:var(--bone)}
+.ig-empty > span:nth-child(2){flex:1 1 260px;display:grid;gap:4px}
+.ig-empty small{color:var(--muted);font-size:.84rem;line-height:1.45}
+.ig-ring{width:62px;height:62px;flex:none;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#f9ce34,#ee2a7b,#6228d7,#f9ce34);display:grid}
+.ig-ring b{display:grid;place-items:center;border-radius:50%;background:var(--bg);font-family:var(--serif);font-size:1.1rem;color:var(--red2)}
+.ig-empty:hover{border-color:var(--red)}
+html[data-theme=light] .ig-sec{background:rgba(255,252,246,.7)}
+@media (max-width:900px){.ig-feed{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:600px){.ig-feed{grid-template-columns:repeat(2,minmax(0,1fr))}.ig-links{width:100%}.ig-links .toggle{flex:1 1 0;justify-content:center;padding:0 8px}}
+
+/* ==========================================================================
+   DESEMPENHO — fundo em camadas compostas (sem repintar a cada frame)
+   ========================================================================== */
+.sk-world{contain:strict}
+.sk-par{position:absolute;left:0;right:0;bottom:0;height:112%;will-change:transform}
+.sk-world .sk-par svg{position:absolute;left:0;bottom:0;width:100%;height:100%;transform:none;transition:none;filter:none}
+.sk-world .sk-static{filter:blur(.4px)}
+.sk-world .sk-anim{will-change:transform}
+.sk-world::after{background:linear-gradient(180deg,rgba(var(--ink-rgb),.15) 0%,rgba(var(--ink-rgb),.05) 35%,rgba(var(--ink-rgb),.55) 100%);transition:none}
+.sk-dim{position:absolute;inset:0;background:rgb(var(--ink-rgb));opacity:.12;will-change:opacity}
+html[data-theme=light] .sk-world::after{background:linear-gradient(180deg,rgba(245,239,226,.62) 0%,rgba(245,239,226,.42) 40%,rgba(245,239,226,.72) 100%)}
+html[data-theme=light] .sk-dim{background:#f5efe2}
+.sk-stars{animation:none}
+.sk-balloon,.sk-crows{filter:none}
+@media (max-aspect-ratio:1/1){.sk-world .sk-par svg{left:50%;width:auto;aspect-ratio:16/9;transform:translateX(-70%)}}
+/* aparições: o desfoque fica em cada figura (pequena) e não na camada do ecrã inteiro */
+#omens,html[data-theme=light] #omens{filter:none;contain:strict}
+#omens > *{filter:blur(1.3px) saturate(.7) brightness(.9)}
+html[data-theme=light] #omens > *{filter:blur(1.3px) saturate(.6)}
+#omens > .om-mist,#omens > .om-dome{filter:none}
+.fog i,.grain{will-change:transform}
+.fog{contain:strict}
+/* redes no rodapé */
+.ft-social{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:18px 0 6px}
+.ft-social > span{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.ft-social a{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line2);color:var(--bone);text-decoration:none;font-size:.82rem;font-weight:700;transition:border-color .2s,background .2s}
+.ft-social a:hover{border-color:var(--red);background:rgba(166,27,27,.14)}
+.ft-social svg{width:16px;height:16px}
+.ig-sec[hidden]{display:none}
 </style>
 <script>
 /* aplica preferências antes de pintar, para evitar flashes */
@@ -1201,7 +1269,7 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
 </head>
 <body>
 <a class="skip" href="#main">Saltar para o conteúdo</a>
-<div class="sk-world" aria-hidden="true"><svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+<div class="sk-world" aria-hidden="true"><div class="sk-par"><svg class="sk-static" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
 <defs>
 <linearGradient id="skSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c0807"/><stop offset=".45" stop-color="#1c0b0a"/><stop offset=".72" stop-color="#2a0f0d"/><stop offset="1" stop-color="#0a0807"/></linearGradient>
 <radialGradient id="skGlow" cx=".8" cy=".32" r=".55"><stop offset="0" stop-color="#a61b1b" stop-opacity=".42"/><stop offset=".5" stop-color="#5a1212" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
@@ -1236,11 +1304,11 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
 <path class="sk-far" fill="#0d0807" d="M-60 760L-40 659L-20 760ZM-56 732L-40 659L-24 732ZM-51 704L-40 659L-29 704ZM-37 760L-20 669L-3 760ZM-33 735L-20 669L-6 735ZM-29 709L-20 669L-10 709ZM-9 760L6 683L21 760ZM-6 738L6 683L18 738ZM-2 717L6 683L15 717ZM7 760L23 684L40 760ZM10 739L23 684L36 739ZM14 718L23 684L33 718ZM24 760L41 694L57 760ZM28 741L41 694L54 741ZM31 723L41 694L50 723ZM43 760L58 666L74 760ZM46 734L58 666L70 734ZM50 707L58 666L67 707ZM55 760L73 688L91 760ZM59 740L73 688L87 740ZM63 720L73 688L83 720ZM71 760L92 656L112 760ZM76 731L92 656L108 731ZM80 702L92 656L103 702ZM91 760L111 694L131 760ZM95 742L111 694L126 742ZM100 723L111 694L122 723ZM115 760L134 676L153 760ZM119 737L134 676L149 737ZM123 713L134 676L145 713ZM131 760L151 645L172 760ZM135 728L151 645L168 728ZM140 696L151 645L163 696ZM159 760L175 643L191 760ZM163 727L175 643L187 727ZM166 694L175 643L184 694ZM175 760L195 656L216 760ZM180 731L195 656L211 731ZM184 702L195 656L207 702ZM195 760L214 692L233 760ZM199 741L214 692L229 741ZM204 722L214 692L225 722ZM215 760L229 658L243 760ZM218 731L229 658L240 731ZM222 703L229 658L237 703ZM234 760L249 671L264 760ZM237 735L249 671L261 735ZM240 710L249 671L257 710ZM252 760L269 670L286 760ZM255 735L269 670L282 735ZM259 710L269 670L278 710ZM272 760L293 648L315 760ZM277 729L293 648L310 729ZM282 697L293 648L305 697ZM293 760L310 698L327 760ZM297 743L310 698L324 743ZM301 726L310 698L320 726ZM310 760L326 658L342 760ZM313 731L326 658L338 731ZM317 703L326 658L335 703ZM324 760L341 683L358 760ZM328 738L341 683L355 738ZM332 717L341 683L351 717ZM348 760L364 672L380 760ZM351 735L364 672L377 735ZM355 711L364 672L373 711ZM371 760L386 697L402 760ZM374 742L386 697L398 742ZM377 725L386 697L395 725ZM394 760L408 655L423 760ZM397 731L408 655L420 731ZM400 701L408 655L417 701ZM404 760L423 670L442 760ZM408 735L423 670L438 735ZM412 709L423 670L434 709ZM421 760L437 674L454 760ZM425 736L437 674L450 736ZM428 712L437 674L446 712ZM436 760L452 690L469 760ZM440 740L452 690L465 740ZM443 721L452 690L462 721ZM453 760L472 693L491 760ZM457 741L472 693L487 741ZM461 723L472 693L483 723ZM482 760L497 659L511 760ZM485 732L497 659L508 732ZM488 703L497 659L505 703ZM504 760L518 662L532 760ZM507 733L518 662L529 733ZM510 705L518 662L526 705ZM515 760L537 661L559 760ZM520 732L537 661L554 732ZM525 704L537 661L549 704ZM543 760L562 666L581 760ZM548 734L562 666L577 734ZM552 707L562 666L573 707ZM570 760L588 687L606 760ZM574 740L588 687L602 740ZM578 719L588 687L598 719ZM583 760L602 654L622 760ZM587 730L602 654L617 730ZM592 700L602 654L613 700ZM601 760L619 688L637 760ZM605 740L619 688L633 740ZM609 720L619 688L629 720ZM625 760L642 692L659 760ZM629 741L642 692L655 741ZM633 722L642 692L651 722ZM641 760L662 684L683 760ZM646 739L662 684L679 739ZM650 718L662 684L674 718ZM666 760L685 643L704 760ZM670 727L685 643L700 727ZM674 694L685 643L695 694ZM689 760L707 683L725 760ZM693 738L707 683L721 738ZM697 717L707 683L717 717ZM712 760L726 671L741 760ZM715 735L726 671L737 735ZM718 710L726 671L734 710ZM733 760L750 691L768 760ZM737 741L750 691L764 741ZM740 721L750 691L760 721ZM755 760L775 669L796 760ZM759 735L775 669L792 735ZM764 709L775 669L787 709ZM776 760L793 672L810 760ZM779 735L793 672L806 735ZM783 711L793 672L802 711ZM793 760L810 678L828 760ZM797 737L810 678L824 737ZM801 714L810 678L820 714ZM820 760L835 642L849 760ZM823 727L835 642L846 727ZM826 694L835 642L843 694ZM839 760L857 668L874 760ZM843 734L857 668L870 734ZM847 709L857 668L866 709ZM855 760L871 678L888 760ZM858 737L871 678L884 737ZM862 714L871 678L880 714ZM873 760L889 664L906 760ZM876 733L889 664L903 733ZM880 706L889 664L899 706ZM885 760L907 684L929 760ZM890 739L907 684L924 739ZM895 717L907 684L919 717ZM910 760L926 642L941 760ZM914 727L926 642L938 727ZM917 694L926 642L934 694ZM928 760L948 667L967 760ZM932 734L948 667L963 734ZM937 708L948 667L959 708ZM949 760L968 648L987 760ZM953 729L968 648L982 729ZM957 697L968 648L978 697ZM964 760L982 659L1001 760ZM968 732L982 659L997 732ZM972 703L982 659L993 703ZM979 760L999 656L1020 760ZM983 731L999 656L1016 731ZM988 702L999 656L1011 702ZM1000 760L1017 691L1033 760ZM1004 741L1017 691L1029 741ZM1008 721L1017 691L1026 721ZM1023 760L1038 673L1052 760ZM1026 736L1038 673L1049 736ZM1030 711L1038 673L1046 711ZM1039 760L1057 667L1076 760ZM1043 734L1057 667L1072 734ZM1047 708L1057 667L1068 708ZM1056 760L1075 653L1095 760ZM1060 730L1075 653L1091 730ZM1065 700L1075 653L1086 700ZM1071 760L1093 679L1114 760ZM1076 737L1093 679L1109 737ZM1081 715L1093 679L1105 715ZM1093 760L1109 673L1126 760ZM1096 736L1109 673L1122 736ZM1100 711L1109 673L1118 711ZM1115 760L1130 652L1145 760ZM1118 730L1130 652L1142 730ZM1122 700L1130 652L1139 700ZM1131 760L1146 696L1161 760ZM1135 742L1146 696L1158 742ZM1138 724L1146 696L1155 724ZM1145 760L1167 671L1188 760ZM1150 735L1167 671L1184 735ZM1155 710L1167 671L1179 710ZM1172 760L1186 668L1200 760ZM1175 734L1186 668L1197 734ZM1178 709L1186 668L1194 709ZM1187 760L1203 681L1219 760ZM1190 738L1203 681L1215 738ZM1194 716L1203 681L1212 716ZM1211 760L1226 675L1241 760ZM1215 736L1226 675L1238 736ZM1218 712L1226 675L1235 712ZM1231 760L1247 691L1262 760ZM1235 741L1247 691L1259 741ZM1238 721L1247 691L1255 721ZM1248 760L1268 695L1288 760ZM1252 742L1268 695L1284 742ZM1257 724L1268 695L1279 724ZM1268 760L1287 696L1307 760ZM1272 742L1287 696L1302 742ZM1276 724L1287 696L1298 724ZM1292 760L1313 656L1334 760ZM1297 731L1313 656L1329 731ZM1301 702L1313 656L1324 702ZM1320 760L1338 684L1356 760ZM1324 739L1338 684L1352 739ZM1328 717L1338 684L1348 717ZM1339 760L1361 676L1383 760ZM1344 737L1361 676L1378 737ZM1349 713L1361 676L1373 713ZM1365 760L1380 699L1395 760ZM1369 743L1380 699L1392 743ZM1372 726L1380 699L1388 726ZM1380 760L1399 699L1418 760ZM1384 743L1399 699L1414 743ZM1389 726L1399 699L1410 726ZM1403 760L1425 644L1447 760ZM1408 728L1425 644L1442 728ZM1413 695L1425 644L1437 695ZM1428 760L1442 689L1457 760ZM1431 740L1442 689L1453 740ZM1434 720L1442 689L1450 720ZM1453 760L1467 698L1482 760ZM1456 743L1467 698L1479 743ZM1459 726L1467 698L1475 726ZM1471 760L1489 643L1508 760ZM1475 727L1489 643L1504 727ZM1479 695L1489 643L1500 695ZM1483 760L1504 698L1525 760ZM1488 743L1504 698L1520 743ZM1493 725L1504 698L1516 725ZM1504 760L1526 681L1548 760ZM1509 738L1526 681L1543 738ZM1514 716L1526 681L1539 716ZM1522 760L1544 691L1565 760ZM1527 741L1544 691L1561 741ZM1532 721L1544 691L1556 721ZM1543 760L1558 678L1574 760ZM1546 737L1558 678L1570 737ZM1550 714L1558 678L1567 714ZM1564 760L1580 671L1596 760ZM1568 735L1580 671L1593 735ZM1571 710L1580 671L1589 710ZM1580 760L1602 694L1623 760ZM1585 741L1602 694L1619 741ZM1589 723L1602 694L1614 723ZM1606 760L1625 687L1644 760ZM1610 740L1625 687L1640 740ZM1614 719L1625 687L1635 719ZM1626 760L1642 666L1659 760ZM1629 734L1642 666L1655 734ZM1633 707L1642 666L1651 707ZM1644 760L1659 671L1673 760ZM1647 735L1659 671L1670 735ZM1651 710L1659 671L1667 710ZM-40 758H1660V900H-40Z"/>
 <ellipse cx="800" cy="800" rx="900" ry="60" fill="url(#skMist)"/>
 <path class="sk-near" fill="#070504" d="M-65 900L-40 693L-15 900ZM-59 842L-40 693L-21 842ZM-54 784L-40 693L-26 784ZM-33 900L-9 761L15 900ZM-28 861L-9 761L9 861ZM-23 822L-9 761L4 822ZM-5 900L18 701L41 900ZM-0 844L18 701L35 844ZM5 789L18 701L30 789ZM31 900L55 752L79 900ZM36 859L55 752L73 859ZM41 817L55 752L68 817ZM56 900L83 680L110 900ZM62 839L83 680L104 839ZM68 777L83 680L98 777ZM85 900L113 671L141 900ZM91 836L113 671L135 836ZM97 772L113 671L129 772ZM111 900L139 759L167 900ZM117 861L139 759L161 861ZM123 821L139 759L155 821ZM146 900L171 715L195 900ZM152 848L171 715L190 848ZM157 796L171 715L184 796ZM161 900L191 674L221 900ZM167 837L191 674L214 837ZM174 773L191 674L208 773ZM199 900L226 687L253 900ZM205 840L226 687L247 840ZM211 781L226 687L241 781ZM217 900L249 674L282 900ZM224 837L249 674L275 837ZM231 773L249 674L268 773ZM243 900L271 711L299 900ZM249 847L271 711L292 847ZM255 794L271 711L286 794ZM261 900L291 717L321 900ZM268 849L291 717L314 849ZM274 798L291 717L308 798ZM286 900L319 752L352 900ZM294 859L319 752L344 859ZM301 817L319 752L337 817ZM320 900L351 749L382 900ZM327 858L351 749L376 858ZM334 816L351 749L369 816ZM359 900L387 737L416 900ZM365 854L387 737L410 854ZM371 809L387 737L404 809ZM377 900L409 765L441 900ZM384 862L409 765L434 862ZM391 825L409 765L427 825ZM423 900L446 678L470 900ZM428 838L446 678L465 838ZM433 775L446 678L460 775ZM454 900L479 737L504 900ZM460 854L479 737L498 854ZM465 809L479 737L493 809ZM492 900L515 769L538 900ZM497 863L515 769L533 863ZM502 827L515 769L528 827ZM515 900L541 764L568 900ZM521 862L541 764L562 862ZM526 824L541 764L556 824ZM540 900L573 723L606 900ZM547 851L573 723L599 851ZM554 801L573 723L591 801ZM573 900L601 764L630 900ZM579 862L601 764L624 862ZM585 824L601 764L617 824ZM598 900L622 707L646 900ZM603 846L622 707L640 846ZM608 792L622 707L635 792ZM617 900L651 732L684 900ZM625 853L651 732L676 853ZM632 806L651 732L669 806ZM647 900L673 749L699 900ZM653 858L673 749L693 858ZM658 815L673 749L687 815ZM668 900L702 737L736 900ZM676 854L702 737L729 854ZM683 809L702 737L721 809ZM709 900L739 676L769 900ZM716 837L739 676L762 837ZM722 775L739 676L756 775ZM749 900L773 719L798 900ZM754 849L773 719L792 849ZM760 799L773 719L787 799ZM765 900L796 759L827 900ZM772 861L796 759L821 861ZM779 821L796 759L814 821ZM803 900L828 776L854 900ZM808 865L828 776L848 865ZM814 831L828 776L843 831ZM824 900L850 722L876 900ZM829 850L850 722L870 850ZM835 800L850 722L864 800ZM851 900L878 739L905 900ZM857 855L878 739L899 855ZM863 810L878 739L893 810ZM884 900L907 693L929 900ZM889 842L907 693L924 842ZM894 784L907 693L919 784ZM909 900L940 716L972 900ZM916 848L940 716L965 848ZM923 797L940 716L958 797ZM930 900L963 748L996 900ZM937 858L963 748L989 858ZM945 815L963 748L981 815ZM974 900L1000 750L1027 900ZM980 858L1000 750L1021 858ZM985 816L1000 750L1015 816ZM993 900L1026 744L1060 900ZM1000 856L1026 744L1052 856ZM1008 813L1026 744L1045 813ZM1022 900L1055 733L1088 900ZM1030 853L1055 733L1081 853ZM1037 807L1055 733L1074 807ZM1057 900L1087 677L1117 900ZM1064 838L1087 677L1110 838ZM1070 775L1087 677L1103 775ZM1087 900L1115 771L1143 900ZM1093 864L1115 771L1137 864ZM1099 828L1115 771L1130 828ZM1112 900L1144 712L1176 900ZM1119 847L1144 712L1169 847ZM1126 795L1144 712L1162 795ZM1139 900L1171 720L1203 900ZM1146 849L1171 720L1196 849ZM1153 799L1171 720L1189 799ZM1183 900L1208 689L1233 900ZM1188 841L1208 689L1227 841ZM1194 782L1208 689L1222 782ZM1217 900L1243 706L1268 900ZM1222 846L1243 706L1263 846ZM1228 791L1243 706L1257 791ZM1241 900L1273 693L1304 900ZM1248 842L1273 693L1297 842ZM1255 784L1273 693L1290 784ZM1267 900L1297 726L1327 900ZM1274 851L1297 726L1320 851ZM1280 803L1297 726L1314 803ZM1289 900L1320 696L1352 900ZM1295 843L1320 696L1345 843ZM1302 786L1320 696L1338 786ZM1325 900L1351 675L1376 900ZM1330 837L1351 675L1371 837ZM1336 774L1351 675L1365 774ZM1346 900L1376 673L1405 900ZM1353 836L1376 673L1398 836ZM1359 773L1376 673L1392 773ZM1370 900L1396 732L1421 900ZM1376 853L1396 732L1416 853ZM1381 806L1396 732L1410 806ZM1407 900L1431 673L1454 900ZM1412 836L1431 673L1449 836ZM1417 773L1431 673L1444 773ZM1439 900L1463 686L1486 900ZM1445 840L1463 686L1481 840ZM1450 780L1463 686L1476 780ZM1464 900L1491 776L1517 900ZM1470 865L1491 776L1511 865ZM1476 831L1491 776L1505 831ZM1496 900L1521 702L1546 900ZM1501 845L1521 702L1541 845ZM1507 789L1521 702L1535 789ZM1527 900L1553 719L1579 900ZM1532 849L1553 719L1574 849ZM1538 799L1553 719L1568 799ZM1551 900L1582 692L1614 900ZM1558 842L1582 692L1607 842ZM1565 783L1582 692L1600 783ZM1582 900L1610 693L1637 900ZM1588 842L1610 693L1631 842ZM1594 784L1610 693L1625 784ZM1610 900L1638 755L1666 900ZM1616 859L1638 755L1660 859ZM1623 819L1638 755L1654 819ZM1633 900L1659 687L1686 900ZM1639 840L1659 687L1680 840ZM1644 781L1659 687L1674 781ZM-40 898H1660V900H-40Z"/>
-<!-- corvos -->
-<g class="sk-crows" fill="none" stroke="#0a0606" stroke-width="2.4" stroke-linecap="round"><path d="M640 300q8-7 16 0q8-7 16 0"/><path d="M700 270q6-5 12 0q6-5 12 0"/><path d="M590 330q5-4 10 0q5-4 10 0"/></g>
-<!-- o balão vermelho -->
-<g class="sk-balloon"><path d="M1062 512q-6 40 6 80t-4 70" fill="none" stroke="#d8cbb8" stroke-opacity=".5" stroke-width="1.2"/><ellipse cx="1062" cy="484" rx="22" ry="27" fill="url(#skBal)"/><path d="M1058 510l4 4 4-4z" fill="#8e1714"/><ellipse cx="1054" cy="474" rx="5" ry="8" fill="#fff" opacity=".18"/></g>
-</svg></div>
+
+
+
+</svg><svg class="sk-anim" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg"><defs><filter id="skSoft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.1"/></filter></defs><g class="sk-crows" filter="url(#skSoft)" fill="none" stroke="#0a0606" stroke-width="2.4" stroke-linecap="round"><path d="M640 300q8-7 16 0q8-7 16 0"/><path d="M700 270q6-5 12 0q6-5 12 0"/><path d="M590 330q5-4 10 0q5-4 10 0"/></g><!-- o balão vermelho -->
+<g class="sk-balloon" filter="url(#skSoft)"><path d="M1062 512q-6 40 6 80t-4 70" fill="none" stroke="#d8cbb8" stroke-opacity=".5" stroke-width="1.2"/><ellipse cx="1062" cy="484" rx="22" ry="27" fill="url(#skBal)"/><path d="M1058 510l4 4 4-4z" fill="#8e1714"/><ellipse cx="1054" cy="474" rx="5" ry="8" fill="#fff" opacity=".18"/></g></svg></div><div class="sk-dim"></div></div>
 <div class="fog" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="vignette" aria-hidden="true"></div>
@@ -1297,6 +1365,21 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
   </div>
   <div class="wrap">
     <div id="homeRows"></div>
+    <section class="ig-sec reveal" id="igSec" aria-labelledby="h-ig" hidden>
+      <div class="ig-head">
+        <div>
+          <p class="eyebrow">Derry Archive nas redes</p>
+          <h2 id="h-ig">@derryarchive.site</h2>
+          <p class="ig-sub" id="igSub">Os vídeos e posts mais recentes do Instagram aparecem aqui automaticamente.</p>
+        </div>
+        <div class="ig-links">
+          <a class="toggle" href="https://www.instagram.com/derryarchive.site/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>Instagram</a>
+          <a class="toggle" href="https://www.tiktok.com/@derryarchive.site" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 3c.3 2.2 1.7 3.8 4 4v3.1c-1.5.1-2.9-.4-4-1.2v6.3c0 3.4-2.6 5.8-5.8 5.8S5 18.6 5 15.4c0-3.5 3-6 6.5-5.6v3.2c-1.6-.4-3.2.7-3.2 2.4 0 1.4 1.1 2.5 2.5 2.5 1.5 0 2.6-1.1 2.6-2.8V3z"/></svg>TikTok</a>
+          <a class="toggle" href="https://www.threads.com/@derryarchive.site" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M17 8.5C16 5.5 13.8 4 11.6 4 7.8 4 5 7 5 12s2.8 8 6.8 8c3.3 0 5.7-2 5.7-4.8 0-3.6-4.2-4.6-6.6-3.8-1.8.6-2.2 2.9-.4 3.6 2.3.9 4.8-.6 4.8-4.4 0-2-1-3.3-3-3.3"/></svg>Threads</a>
+        </div>
+      </div>
+      <div class="ig-feed" id="igFeed" aria-live="polite"></div>
+    </section>
   </div>
 </section>
 
@@ -1488,10 +1571,11 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
         <div class="sp-chips" id="spWall"></div>
       </div>
     </section>
+    <nav class="ft-social" aria-label="Redes sociais"><span>@derryarchive.site</span><a href="https://www.instagram.com/derryarchive.site/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>Instagram</a><a href="https://www.tiktok.com/@derryarchive.site" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 3c.3 2.2 1.7 3.8 4 4v3.1c-1.5.1-2.9-.4-4-1.2v6.3c0 3.4-2.6 5.8-5.8 5.8S5 18.6 5 15.4c0-3.5 3-6 6.5-5.6v3.2c-1.6-.4-3.2.7-3.2 2.4 0 1.4 1.1 2.5 2.5 2.5 1.5 0 2.6-1.1 2.6-2.8V3z"/></svg>TikTok</a><a href="https://www.threads.com/@derryarchive.site" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M17 8.5C16 5.5 13.8 4 11.6 4 7.8 4 5 7 5 12s2.8 8 6.8 8c3.3 0 5.7-2 5.7-4.8 0-3.6-4.2-4.6-6.6-3.8-1.8.6-2.2 2.9-.4 3.6 2.3.9 4.8-.6 4.8-4.4 0-2-1-3.3-3-3.3"/></svg>Threads</a></nav>
     <p><b style="color:var(--bone)">Derry Archive</b> — enciclopédia não oficial, feita por fãs, sem afiliação com Stephen King ou os seus editores. Dados revistos em novembro de 2026.</p>
     <p>Capas, cartazes e resumos enciclopédicos são carregados em tempo real da <a href="https://www.wikipedia.org" target="_blank" rel="noopener">Wikipédia</a> e da <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a>; as fotografias da secção Eu sou sua fã número um vêm da <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, com autor e licença indicados em cada uma, com ligação à fonte em cada ficha. Títulos brasileiros só são mostrados quando confirmados; caso contrário, aparece «não confirmado».</p>
       <p style="font-size:.8rem;color:var(--muted)">Privacidade: a estante, as preferências e os dados do site ficam guardados no seu próprio navegador (armazenamento local). Não usamos cookies de publicidade. Capas, cartazes e fotos pertencem aos seus titulares e são mostrados para fins informativos.</p>
-      <p><button class="btn sm" type="button" data-open-support>Apoie o projeto</button> <button class="btn sm" type="button" data-open-box>Caixa de Pesadelos</button> &nbsp; Feito por <a href="https://instagram.com/jefefnds" target="_blank" rel="noopener">@jefefnds</a></p>
+      <p><button class="btn sm" type="button" data-open-support>Apoie o projeto</button> <button class="btn sm" type="button" data-open-box>Caixa de Pesadelos</button></p>
 </div>
 </footer>
 
@@ -1547,7 +1631,7 @@ if(p.fs)d.style.setProperty('--fs',p.fs);d.style.setProperty('--spd',({slow:1,no
       <button type="button" class="sp-tier" data-v="0"><b>Qualquer valor</b><span>Karma bom garantido. O palhaço do bueiro te deixa em paz*.</span></button>
     </div>
     <p class="sp-foot">*Garantia não oficial. O palhaço não assina contrato. Sem grana? Sem problema: contar do site pra um amigo já ajuda um monte.</p>
-    <div class="sp-actions"><a class="btn sm" href="https://instagram.com/jefefnds" target="_blank" rel="noopener">Seguir @jefefnds no Instagram</a><button class="btn sm" id="spShare" type="button">Compartilhar o site</button><button class="btn sm" id="spClose" type="button">Fechar</button></div>
+    <div class="sp-actions"><a class="btn sm" href="https://www.instagram.com/derryarchive.site/" target="_blank" rel="noopener">Seguir @derryarchive.site no Instagram</a><button class="btn sm" id="spShare" type="button">Compartilhar o site</button><button class="btn sm" id="spClose" type="button">Fechar</button></div>
   </div>
 </dialog>
 
@@ -2102,7 +2186,11 @@ function liveRefresh(force) {
   liveFetch().then(d => {
     if (!d) return;
     const before = new Set([...WORKS, ...ADAPTS].map(x => liveArt(x.w)));
-    const fresh = d.works.concat(d.adapts).filter(r => !before.has(r.w)).length;
+    const titles = new Set([...WORKS, ...ADAPTS].map(x => liveNorm(x.t)));
+    const known = new Set(WORKS.map(w => liveArt(w.w)));
+    /* mesmas regras do liveMerge: só conta o que realmente entraria no arquivo */
+    const fresh = d.works.filter(r => !before.has(r.w) && !titles.has(liveNorm(r.t)) && r.y && r.y >= NOW_Y - 3).length
+      + d.adapts.filter(r => !before.has(r.w) && r.y && r.y >= NOW_Y - 2 && (r.src || []).some(a => known.has(a))).length;
     const futureOut = ADAPTS.filter(a => a.st === 'futuro').some(a => d.adapts.some(r => r.w === liveArt(a.w) && r.date && r.date <= new Date().toISOString().slice(0, 10)));
     store.set(LIVE_KEY, d);
     if (fresh || futureOut) {
@@ -2113,6 +2201,80 @@ function liveRefresh(force) {
       document.body.appendChild(b); requestAnimationFrame(() => b.classList.add('show'));
     }
   });
+}
+
+/* ============================== redes sociais: feed automático do Instagram ==============================
+   O Instagram não deixa um site ler o perfil diretamente. Para os posts e vídeos aparecerem sozinhos, crie um
+   feed JSON gratuito em https://behold.so (ligue a conta @derryarchive.site) e cole o endereço em IG_FEED.
+   O site lê o feed a cada visita (cache de 30 min); cada post novo que publicar entra aqui sem mexer no código. */
+const SOCIAL = {
+  handle: 'derryarchive.site',
+  ig: 'https://www.instagram.com/derryarchive.site/',
+  tiktok: 'https://www.tiktok.com/@derryarchive.site',
+  threads: 'https://www.threads.com/@derryarchive.site',
+  IG_FEED: ''   /* ex.: 'https://feeds.behold.so/XXXXXXXXXXXX' */
+};
+const IG_KEY = 'sk-ig1', IG_TTL = 30 * 60 * 1000;
+function igNormalize(d) {
+  const list = Array.isArray(d) ? d : (d && (d.posts || d.data || d.items)) || [];
+  return list.map(p => {
+    const type = String(p.mediaType || p.media_type || p.type || 'IMAGE').toUpperCase();
+    const sz = p.sizes || {};
+    const pick = k => sz[k] && sz[k].mediaUrl;
+    const img = pick('medium') || pick('small') || pick('large') || p.thumbnailUrl || p.thumbnail_url || (type !== 'VIDEO' && (p.mediaUrl || p.media_url)) || '';
+    const kids = p.children || (p.children && p.children.data) || [];
+    return {
+      id: p.id, url: p.permalink || p.url || SOCIAL.ig, img,
+      video: type === 'VIDEO' || type === 'REELS' ? (p.mediaUrl || p.media_url || '') : '',
+      type, multi: type === 'CAROUSEL_ALBUM' || (Array.isArray(kids) && kids.length > 1),
+      cap: String(p.prunedCaption || p.caption || '').trim(), t: p.timestamp || ''
+    };
+  }).filter(p => p.img).sort((a, b) => String(b.t).localeCompare(String(a.t)));
+}
+function igRender(posts) {
+  const box = $('#igFeed'), sec = $('#igSec'); if (!box) return;
+  if (sec) sec.hidden = !(posts && posts.length);   /* sem posts: a secção não aparece; as redes ficam no rodapé */
+  if (!posts || !posts.length) {
+    box.classList.add('empty');
+    box.innerHTML = `<a class="ig-empty" href="${SOCIAL.ig}" target="_blank" rel="noopener">
+      <span class="ig-ring"><b>DA</b></span>
+      <span><b>Siga @${SOCIAL.handle}</b><small>Vídeos, curiosidades e novidades do universo Stephen King — os posts novos aparecem aqui assim que forem publicados.</small></span>
+      <span class="btn sm primary">Abrir o Instagram</span></a>`;
+    return;
+  }
+  box.classList.remove('empty');
+  const fmt = t => { const d = new Date(t); return isNaN(d) ? '' : d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }); };
+  box.innerHTML = posts.slice(0, 8).map(p => `<a class="ig-post${p.video ? ' is-video' : ''}" href="${esc(p.url)}" target="_blank" rel="noopener" title="${esc(p.cap.slice(0, 140))}">
+      <img src="${esc(p.img)}" alt="${esc(p.cap.slice(0, 120) || 'Post de @' + SOCIAL.handle)}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+      ${p.video ? `<video muted loop playsinline preload="none" data-src="${esc(p.video)}"></video>` : ''}
+      <span class="ig-badge">${p.video ? '▶ Vídeo' : p.multi ? '❐ Álbum' : 'Post'}</span>
+      <span class="ig-cap"><small>${fmt(p.t)}</small>${esc(p.cap.slice(0, 110))}${p.cap.length > 110 ? '…' : ''}</span>
+    </a>`).join('') + `<a class="ig-more" href="${SOCIAL.ig}" target="_blank" rel="noopener"><span>Ver tudo no Instagram</span><b>@${SOCIAL.handle} ›</b></a>`;
+  const n = posts.length; const sub = $('#igSub');
+  if (sub) sub.textContent = 'Sincronizado automaticamente com o Instagram — ' + (n > 8 ? 'os 8 posts mais recentes.' : n + (n === 1 ? ' post.' : ' posts.'));
+}
+/* vídeos: tocam sem som ao passar o rato (só em computadores) */
+if (matchMedia('(hover: hover)').matches) {
+  document.addEventListener('pointerover', e => {
+    const a = e.target.closest && e.target.closest('.ig-post.is-video'); if (!a || reduced()) return;
+    const v = a.querySelector('video'); if (!v) return;
+    if (!v.src) v.src = v.dataset.src;
+    v.play().then(() => a.classList.add('playing')).catch(() => {});
+  });
+  document.addEventListener('pointerout', e => {
+    const a = e.target.closest && e.target.closest('.ig-post.is-video'); if (!a || a.contains(e.relatedTarget)) return;
+    const v = a.querySelector('video'); if (v) { v.pause(); a.classList.remove('playing'); }
+  });
+}
+function igLoad() {
+  const c = store.get(IG_KEY, null);
+  if (c && c.src === SOCIAL.IG_FEED) igRender(c.posts);
+  else igRender(null);
+  if (!SOCIAL.IG_FEED || (c && c.src === SOCIAL.IG_FEED && Date.now() - c.t < IG_TTL)) return;
+  fetch(SOCIAL.IG_FEED, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(d => {
+    if (!d) return; const posts = igNormalize(d);
+    store.set(IG_KEY, { src: SOCIAL.IG_FEED, t: Date.now(), posts }); igRender(posts);
+  }).catch(() => {});
 }
 const BY = new Map();
 WORKS.forEach(w => { w.kind = 'work'; BY.set(w.id, w); });
@@ -4087,7 +4249,9 @@ const Omens = (() => {
     const el = document.createElement('div'); el.className = cls; if (style) el.style.cssText = style; el.innerHTML = html || '';
     layer.appendChild(el); setTimeout(() => el.remove(), life); return el;
   };
+  /* as aparições são só ambiente de fundo: não mostram legenda nem referência à obra */
   const caption = (tag, txt, ms = 5200) => {
+    return;
     cap.innerHTML = `<small>${esc(tag)}</small>${esc(txt)}`; cap.classList.add('show');
     clearTimeout(capT); capT = setTimeout(() => cap.classList.remove('show', 'link'), ms);
   };
@@ -4239,7 +4403,7 @@ const Omens = (() => {
     last = k; busy = true;
     const ms = events[k]();
     let tgt = OM_BOOK[k]; if (k === 'door') tgt = /1408/.test(cap.textContent) ? 'c-1408' : 'shining';
-    if (tgt && BY.has(tgt)) {
+    if (false && tgt && BY.has(tgt)) {
       cap.dataset.open = tgt; cap.classList.add('link'); cap.insertAdjacentHTML('beforeend', '<em class="om-go"> · ver ficha ›</em>');
       layer.querySelectorAll(LINKABLE).forEach(el => { el.classList.add('om-link'); el.dataset.open = tgt; });
     } else { delete cap.dataset.open; cap.classList.remove('link'); }
@@ -4326,8 +4490,8 @@ $('#sOmdbSave').addEventListener('click', () => {
     const c = cfg();
     if (!c) {
       try { await navigator.clipboard.writeText(`[${type}] ${text}`); } catch (e) {}
-      toast('A caixa está em manutenção. Copiei sua mensagem: mande por DM no Instagram @jefefnds.');
-      window.open('https://instagram.com/jefefnds', '_blank', 'noopener'); return;
+      toast('A caixa está em manutenção. Copiei sua mensagem: mande por DM no Instagram @derryarchive.site.');
+      window.open('https://www.instagram.com/derryarchive.site/', '_blank', 'noopener'); return;
     }
     const body = new URLSearchParams(); body.set(c.msg, `[${type}] ${text}`);
     if (c.book && book.value.trim()) body.set(c.book, book.value.trim());
@@ -5583,6 +5747,7 @@ applyPrefs();
 route();
 parallax();
 Omens.start();
+igLoad();
 setTimeout(() => liveRefresh(/[?&]atualizar\b/.test(location.search)), 2500);
 setTimeout(() => resolveImdb().then(fetchRatings), 1500);
 })();
@@ -5610,11 +5775,16 @@ setTimeout(() => resolveImdb().then(fetchRatings), 1500);
 <script>
 /* fundo contínuo: escurece suavemente com o scroll para manter a leitura */
 (function(){
-  var root=document.documentElement,raf=0;
-  function upd(){raf=0;var home=document.querySelector('#v-inicio.active');var h=innerHeight||800,y=scrollY||0;
+  /* só mexe em opacity e transform de duas camadas: o navegador compõe sem repintar nada */
+  var par=document.querySelector('.sk-par'),dimEl=document.querySelector('.sk-dim'),raf=0,lastD=-1,lastP=-1;
+  function upd(){raf=0;if(!par||!dimEl)return;var home=document.querySelector('#v-inicio.active');var h=innerHeight||800,y=scrollY||0;
     var dim=home?Math.min(1,y/(h*.9)):Math.min(1,.55+y/(h*2));
-    root.style.setProperty('--sk-dim',dim.toFixed(3));
-    root.style.setProperty('--sk-p',Math.min(1,y/(h*4)).toFixed(3));}
+    var pp=Math.min(1,y/(h*4));
+    var light=document.documentElement.getAttribute('data-theme')==='light';
+    var o=light?dim*.3:.12+dim*.5;
+    if(Math.abs(o-lastD)>.004){lastD=o;dimEl.style.opacity=o.toFixed(3);}
+    if(Math.abs(pp-lastP)>.0005){lastP=pp;par.style.transform='translate3d(0,'+(pp*6).toFixed(2)+'%,0)';}}
+  new MutationObserver(function(){lastD=-1;q();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   function q(){if(!raf)raf=requestAnimationFrame(upd);}
   addEventListener('scroll',q,{passive:true});addEventListener('resize',q);addEventListener('hashchange',function(){setTimeout(upd,60);});
   upd();
