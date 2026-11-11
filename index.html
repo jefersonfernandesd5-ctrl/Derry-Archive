@@ -4790,7 +4790,7 @@ $('#sOmdbSave').addEventListener('click', () => {
 
 /* mural dos apoiadores: edite a lista abaixo e acrescente os nomes de quem ajudou */
 (() => {
-  const APOIADORES = ['Raphael Dias', 'Felipe Valez'];
+  const APOIADORES = ['Raphael Dias', 'Felipe Valez', 'Iolanda Fernandes'];
   const wall = $('#spWall'); if (!wall) return;
   wall.innerHTML = APOIADORES.map(n => `<span class="sp-chip">${esc(n)}</span>`).join('') + '<button class="sp-chip ghost" type="button" data-open-support>+ Seu nome aqui</button>';
   const CAP = ['Derry · algo flutua no bueiro', 'Até o palhaço tem um lado fofo (pouco)', 'O cemitério acorda sem pressa', 'A rosa floresce no fim do mundo', 'Overlook · uma janela acesa que não devia estar'];
