@@ -1,0 +1,21 @@
+{
+  "_como_preencher": "Copie _modelo_ficha para dentro de fichas. A página só mostra o item se publicado for true e titulo não estiver vazio. numero e data podem ficar vazios. instagram é o link do episódio, se existir. Nao preencha com episódio inventado.",
+  "_modelo_ficha": {
+    "id": "",
+    "numero": null,
+    "titulo": "",
+    "data": "",
+    "categoria": "episodios",
+    "resumo": "",
+    "fonte": "",
+    "instagram": "",
+    "publicado": false
+  },
+  "introducao": "",
+  "categorias": [
+    { "id": "episodios", "titulo": "Episódios" },
+    { "id": "arquivos", "titulo": "Arquivos" },
+    { "id": "leituras", "titulo": "Leituras" }
+  ],
+  "fichas": []
+}

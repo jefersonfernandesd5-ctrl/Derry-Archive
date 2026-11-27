@@ -1,0 +1,10 @@
+# Cloudflare Pages. O http://derryarchive.site/ que hoje responde 500
+# precisa também de "Always Use HTTPS" no painel:
+# SSL/TLS → Edge Certificates → Always Use HTTPS = ligado.
+# O modo SSL recomendado é Full.
+http://derryarchive.site/* https://derryarchive.site/:splat 301
+http://www.derryarchive.site/* https://derryarchive.site/:splat 301
+https://www.derryarchive.site/* https://derryarchive.site/:splat 301
+
+/ig /comece-aqui/ 301
+/ig/ /comece-aqui/ 301

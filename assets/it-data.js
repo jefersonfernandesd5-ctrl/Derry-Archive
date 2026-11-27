@@ -1,0 +1,245 @@
+/* Gerado por scripts/extract-it.mjs a partir da enciclopédia. Não edite à mão. */
+window.IT_DATA = {
+  "revisao": "novembro de 2026",
+  "novel": {
+    "id": "it",
+    "t": "It",
+    "pt": "A Coisa",
+    "y": 1986,
+    "k": "romance",
+    "s": "Em 1958, sete crianças de Derry, no Maine — o Clube dos Otários — enfrentam uma entidade que desperta a cada 27 anos e toma a forma dos próprios medos, sobretudo a do palhaço Pennywise. Em 1985, já adultos, voltam para cumprir a promessa de destruí-la.",
+    "g": [
+      "Terror",
+      "Sobrenatural"
+    ],
+    "on": "",
+    "d": "",
+    "st": "",
+    "src": []
+  },
+  "universe": {
+    "id": "derry",
+    "n": "Derry",
+    "sub": "Onde algo desperta a cada 27 anos",
+    "d": "Inspirada em Bangor, Derry é a cidade de Pennywise. A sombra dela chega a Insomnia, Bag of Bones, Dreamcatcher e à viagem no tempo de 11/22/63, em que Jake Epping cruza com Beverly e Richie."
+  },
+  "books": [
+    {
+      "id": "it",
+      "t": "It",
+      "pt": "A Coisa",
+      "y": 1986,
+      "k": "romance",
+      "s": "Em 1958, sete crianças de Derry, no Maine — o Clube dos Otários — enfrentam uma entidade que desperta a cada 27 anos e toma a forma dos próprios medos, sobretudo a do palhaço Pennywise. Em 1985, já adultos, voltam para cumprir a promessa de destruí-la.",
+      "g": [
+        "Terror",
+        "Sobrenatural"
+      ],
+      "on": "",
+      "d": "",
+      "st": "",
+      "src": []
+    },
+    {
+      "id": "insomnia",
+      "t": "Insomnia",
+      "pt": "Insônia",
+      "y": 1994,
+      "k": "romance",
+      "s": "Ralph Roberts, viúvo de Derry, deixa de conseguir dormir — e começa a ver auras e seres invisíveis que decidem a hora da morte das pessoas. Ligado diretamente ao ciclo da Torre Negra.",
+      "g": [
+        "Fantasia sombria"
+      ],
+      "on": "",
+      "d": "",
+      "st": "",
+      "src": []
+    },
+    {
+      "id": "bagofbones",
+      "t": "Bag of Bones",
+      "pt": "Saco de Ossos",
+      "y": 1998,
+      "k": "romance",
+      "s": "O escritor viúvo Mike Noonan, com bloqueio criativo, refugia-se na casa de férias em Dark Score Lake. Ali, envolve-se numa batalha pela custódia de uma criança e com fantasmas ligados a um crime antigo.",
+      "g": [
+        "Terror",
+        "Sobrenatural",
+        "Drama"
+      ],
+      "on": "",
+      "d": "",
+      "st": "",
+      "src": []
+    },
+    {
+      "id": "dreamcatcher",
+      "t": "Dreamcatcher",
+      "pt": "O Apanhador de Sonhos",
+      "y": 2001,
+      "k": "romance",
+      "s": "Quatro amigos de infância de Derry, unidos por um dom telepático, reencontram-se numa cabana de caça no Maine quando uma invasão extraterrestre começa à sua volta.",
+      "g": [
+        "Ficção científica",
+        "Terror"
+      ],
+      "on": "",
+      "d": "",
+      "st": "",
+      "src": []
+    },
+    {
+      "id": "112263",
+      "t": "11/22/63",
+      "pt": "Novembro de 63",
+      "y": 2011,
+      "k": "romance",
+      "s": "O professor Jake Epping descobre um portal que leva a 1958 e decide viver no passado até 22 de novembro de 1963, para impedir o assassinato de John F. Kennedy. Mas o passado é obstinado e resiste a ser mudado.",
+      "g": [
+        "Ficção científica",
+        "Histórico"
+      ],
+      "on": "",
+      "d": "",
+      "st": "",
+      "src": []
+    }
+  ],
+  "adaptations": [
+    {
+      "id": "a-it90",
+      "t": "It",
+      "pt": "It: Uma Obra-Prima do Medo",
+      "y": 1990,
+      "k": "minisserie",
+      "s": "Tim Curry imortalizou Pennywise.",
+      "g": [],
+      "on": "ABC",
+      "d": "Tommy Lee Wallace",
+      "st": "lancado",
+      "src": [
+        "it"
+      ]
+    },
+    {
+      "id": "a-dreamcatcher",
+      "t": "Dreamcatcher",
+      "pt": "O Apanhador de Sonhos",
+      "y": 2003,
+      "k": "filme",
+      "s": "",
+      "g": [],
+      "on": "Cinema",
+      "d": "Lawrence Kasdan",
+      "st": "lancado",
+      "src": [
+        "dreamcatcher"
+      ]
+    },
+    {
+      "id": "a-bagofbones",
+      "t": "Bag of Bones",
+      "pt": "Saco de Ossos",
+      "y": 2011,
+      "k": "minisserie",
+      "s": "Pierce Brosnan como Mike Noonan.",
+      "g": [],
+      "on": "A&E",
+      "d": "Mick Garris",
+      "st": "lancado",
+      "src": [
+        "bagofbones"
+      ]
+    },
+    {
+      "id": "a-112263",
+      "t": "11.22.63",
+      "pt": "11.22.63",
+      "y": 2016,
+      "k": "minisserie",
+      "s": "James Franco como Jake Epping; produção de J. J. Abrams.",
+      "g": [],
+      "on": "Hulu",
+      "d": "Bridget Carpenter",
+      "st": "lancado",
+      "src": [
+        "112263"
+      ]
+    },
+    {
+      "id": "a-it17",
+      "t": "It",
+      "pt": "It: A Coisa",
+      "y": 2017,
+      "k": "filme",
+      "s": "Bill Skarsgård como Pennywise; o filme de terror mais lucrativo da época.",
+      "g": [],
+      "on": "Cinema",
+      "d": "Andy Muschietti",
+      "st": "lancado",
+      "src": [
+        "it"
+      ]
+    },
+    {
+      "id": "a-it19",
+      "t": "It Chapter Two",
+      "pt": "It: Capítulo Dois",
+      "y": 2019,
+      "k": "filme",
+      "s": "Os Otários em adultos: Jessica Chastain, James McAvoy, Bill Hader.",
+      "g": [],
+      "on": "Cinema",
+      "d": "Andy Muschietti",
+      "st": "lancado",
+      "src": [
+        "it"
+      ]
+    },
+    {
+      "id": "a-derry",
+      "t": "IT: Welcome to Derry",
+      "pt": "IT: Bem-Vindos a Derry",
+      "y": 2025,
+      "k": "serie",
+      "s": "Prequela dos filmes de Muschietti, passada em 1962; Bill Skarsgård regressa como Pennywise.",
+      "g": [],
+      "on": "HBO / HBO Max",
+      "d": "Andy Muschietti, Barbara Muschietti e Jason Fuchs",
+      "st": "lancado",
+      "src": [
+        "it"
+      ]
+    },
+    {
+      "id": "f-derry2",
+      "t": "IT: Welcome to Derry — 2.ª temporada",
+      "pt": "IT: Bem-Vindos a Derry — 2.ª temporada",
+      "y": null,
+      "k": "serie",
+      "s": "Andy Muschietti afirmou em março de 2026 que a temporada está sendo preparada; sem data de estreia oficial.",
+      "g": [],
+      "on": "HBO (em desenvolvimento)",
+      "d": "Andy e Barbara Muschietti",
+      "st": "futuro",
+      "src": [
+        "it"
+      ]
+    }
+  ],
+  "map": {
+    "title": "Mapa de Derry",
+    "note": "Mapa ilustrado e esquemático, feito por fãs: as posições dos locais são aproximadas.",
+    "places": [
+      "Os Barrens",
+      "Rio Kenduskeag",
+      "O Canal",
+      "Biblioteca Pública",
+      "Parque Bassey",
+      "Estátua de Paul Bunyan",
+      "Standpipe",
+      "Rua Neibolt, nº 29",
+      "Teatro Capitol"
+    ]
+  }
+};
