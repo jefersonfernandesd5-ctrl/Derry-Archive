@@ -1,0 +1,7 @@
+# Workers static assets only accept path rules here. A source like
+# http://derryarchive.site/* is rejected and fails the deploy.
+# HTTPS for the bare domain is a dashboard setting:
+# SSL/TLS → Edge Certificates → Always Use HTTPS, SSL mode Full.
+
+/ig /comece-aqui/ 301
+/ig/ /comece-aqui/ 301

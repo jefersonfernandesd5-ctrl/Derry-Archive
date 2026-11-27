@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://derryarchive.site/sitemap.xml

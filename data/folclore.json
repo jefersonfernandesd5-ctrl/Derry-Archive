@@ -1,0 +1,20 @@
+{
+  "_como_preencher": "Copie _modelo_ficha para dentro de fichas. A página só mostra o item se publicado for true e titulo não estiver vazio. Não invente fonte: deixe fonte vazio até ter uma. introducao vazia mantém o texto padrão da página. categorias são as estantes.",
+  "_modelo_ficha": {
+    "id": "",
+    "titulo": "",
+    "categoria": "lendas",
+    "resumo": "",
+    "fonte": "",
+    "instagram": "",
+    "publicado": false
+  },
+  "introducao": "",
+  "categorias": [
+    { "id": "lendas", "titulo": "Lendas" },
+    { "id": "assombracoes", "titulo": "Assombrações" },
+    { "id": "festas", "titulo": "Festas e ritos" },
+    { "id": "entidades", "titulo": "Entidades" }
+  ],
+  "fichas": []
+}
